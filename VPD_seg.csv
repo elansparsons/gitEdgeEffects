@@ -1,0 +1,336 @@
+article.id,segment_n,VPD,dist,VPD_diff,stat_sig,percent_diff,season,matrix_type,edge_orient,edge_age_years,finer_scale,SD_SE_CI_V,SD_SE_CI_V_n,notes
+15,a,4.36,-10,NA,NA,NA,summer,field,S,5,NA,SD,0.00,
+15,a,4.45,0,NA,NA,NA,summer,field,S,5,NA,SD,0.17,
+15,a,4.30,5,NA,NA,NA,summer,field,S,5,NA,SD,0.27,
+15,a,4.27,10,NA,NA,NA,summer,field,S,5,NA,SD,0.20,
+15,a,4.17,20,NA,NA,NA,summer,field,S,5,NA,SD,0.20,
+15,a,4.04,30,NA,NA,NA,summer,field,S,5,NA,SD,0.17,
+15,a,4.03,40,NA,NA,NA,summer,field,S,5,NA,SD,0.15,
+15,a,3.90,50,NA,NA,NA,summer,field,S,5,NA,SD,0.10,
+15,b,3.29,-10,NA,NA,NA,summer,field,N,5,NA,SD,0.00,
+15,b,2.84,0,NA,NA,NA,summer,field,N,5,NA,SD,0.15,
+15,b,2.84,5,NA,NA,NA,summer,field,N,5,NA,SD,0.12,
+15,b,2.74,10,NA,NA,NA,summer,field,N,5,NA,SD,0.17,
+15,b,2.71,20,NA,NA,NA,summer,field,N,5,NA,SD,0.20,
+15,b,2.66,30,NA,NA,NA,summer,field,N,5,NA,SD,0.20,
+15,b,2.56,40,NA,NA,NA,summer,field,N,5,NA,SD,0.20,
+15,b,2.55,50,NA,NA,NA,summer,field,N,5,NA,SD,0.17,
+15,c,3.78,-10,NA,NA,NA,summer,field,S,NA,NA,SD,0.00,
+15,c,3.65,0,NA,NA,NA,summer,field,S,NA,NA,SD,0.17,
+15,c,3.62,5,NA,NA,NA,summer,field,S,NA,NA,SD,0.15,
+15,c,3.60,10,NA,NA,NA,summer,field,S,NA,NA,SD,0.15,
+15,c,3.54,20,NA,NA,NA,summer,field,S,NA,NA,SD,0.12,
+15,c,3.63,30,NA,NA,NA,summer,field,S,NA,NA,SD,0.15,
+15,c,3.58,40,NA,NA,NA,summer,field,S,NA,NA,SD,0.19,
+15,c,3.53,50,NA,NA,NA,summer,field,S,NA,NA,SD,0.10,
+15,d,4.02,-10,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.00,
+15,d,3.39,0,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.41,
+15,d,3.31,5,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.34,
+15,d,3.26,10,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.36,
+15,d,3.23,20,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.31,
+15,d,3.21,30,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.27,
+15,d,3.25,40,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.31,
+15,d,3.22,50,NA,NA,NA,summer,young.successional.forest,N,NA,NA,SD,0.34,
+32,NA,0.67,-10,NA,NA,NA,summer,conifer.clearcut,NA,15,hourly,SE,0.08,
+32,NA,0.62,10,NA,NA,NA,summer,conifer.clearcut,NA,15,hourly,SE,0.07,marked.only.as.edge
+32,NA,0.43,250,NA,NA,NA,summer,conifer.clearcut,NA,15,hourly,SE,0.06,
+37,NA,5.22,-20,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,3.94,-10,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,4.16,-5,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,2.90,0,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,2.40,5,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,2.06,10,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,1.81,20,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,0.59,40,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+37,NA,0.63,80,NA,NA,NA,NA,pasture,NA,90,hourly,NA,NA,
+55,a,NA,0,0.47,NA,NA,dry,powerline,NA,15,NA,SE,0.08,
+55,a,NA,2,0.26,NA,NA,dry,powerline,NA,15,NA,SE,0.02,
+55,a,NA,4,0.22,NA,NA,dry,powerline,NA,15,NA,SE,0.09,
+55,a,NA,8,0.23,NA,NA,dry,powerline,NA,15,NA,SE,0.09,
+55,a,NA,12,0.15,NA,NA,dry,powerline,NA,15,NA,SE,0.07,
+55,a,NA,16,0.15,NA,NA,dry,powerline,NA,15,NA,SE,0.12,
+55,a,NA,20,0.13,NA,NA,dry,powerline,NA,15,NA,SE,0.11,
+55,a,NA,25,0.22,NA,NA,dry,powerline,NA,15,NA,SE,0.08,
+55,a,NA,30,0.14,NA,NA,dry,powerline,NA,15,NA,SE,0.09,
+55,a,NA,50,0.11,NA,NA,dry,powerline,NA,15,NA,SE,0.06,
+55,a,NA,100,0.00,NA,NA,dry,powerline,NA,15,NA,SE,0.00,
+55,1,NA,0,0.41,NA,NA,wet,powerline,NA,15,NA,SE,0.30,
+55,1,NA,2,0.12,NA,NA,wet,powerline,NA,15,NA,SE,0.16,
+55,1,NA,4,-0.01,NA,NA,wet,powerline,NA,15,NA,SE,0.21,
+55,1,NA,8,-0.08,NA,NA,wet,powerline,NA,15,NA,SE,0.21,
+55,1,NA,12,-0.11,NA,NA,wet,powerline,NA,15,NA,SE,0.19,
+55,1,NA,16,-0.13,NA,NA,wet,powerline,NA,15,NA,SE,0.22,
+55,1,NA,20,-0.11,NA,NA,wet,powerline,NA,15,NA,SE,0.24,
+55,1,NA,25,-0.02,NA,NA,wet,powerline,NA,15,NA,SE,0.30,
+55,1,NA,30,-0.12,NA,NA,wet,powerline,NA,15,NA,SE,0.25,
+55,1,NA,50,-0.06,NA,NA,wet,powerline,NA,15,NA,SE,0.15,
+55,1,NA,100,0.00,NA,NA,wet,powerline,NA,15,NA,SE,0.00,
+55,b,NA,0,0.42,NA,NA,wet,highway,NA,15,NA,SE,0.09,
+55,b,NA,2,0.24,NA,NA,wet,highway,NA,15,NA,SE,0.15,
+55,b,NA,4,0.19,NA,NA,wet,highway,NA,15,NA,SE,0.10,
+55,b,NA,8,0.10,NA,NA,wet,highway,NA,15,NA,SE,0.09,
+55,b,NA,12,0.08,NA,NA,wet,highway,NA,15,NA,SE,0.11,
+55,b,NA,16,0.12,NA,NA,wet,highway,NA,15,NA,SE,0.07,
+55,b,NA,20,0.01,NA,NA,wet,highway,NA,15,NA,SE,0.06,
+55,b,NA,25,0.01,NA,NA,wet,highway,NA,15,NA,SE,0.05,
+55,b,NA,30,-0.01,NA,NA,wet,highway,NA,15,NA,SE,0.05,
+55,b,NA,50,0.03,NA,NA,wet,highway,NA,15,NA,SE,0.02,
+55,b,NA,100,0.01,NA,NA,wet,highway,NA,15,NA,SE,0.00,
+55,2,NA,0,0.23,NA,NA,dry,highway,NA,15,NA,SE,0.11,
+55,2,NA,2,0.16,NA,NA,dry,highway,NA,15,NA,SE,0.18,
+55,2,NA,4,0.10,NA,NA,dry,highway,NA,15,NA,SE,0.15,
+55,2,NA,8,0.02,NA,NA,dry,highway,NA,15,NA,SE,0.17,
+55,2,NA,12,-0.02,NA,NA,dry,highway,NA,15,NA,SE,0.14,
+55,2,NA,16,-0.07,NA,NA,dry,highway,NA,15,NA,SE,0.11,
+55,2,NA,20,-0.05,NA,NA,dry,highway,NA,15,NA,SE,0.11,
+55,2,NA,25,0.00,NA,NA,dry,highway,NA,15,NA,SE,0.11,
+55,2,NA,30,0.00,NA,NA,dry,highway,NA,15,NA,SE,0.10,
+55,2,NA,50,-0.05,NA,NA,dry,highway,NA,15,NA,SE,0.05,
+55,2,NA,100,0.00,NA,NA,dry,highway,NA,15,NA,SE,0.00,
+71,e,NA,-10,0.63,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,0,0.00,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,10,-0.16,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,20,-0.66,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,30,-0.56,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,40,-2.94,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,50,-2.84,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,100,-2.55,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,150,-3.35,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,e,NA,190,-2.76,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,-10,-0.76,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,0,0.00,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,10,-1.95,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,20,-4.82,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,30,-5.22,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,40,-5.52,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,50,-4.33,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,c,NA,75,-5.92,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,d,NA,-10,1.13,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,0,0.00,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,10,-1.06,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,20,-0.76,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,30,-1.06,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,40,-0.37,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,50,-0.17,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,100,1.01,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,150,0.51,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,200,0.30,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,d,NA,230,-0.49,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,b,NA,-10,-0.66,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,0,0.00,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,10,-0.76,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,20,-1.65,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,30,-2.44,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,40,-2.54,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,50,-2.74,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,b,NA,75,-3.24,NA,NA,summer,pasture,S,NA,NA,NA,NA,comparison to edge
+71,1,NA,225,-0.50,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,200,0.18,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,150,-1.51,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,100,0.96,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,50,-2.31,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,40,-0.83,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,30,0.06,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,20,-0.53,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,10,-0.44,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,0,0.00,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,1,NA,-10,1.84,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,190,-2.69,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,150,-9.03,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,100,-9.14,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,50,-5.88,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,40,-5.78,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,30,-4.89,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,20,-3.90,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,10,-3.60,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,0,0.00,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,2,NA,-10,-2.62,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,75,-3.30,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,50,-4.99,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,40,-4.99,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,30,-3.90,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,20,-3.60,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,10,-2.91,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,0,0.00,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,3,NA,-10,-0.44,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,75,-5.87,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,50,-5.48,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,30,-4.49,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,20,-3.60,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,10,-3.21,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,0,0.00,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,4,NA,-10,10.75,NA,NA,summer,pasture,N,NA,NA,NA,NA,comparison to edge
+71,5,NA,-10,-0.03,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,0,0.00,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,10,-1.26,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,20,-1.75,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,30,-2.24,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,40,-2.40,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,50,-3.39,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,100,-1.56,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,150,-1.55,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,5,NA,190,-1.95,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,-10,-1.84,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,0,0.00,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,10,0.14,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,20,-0.19,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,30,-0.76,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,40,-1.33,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,50,-1.08,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,6,NA,75,0.73,NA,NA,winter,pasture,S,NA,NA,NA,NA,comparison to edge
+71,7,NA,-10,-0.44,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,0,0.00,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,10,-0.27,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,20,-0.27,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,30,-0.76,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,40,-1.33,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,50,-1.91,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,100,-2.39,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,150,-1.88,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,200,-2.03,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,7,NA,225,-1.12,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,225,-1.17,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,200,-1.34,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,150,-1.83,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,100,-1.59,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,50,-0.20,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,40,1.28,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,30,2.67,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,20,0.86,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,10,-0.12,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,0,0.00,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,8,NA,-10,1.27,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,190,-2.24,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,150,-3.89,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,100,-1.59,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,50,-1.85,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,40,-0.86,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,30,-0.45,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,20,-0.78,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,10,-0.62,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,0,0.00,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,9,NA,-10,-0.95,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,75,0.54,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,50,1.69,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,40,2.18,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,30,2.18,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,20,0.86,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,10,0.45,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,0,0.00,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+71,10,NA,-10,0.61,NA,NA,winter,pasture,N,NA,NA,NA,NA,comparison to edge
+47,a,1.16,-20,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,1.15,-5,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.75,-2,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.50,0,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.44,2,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.42,5,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.43,10,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.41,15,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.38,25,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.34,40,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.31,60,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,a,0.30,80,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.98,-20,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.86,-5,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.60,-2,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.48,0,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.43,2,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.43,5,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.36,10,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.35,15,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.41,25,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.37,40,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.36,60,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,b,0.34,80,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,1.06,-20,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,1.05,-5,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.60,-2,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.52,0,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.51,2,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.51,5,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.38,10,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.40,15,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.31,25,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.32,40,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,c,0.26,80,NA,NA,NA,dry,savanna,NE,NA,daily,NA,NA,
+47,1,0.77,-20,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.71,-5,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.42,-2,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.29,0,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.27,2,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.27,5,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.25,10,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.25,15,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.19,25,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.20,40,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.15,60,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,1,0.12,80,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.68,-20,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.47,-5,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.34,-2,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.29,0,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.27,2,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.24,5,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.19,10,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.20,15,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.26,25,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.22,40,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.20,60,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,2,0.17,80,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.69,-20,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.64,-5,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.39,-2,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.30,0,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.29,2,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.27,5,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.22,10,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.22,15,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.16,25,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.17,40,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+47,3,0.12,80,NA,NA,NA,wet,savanna,NE,NA,daily,NA,NA,
+69,1,NA,10,8.79,NA,NA,winter,plantation,N,9,monthly,SE,27.61,comparison to edge
+69,1,NA,20,38.91,NA,NA,winter,plantation,N,9,monthly,SE,2.51,comparison to edge
+69,1,NA,30,64.02,NA,NA,winter,plantation,N,9,monthly,SE,2.51,comparison to edge
+69,1,NA,40,89.12,NA,NA,winter,plantation,N,9,monthly,SE,40.17,comparison to edge
+69,1,NA,50,94.14,NA,NA,winter,plantation,N,9,monthly,SE,37.66,comparison to edge
+69,1,NA,75,104.18,NA,NA,winter,plantation,N,9,monthly,SE,47.70,comparison to edge
+69,1,NA,100,104.18,NA,NA,winter,plantation,N,9,monthly,SE,32.64,comparison to edge
+69,1,NA,150,109.21,NA,NA,winter,plantation,N,9,monthly,SE,35.14,comparison to edge
+69,2,NA,10,6.28,NA,NA,winter,pasture,N,9,monthly,SE,30.13,comparison to edge
+69,2,NA,20,-46.44,NA,NA,winter,pasture,N,9,monthly,SE,2.51,comparison to edge
+69,2,NA,30,-26.36,NA,NA,winter,pasture,N,9,monthly,SE,0.00,comparison to edge
+69,2,NA,40,-16.32,NA,NA,winter,pasture,N,9,monthly,SE,0.00,comparison to edge
+69,2,NA,50,-3.77,NA,NA,winter,pasture,N,9,monthly,SE,20.08,comparison to edge
+69,2,NA,75,23.85,NA,NA,winter,pasture,N,9,monthly,SE,25.11,comparison to edge
+69,2,NA,100,8.79,NA,NA,winter,pasture,N,9,monthly,SE,27.62,comparison to edge
+69,2,NA,150,48.95,NA,NA,winter,pasture,N,9,monthly,SE,40.16,comparison to edge
+69,3,NA,10,16.32,NA,NA,summer,plantation,N,9,monthly,SE,27.61,comparison to edge
+69,3,NA,20,6.28,NA,NA,summer,plantation,N,9,monthly,SE,57.74,comparison to edge
+69,3,NA,30,71.55,NA,NA,summer,plantation,N,9,monthly,SE,5.02,comparison to edge
+69,3,NA,40,106.69,NA,NA,summer,plantation,N,9,monthly,SE,32.63,comparison to edge
+69,3,NA,50,46.44,NA,NA,summer,plantation,N,9,monthly,SE,45.18,comparison to edge
+69,3,NA,75,-46.44,NA,NA,summer,plantation,N,9,monthly,SE,77.83,comparison to edge
+69,3,NA,100,-69.04,NA,NA,summer,plantation,N,9,monthly,SE,27.61,comparison to edge
+69,3,NA,150,-79.08,NA,NA,summer,plantation,N,9,monthly,SE,50.21,comparison to edge
+69,4,NA,10,-31.38,NA,NA,summer,pasture,N,9,monthly,SE,40.17,comparison to edge
+69,4,NA,20,28.87,NA,NA,summer,pasture,N,9,monthly,SE,82.84,comparison to edge
+69,4,NA,30,139.33,NA,NA,summer,pasture,N,9,monthly,SE,47.70,comparison to edge
+69,4,NA,40,136.82,NA,NA,summer,pasture,N,9,monthly,SE,15.06,comparison to edge
+69,4,NA,50,81.59,NA,NA,summer,pasture,N,9,monthly,SE,77.82,comparison to edge
+69,4,NA,75,-26.36,NA,NA,summer,pasture,N,9,monthly,SE,100.42,comparison to edge
+69,4,NA,100,56.49,NA,NA,summer,pasture,N,9,monthly,SE,55.23,comparison to edge
+69,4,NA,150,96.65,NA,NA,summer,pasture,N,9,monthly,SE,55.23,comparison to edge
+63,NA,1.70,0,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+63,NA,1.70,5,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+63,NA,1.52,10,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+63,NA,1.58,25,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+63,NA,1.48,50,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+63,NA,1.04,100,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+63,NA,0.85,250,NA,NA,NA,wet,clearing,NA,0,NA,NA,NA,dry bulb vpd
+4,NA,0.31,10,NA,NA,NA,NA,NA,NW,1,monthly,NA,NA,
+4,NA,0.27,50,NA,NA,NA,NA,NA,NW,1,monthly,NA,NA,
+4,NA,0.20,100,NA,NA,NA,NA,NA,NW,1,monthly,NA,NA,
+4,NA,0.16,250,NA,NA,NA,NA,NA,NW,1,monthly,NA,NA,
+34,NA,NA,0,-0.37,NA,NA,dry,NA,NA,20,NA,SE,0.27,comparison to -5.throw
+34,NA,NA,30,-0.90,NA,NA,dry,NA,NA,20,NA,SE,0.29,comparison to -5.throw
+34,NA,NA,-5,0.00,NA,NA,dry,NA,NA,20,NA,SE,0.00,comparison to -5.throw
