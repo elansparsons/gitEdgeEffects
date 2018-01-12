@@ -73,24 +73,25 @@ clip <- AT[-c(423,495,155),-c(6,7,12,13,14,15)]
 wide <- clip %>% spread(dist,air_temp,fill=NA,convert=FALSE)
 
 #simple graphs
+#simple AT
 ggplot(AT, aes(x=dist, y=air_temp)) + geom_point()
 ggplot(short, aes(x=just.dist, y=full_diff)) + geom_point(aes(color=article.id)) + 
   geom_smooth(method = "auto") + scale_x_continuous(breaks=pretty(short$just.dist,n=40)) + scale_y_continuous(breaks=pretty(short$full_diff,n=10)) + 
   coord_cartesian(ylim=c(-5,10),xlim=c(-10,200)) + geom_hline(yintercept = 0)
-
+#by each plot per article
 plot <- ggplot(short, aes(x=just.dist, y=full_diff,group=idseg)) + scale_x_continuous(breaks=pretty(short$just.dist,n=40)) + 
   scale_y_continuous(breaks=pretty(short$full_diff,n=10)) + coord_cartesian(ylim=c(-5,10),xlim=c(-10,200))
 plot + geom_line(color = "blue",alpha=.2)
-
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percent_diff)), aes(x=just.dist, y=percent_diff))
 relative + geom_point() + geom_smooth(method="loess",formula=y~x) + coord_cartesian(ylim=c(-10,100),xlim=c(-10,200)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
-
+#without interior points
 no_interior <- ggplot(subset(noint,!is.na(percent_diff)), aes(x=just.dist, y=percent_diff))
 no_interior + geom_point() + geom_smooth(method="loess",formula=y~x) + coord_cartesian(ylim=c(-10,90),xlim=c(-10,140)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percent_diff,n=10)) + xlab("Distance") +
   ylab("% difference from interior") + geom_point(data=data.frame(x=104,y=0),aes(x,y),color="red",size=4)
-
+#average of values based on article.id
 avg.id <- ggplot(subset(oneonly,!is.na(percent_diff)), aes(x=just.dist,y = percent_diff))
 avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(ylim=c(-10,100),xlim=c(-10,200)) + 
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percent_diff,n=10))
@@ -144,11 +145,11 @@ noint <- noint[,c(1,2,4,6,8,9,10,11,13,14,19)]
 noint$idseg <- paste(noint[,1],noint[,2])
 
 #graphs
-
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percentrh_diff)), aes(x=just.dist, y=percentrh_diff))
 relative + geom_point() + geom_smooth(method="loess",formula=y~x) + coord_cartesian(ylim=c(-30,5),xlim=c(-10,250)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
-
+#average of values based on article.id
 avg.id <- ggplot(subset(oneonlyrh,!is.na(percentrh_diff)), aes(x=just.dist,y = percentrh_diff))
 avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(ylim=c(-30,5),xlim=c(-10,250)) + 
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percentrh_diff,n=10))
@@ -199,10 +200,11 @@ noint <- noint[,c(1,2,4,6,8,9,10,11,13,14,19)]
 noint$idseg <- paste(noint[,1],noint[,2])
 
 #graphs
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percentst_diff)), aes(x=just.dist, y=percentst_diff))
 relative + geom_point() + geom_smooth(method="loess",formula=y~x) + coord_cartesian(ylim=c(-20,90),xlim=c(-10,250)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
-
+#average of values based on article.id
 avg.id <- ggplot(subset(oneonlyst,!is.na(percentst_diff)), aes(x=just.dist,y = percentst_diff))
 avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(ylim=c(-20,90),xlim=c(-10,250)) + 
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percentst_diff,n=10))
@@ -246,15 +248,17 @@ short.sm$article.id <- as.factor(short.sm$article.id)
 
 short.sm$idseg <- paste(short.sm[,1],short.sm[,2])
 
+#no interior points shown
 noint <- sep[!sep$just.dist == sep$max.dist,]
 noint <- noint[,c(1,2,4,6,8,9,10,11,13,14,19)]
 noint$idseg <- paste(noint[,1],noint[,2])
 
 #graphs
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percentsm_diff)), aes(x=just.dist, y=percentsm_diff))
 relative + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
-
+#average of values based on article.id
 avg.id <- ggplot(subset(oneonlysm,!is.na(percentsm_diff)), aes(x=just.dist,y = percentsm_diff))
 avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) + 
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percentsm_diff,n=10))
@@ -306,11 +310,13 @@ short.par$article.id <- as.factor(short.par$article.id)
 
 short.par$idseg <- paste(short.par[,1],short.par[,2])
 
+#no interior points shown
 noint <- sep[!sep$just.dist == sep$max.dist,]
 noint <- noint[,c(1,2,4,6,8,9,10,11,13,14,19)]
 noint$idseg <- paste(noint[,1],noint[,2])
 
 #graphs
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percentPAR_diff)), aes(x=just.dist, y=percentPAR_diff))
 relative + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
@@ -354,15 +360,17 @@ short.vpd$article.id <- as.factor(short.vpd$article.id)
 
 short.vpd$idseg <- paste(short.vpd[,1],short.vpd[,2])
 
+#no interior points shown
 noint <- sep[!sep$just.dist == sep$max.dist,]
 noint <- noint[,c(1,2,4,6,8,9,10,11,13,14,19)]
 noint$idseg <- paste(noint[,1],noint[,2])
 
 #graphs
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percentVPD_diff)), aes(x=just.dist, y=percentVPD_diff))
 relative + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
-
+#average of values based on article.id
 avg.id <- ggplot(subset(oneonlyvpd,!is.na(percentVPD_diff)), aes(x=just.dist,y = percentVPD_diff))
 avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) + 
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
@@ -412,15 +420,17 @@ short.ws$article.id <- as.factor(short.ws$article.id)
 
 short.ws$idseg <- paste(short.ws[,1],short.ws[,2])
 
+#no interior points shown
 noint <- sep[!sep$just.dist == sep$max.dist,]
 noint <- noint[,c(1,2,4,6,8,9,10,11,13,14,19)]
 noint$idseg <- paste(noint[,1],noint[,2])
 
 #graphs
+#relative to interior point
 relative <- ggplot(subset(short,!is.na(percentws_diff)), aes(x=just.dist, y=percentws_diff))
 relative + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) +
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
-
+#average of values based on article.id
 avg.id <- ggplot(subset(oneonlyws,!is.na(percentws_diff)), aes(x=just.dist,y = percentws_diff))
 avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartesian(xlim=c(-10,250)) + 
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
@@ -442,8 +452,11 @@ full <- data.frame(combined5[!is.na(combined5[,6]) & !is.na(combined5[,16]) & !i
 #export combined dataset
 write.csv(combined5,"vardata.csv",row.names = F)
 
+#number articles with data = 39
+length(unique(vardata$article.id))
 
-#graph of all variables
+
+#basic graph of all variables
 ggplot(combined5,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentrh_diff), color = "red",alpha=0) +
@@ -520,23 +533,55 @@ anova(withmixedVPD,vpdglm)
 
 ##GLM
 
+#AT
 atglm <- glm(percent_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
                family = gaussian, data = forglmm)
+atglm <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
+             family = gaussian, data = forglmm)
+
+#RH
 rhglm <- glm(percentrh_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
             family = gaussian, data = forglmm)
+rhglm2 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
+             family = gaussian, data = forglmm)
+
+#ST
 stglm <- glm(percentst_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
             family = gaussian, data = forglmm)
+stglm2 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
+             family = gaussian, data = forglmm)
+
+#SM
 smglm <- glm(percentsm_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
             family = gaussian, data = forglmm)
+smglm2 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
+             family = gaussian, data = forglmm)
+
+#PAR
 parglm <- glm(percentPAR_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
             family = gaussian, data = forglmm)
+parglm2 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = forglmm)
+
+#VPD
 vpdglm <- glm(percentVPD_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
             family = gaussian, data = forglmm)
+vpdglm2 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = forglmm)
+
+#WS
 wsglm <- glm(percentws_diff ~ just.dist + matrix_type.f,
             family = gaussian, data = forglmm) #tested with lm, only these variables informative, no reporting of wind + orient
 
 summary(lm(percentws_diff ~ just.dist + matrix_type.f, data = forglm))
 sum(forglm[(!is.na(forglm$percentws_diff) & !is.na(forglm$edge_orient.f)),]) #check, no rows contain both wind and orientation
+
+#is effect due to missing data?
+nrow(forglmm[!is.na(forglmm$edge_age_years),])/900
+nrow(forglmm[!is.na(forglmm$season.f),])/900
+nrow(forglmm[!is.na(forglmm$matrix_type.f),])/900
+nrow(forglmm[!is.na(forglmm$edge_orient.f),])/900
+
 
 #graphing
 
