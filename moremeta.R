@@ -947,3 +947,4 @@ w <- variances2 %>% group_by(article.id)
 w2 <- summarize(w,types=first(type))
 w3 <- data.frame(table(unlist(w2$types)))
 
+
