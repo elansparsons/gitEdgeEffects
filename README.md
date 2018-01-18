@@ -12,13 +12,14 @@ withbroad contains broad climate categories (temperate, tropical, boreal) to add
 allvariances is quantitative data on all variance types, including standard errors, confidence intervals, and standard deviations reported
 
 These files are manipulated in:
-##metacode.r
+
+*metacode.r
 for qualtitative data only
 
-##moremeta.r
+*moremeta.r
 for quantitative data only
 
-##meta_qualquan.r
+*meta_qualquan.r
 mixture of qualitative and quantitative data
 
 
