@@ -5,12 +5,13 @@ library(dplyr)
 library(stringr)
 begin <- dcast(mergedrefined7, Article.ID ~ variable, fun=toString, value.var="data")
 names(begin)[names(begin) == "focal area of research (ecophysiology, population ecology, community ecology ecosystem ecology, animal behavior)"] <- "focal.area.of.research"
-cats <- read.csv("tofix.csv",header=TRUE)
+cats <- withbroad
 begin <- cbind(begin,cats$broad)
 names(begin)[names(begin) == "cats$broad"] <- "broad"
+names(begin)[names(begin) == "accession number"] <- "accession.n"
+names(begin)[names(begin) == "Article.ID"] <- "article.id"
 
 #data cleaning
-begin[begin$Municipality=="BDFFP"] <- "Manaus"
 begin$Municipality[63] <- "Manaus"
 begin[begin=="NA"] <- NA
 begin[begin==""] <- NA

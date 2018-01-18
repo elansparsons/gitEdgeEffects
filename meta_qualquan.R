@@ -1,11 +1,8 @@
-library(dplyr)
+library(reshape2)
 
 #knit together qualitative & quantitative data
 
-
-colnames(mergedrefined7) <- c("article.id","variable","data","qualnotes")
-mergedrefined7 %>% spread()
-
+qualquan <- merge(begin,vardata,by="article.id", all = TRUE)
 
 ###without 1 ha plots
 
