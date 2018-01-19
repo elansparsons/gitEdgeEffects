@@ -445,6 +445,7 @@ combined3 <- merge(combined2, short.st[,c(1,2,3,9,10,12,13)], by = c("article.id
 combined4 <- merge(combined3, short.vpd[,c(1,2,3,9,10,12,13)], by = c("article.id","segment_n","just.dist","idseg"), all=TRUE)
 combined5 <- merge(combined4, short.ws[,c(1,2,3,9,10,12,13)], by = c("article.id","segment_n","just.dist","idseg"), all=TRUE)
 
+#check - how many rows with all variables?
 full <- data.frame(combined5[!is.na(combined5[,6]) & !is.na(combined5[,16]) & !is.na(combined5[,19]) &
   !is.na(combined5[,22]) & !is.na(combined5[,25]) & !is.na(combined5[,28]) &
   !is.na(combined5[,31]),])
