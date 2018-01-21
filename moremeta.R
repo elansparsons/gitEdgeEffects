@@ -537,7 +537,7 @@ anova(withmixedVPD,vpdglm)
 #AT
 atglm <- glm(percent_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
                family = gaussian, data = forglmm)
-atglm <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
+atglm2 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
              family = gaussian, data = forglmm)
 
 #RH
