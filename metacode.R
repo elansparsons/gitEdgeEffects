@@ -10,6 +10,7 @@ begin <- cbind(begin,cats$broad)
 names(begin)[names(begin) == "cats$broad"] <- "broad"
 names(begin)[names(begin) == "accession number"] <- "accession.n"
 names(begin)[names(begin) == "Article.ID"] <- "article.id"
+names(begin)[c(9,10)] <- c("archive","arch.y.n")
 
 #data cleaning
 begin$Municipality[63] <- "Manaus"
@@ -47,6 +48,10 @@ b
 
 popular.cities <- as.data.frame(head(sort(table(begin$Municipality), decreasing=T)))
 popular.cities
+#export mergedrefined7 to add simple latitude, first listed only
+write.csv(begin,"mergedrefined8.csv",row.names=FALSE)
+simplat <- mergedrefined8[,c(1,41)]
+
 
 
 #variables data
