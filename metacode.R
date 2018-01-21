@@ -38,8 +38,15 @@ sort(begin$Country)
 a <- ggplot(data = begin, aes(begin$Country))
 a + geom_bar()
 length(begin[begin$Country=="Mexico"])
-popular_countries <- sort(table(begin$Country), decreasing=T)
-popular_countries
+popular_countries <-  as.data.frame(sort(table(begin$Country), decreasing=T))
+names(popular_countries)[1] <- "Countries"
+
+popular_countries$noper <- gsub("\\."," ",popular_countries$Countries)
+#export for python
+write.csv(popular_countries,"popular_countries.csv",row.names = FALSE)
+
+
+
 b <- ggplot(data = begin, aes(x = fct_infreq(Country))) +
   geom_bar(aes(fill=Country)) + scale_y_continuous(expand=c(0,0), limits=c(0,27))
 b <- b + theme_classic() + theme(legend.position="none")
