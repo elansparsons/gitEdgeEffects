@@ -3,7 +3,8 @@ library(ggplot2)
 
 #knit together qualitative & quantitative data
 
-qualquan <- merge(vardata,begin,by="article.id", all = TRUE)
+qualquan <- merge(vardata,mergedrefined8,by="article.id", all = TRUE)
+
 
 ###without 1 ha plots
 #ids with 1ha plots:
@@ -83,3 +84,24 @@ ggplot(tropics,aes(x = just.dist)) +
   geom_point(aes(y=percentsm_diff),color="orange")+
   geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250),ylim=c(-30,30))
+
+
+#GLM on distance, lat
+#remove percentages on quanonly, log to remove neg
+intermed <- log1p((quanonly[,c(6,16,19,22,25,28,31)]/100))
+names(intermed) <- c("proat_diff","propar_diff","prorh_diff","prosm_diff","prost_diff","provpd_diff","prows_diff")
+forlatglm <- cbind(intermed,quanonly)
+
+atlat <- glm(proat_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+
+rhlat <- glm(prorh_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+
+vpdlat <- glm(provpd_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+
+stlat <- glm(prost_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+
+smlat <- glm(prosm_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+
+wslat <- glm(prows_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+
+parlat <- glm(propar_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
