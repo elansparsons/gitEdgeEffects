@@ -480,6 +480,11 @@ ggplot(combined5,aes(x = just.dist)) +
   geom_smooth(aes(y=percentrh_diff), color = "red",alpha=0) +
   coord_cartesian(xlim=c(-10,250))
 
+ggplot(combined5,aes(y=percent_diff,x=just.dist)) + geom_point(color="green") +
+  geom_smooth(color="blue")
+
+
+
 
 ########modeling
 
@@ -594,6 +599,23 @@ smglm.sing <-  glm(percentsm_diff ~ just.dist,family = gaussian, data = forglm)
 stglm.sing <-  glm(percentst_diff ~ just.dist,family = gaussian, data = forglm)
 parglm.sing <- glm(percentPAR_diff ~ just.dist,family = gaussian, data = forglm)
 wsglm.sing <-  glm(percentws_diff ~ just.dist,family = gaussian, data = forglm)
+
+#is a log curve a better predictor?
+propor <- vardata
+propor$atpro <- propor$percent_diff/100
+logfit <- lm(atpro~log1p(just.dist[just.dist >= 0]), data = propor)
+newy <- predict(logfit,list(just.dist=distrange),interval="confidence")
+matlines(distrange,newy,lwd=2)
+regfit <- lm(atpro~just.dist,data=propor)
+
+newnewy <- predict(logfit,list(just.dist=distrange))
+regy <- predict(regfit,list(just.dist=distrange))
+plot(propor$just.dist,propor$atpro,pch=1,col="blue",xlab="Distance from edge",ylab="Change in AT compared to interior point")
+lines(distrange,newnewy,col="red")
+lines(distrange,regy,col="green")
+#not really.
+
+
 
 atrange <- seq(-1,1,0.1)
 rhrange <- seq(-0.5,0.5,0.1)

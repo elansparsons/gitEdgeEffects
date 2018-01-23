@@ -93,15 +93,33 @@ names(intermed) <- c("proat_diff","propar_diff","prorh_diff","prosm_diff","prost
 forlatglm <- cbind(intermed,quanonly)
 
 atlat <- glm(proat_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+atlat2 <- glm(proat_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 rhlat <- glm(prorh_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+rhlat2 <- glm(prorh_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 vpdlat <- glm(provpd_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+vpdlat2 <- glm(provpd_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 stlat <- glm(prost_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+stlat2 <- glm(prost_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 smlat <- glm(prosm_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+smlat2 <- glm(prosm_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 wslat <- glm(prows_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+swslat2 <- glm(prows_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 parlat <- glm(propar_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
+parlat2 <- glm(propar_diff ~ simple.lat, family = gaussian, data = forlatglm)
+
+summary(lm(proat_diff ~ simple.lat,data=forlatglm))
+
+#graph GLM
+ggplot(forlatglm,aes(x = simple.lat)) +
+  geom_smooth(aes(y=proat_diff),method="glm", color = "green",alpha=0) +
+  geom_smooth(aes(y=prorh_diff),method="glm", color = "red",alpha=0) +
+  geom_smooth(aes(y=provpd_diff),method="glm", color = "purple",alpha=0) +
+  geom_point(aes(y=proat_diff),color="green")+
+  geom_point(aes(y=prorh_diff),color="red")+
+  geom_point(aes(y=provpd_diff),color="purple")
