@@ -476,8 +476,13 @@ ggplot(combined5,aes(x = just.dist)) +
   coord_cartesian(xlim=c(-10,250))
 
 ggplot(combined5,aes(x = just.dist)) +
-  geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
-  geom_smooth(aes(y=percentrh_diff), color = "red",alpha=0) +
+  theme_classic()+
+  ggtitle("Changes in environment from edge to interior of forests")+
+  geom_smooth(aes(y=percent_diff), color = "blue",alpha=0) +
+  geom_smooth(aes(y=percentrh_diff), color = "green",alpha=0) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250))
 
 ggplot(combined5,aes(y=percent_diff,x=just.dist)) + geom_point(color="green") +
@@ -683,34 +688,17 @@ ggplot(vardata,aes(x = just.dist)) +
   labs(y="Percent change from interior point",x="Distance from edge")+
   coord_cartesian(xlim=c(-10,250))
 
-
-########find most affective variable
-library(tidyr)
-library(dplyr)
-library(cluster)
-
-forpca <- forglmm[,c(3,8,9,10,11,12,13,14)] #withlog
-z.vardist <- scale(forpca)
-pca.1 <- princomp(z.vardist, cor = F)
-eigenVal <- (pca.1$sdev*sqrt(900/899))^2
-propVar <- eigenVal/sum(eigenVal)
-cumVar <- cumsum(propVar)
-pca_Table <- t(rbind(eigenVal,propVar,cumVar))
-
-plot(pca.1$loadings,type="n",xlab="PC 1, 61%",ylab="PC 2, 17%")
-text(pca.1$loadings,labels=as.character(colnames(z.vardist)),pos=1,cex=1)
-
-biplot(pca.1$scores,pca.1$loadings,xlabs = rep("*",900),xlab = "PC 1, 61%", ylab = "PC 2, 17%",xlim =c(-25,50),ylim=c(-25,50))
+###does removing studies with 1ha plots change anything?
+###without 1 ha plots
+#ids with 1ha plots: 7,66,45,44
+oneha <- c(7,66,45,44)
+withoutone <- vardata[!vardata$article.id %in% oneha,]
 
 
-nolog <- cbind(forglmm[,1:7],expm1(forglmm[,8:14]))
-write.csv(nolog, "vardata2.csv")
 
-w.1 <- nolog %>% spread(just.dist, percent_diff,fill = NA, convert= FALSE)
 
-longvar <- gather(nolog, key = "variable", value = "num", 8:14)
 
-widedist <- longvar %>% group_by(variable, article.id, segment_n) %>% spread(just.dist, num)
+
 
 
 

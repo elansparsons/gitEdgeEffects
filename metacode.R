@@ -93,5 +93,49 @@ biopal <- c("#5DADE2","#F9E79F","#1E8449","#EC7063")
 cited.biomes <- ggplot(begin, aes(x=broad, y=citations, fill=broad)) + geom_col() + theme_classic()
 cited.biomes + scale_fill_manual(values=biopal) + theme(legend.position = "none")
 
+###citations
+#by biome
+length(mergedrefined8[mergedrefined8$`was cited before`,]) #96
+cite.biome <- mergedrefined8 %>% group_by(broad) %>% summarize(sum(citations)) #all studies
+
+length(unique(mergedrefined8$article.id[mergedrefined8$broad=="temperate"]))
+length(unique(mergedrefined8$article.id[mergedrefined8$broad=="tropical"]))
+length(unique(mergedrefined8$article.id[mergedrefined8$broad=="boreal"]))
+
+#by country
+cite.country <- mergedrefined8 %>% group_by(Country) %>% summarize(sum(citations))
+
+studies.country <-  as.data.frame(sort(table(mergedrefined8$Country), decreasing=T))
+names(studies.country) <- c("Country","No_Studies")
+
+cite.country <- merge(cite.country,studies.country,by="Country")
+
+attach(cite.country)
+cite.country <- cite.country[order(-`sum(citations)`),]
+detach(cite.country)
+
+per.study <- cite.country %>% mutate(cite.per.study = round(`sum(citations)`/No_Studies))
+
+ggplot(per.study,aes(x=No_Studies,y=cite.per.study)) +
+  geom_text(aes(label=Country)) +
+  coord_cartesian(xlim=c(-5,30)) +
+  xlab("Number of Studies")+
+  ylab("Citations/Number of Studies")
+
+##years/time
+hist(mergedrefined8$Year,breaks=10)
+mergedrefined8$Year <- as.factor(mergedrefined8$Year)
+years <- mergedrefined8 %>% count(Year)
 
 
+mergedrefined8$end.date <- as.Date(mergedrefined8$end.date, format = "%m/%d/%Y")
+mergedrefined8$end.date.1 <- as.Date(mergedrefined8$end.date.1, format = "%m/%d/%Y")
+mergedrefined8$end.date.2 <- as.Date(mergedrefined8$end.date.2, format = "%m/%d/%Y")
+mergedrefined8$start.date <- as.Date(mergedrefined8$start.date, format = "%m/%d/%Y")
+mergedrefined8$start.date.1 <- as.Date(mergedrefined8$start.date.1, format = "%m/%d/%Y")
+mergedrefined8$start.date.2 <- as.Date(mergedrefined8$start.date.2, format = "%m/%d/%Y")
+
+dates <- mergedrefined8[,c(1,17,18,19,71,72,73)]
+dates$days <- ifelse(!is.na(dates$start.date), dates$end.date - dates$start.date, 
+                     ifelse(!is.na(dates$start.date.1), (dates$end.date.1 - dates$start.date.1)+(dates$end.date.2 - dates$start.date.2),NA))
+dates$days[13] <- 12 #fix entry issue where end.date and start.date were swapped

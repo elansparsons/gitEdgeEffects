@@ -6,10 +6,6 @@ library(ggplot2)
 qualquan <- merge(vardata,mergedrefined8,by="article.id", all = TRUE)
 
 
-###without 1 ha plots
-#ids with 1ha plots:
-
-
 
 #graph by broad region
 quanonly <- qualquan[!is.na(qualquan$just.dist),]
@@ -20,10 +16,16 @@ boreal <- qualquan[quanonly$broad == "boreal",]
 
 temperate <- qualquan[quanonly$broad == "temperate",]
 
+#citations, with data
+quanbroad <- unique(quanonly[,c(1,36,126)])
+length(unique(quanbroad$article.id[quanbroad$broad=="tropical"]))
+length(unique(quanbroad$article.id[quanbroad$broad=="temperate"]))
+length(unique(quanbroad$article.id[quanbroad$broad=="boreal"]))
 
-length(unique(tropics$article.id))
-length(unique(temperate$article.id))
-length(unique(boreal$article.id))
+quan.cite <- quanbroad %>% group_by(broad) %>% summarize(sum(citations)) 
+
+
+
 
 #tropics trends
 ggplot(tropics,aes(x = just.dist)) +
