@@ -727,6 +727,69 @@ wsglm3 <- glm(percentws_diff ~ just.dist + matrix_type.f,
              family = gaussian, data = withoutforglmm) #no change
 
 
+###grouping matrices into similar?
+#grass, meadow, clearing, pasture, field, grassland = "grass"
+broadmat <- vardata
+broadmat$matrix_type[broadmat$matrix_type == "meadow"] <- "grass"
+broadmat$matrix_type[broadmat$matrix_type == "clearing"] <- "grass"
+broadmat$matrix_type[broadmat$matrix_type == "field"] <- "grass"
+broadmat$matrix_type[broadmat$matrix_type == "grassland"] <- "grass"
+#sugarcane field = "ag.field"
+broadmat$matrix_type[broadmat$matrix_type == "sugarcane.field"] <- "ag.field"
+#prairie = "savanna"
+broadmat$matrix_type[broadmat$matrix_type == "prairie"] <- "savanna"
+#pine plantation, eucalyptus farm= "plantation"
+broadmat$matrix_type[broadmat$matrix_type == "pine.plantation"] <- "plantation"
+broadmat$matrix_type[broadmat$matrix_type == "eucalyptus.farm"] <- "plantation"
+
+
+forcart <- broadmat[,-c(1,2,4,5,11,12,13,14,15,17,18,20,21,23,24,26,27,29,30)]
+fractions <- (forcart[,-c(1,3,4,5,6)]/100) ##remove negative percentages
+logvar <- log1p(fractions)
+mixedvar <- cbind(fractions[,c(3,4)],logvar[,c(1,2,5,6,7)])
+
+
+broadmat$season.f <- as.integer(as.factor(broadmat$season))
+broadmat$matrix_type.f <- as.integer(as.factor(broadmat$matrix_type))
+broadmat$edge_orient.f <- as.integer(as.factor(broadmat$edge_orient))
+
+matglmm <- cbind(broadmat[,c(1,2,3,10,32,33,34)],mixedvar)
+matglmm <- matglmm[!matglmm$article.id %in% oneha,]
+
+#AT
+atglm4 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = matglmm) #atglm2 better fit
+
+#RH
+rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = matglmm) #no change
+
+#ST
+stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = matglmm) #stglm2 better fit, stglm2 shows matrix and orientation more significant
+
+#SM
+smglm4 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = matglmm) #no change
+
+#PAR
+parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
+               family = gaussian, data = matglmm) #no change
+
+#VPD
+vpdglm4 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
+               family = gaussian, data = matglmm) #no change
+
+#WS
+wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
+              family = gaussian, data = matglmm)
+
+#no changes in significances, but AIC the same or slightly lower from before broad matrix categories
+
+
+
+
+
 ####how do columns other than dist interact with variables? viz
 ggplot(forglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_point() + geom_smooth()
 
