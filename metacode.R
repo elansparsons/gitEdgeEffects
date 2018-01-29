@@ -157,8 +157,31 @@ dates$year <- ifelse(!is.na(dates$end.date), substring(dates$end.date,1,4),
 dates$year <- as.integer(dates$year)
 hist(dates$year)
 
-#archives?
+
+##archives?
 count(mergedrefined8[mergedrefined8$arch.y.n == "Y",1]) #2 of 71
 
-#journal
+##journal
 journals <- as.data.frame(sort(table(mergedrefined8$Journal),decreasing=T)) #most common = FEM 6, BC 5
+
+##area, subject of research
+barplot(sort(table(mergedrefined8$focal.area.of.research),decreasing=T))
+barplot(sort(table(mergedrefined8$focal.subject.of.research),decreasing=T))
+
+
+##replicates
+hist(mergedrefined8$replicates.habitat.1,breaks=10)
+hist(mergedrefined8$replicates.habitat.2)
+sort(table(mergedrefined8$replicates.habitat.1),decreasing=T) # 22 of 71 had only one replicate of first habitat
+sort(table(mergedrefined8$replicates.habitat.2),decreasing=T)
+sort(table(mergedrefined8$replicates.habitat.3),decreasing=T)
+sort(table(mergedrefined8$replicates.habitat.4),decreasing=T)
+
+replicates <- mergedrefined8[,c(1,55,56,57,58,59)]
+replicates$article.id <- as.factor(replicates$article.id)
+replicates$replicates.habitat.1 <- as.factor(replicates$replicates.habitat.1)
+replicates$replicates.habitat.2 <- as.factor(replicates$replicates.habitat.2)
+replicates$replicates.habitat.3 <- as.factor(replicates$replicates.habitat.3)
+replicates$replicates.habitat.4 <- as.factor(replicates$replicates.habitat.4)
+replicates$replicates.habitat.5 <- as.factor(replicates$replicates.habitat.5)
+reps <- replicates %>% count(replicates.habitat.1)
