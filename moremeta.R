@@ -548,7 +548,7 @@ anova(withmixedVPD,vpdglm)
 atglm <- glm(percent_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
                family = gaussian, data = forglmm)
 atglm2 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
-             family = gaussian, data = forglmm)
+             family = gaussian, data = forglm)
 
 #RH
 rhglm <- glm(percentrh_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
@@ -688,16 +688,57 @@ ggplot(vardata,aes(x = just.dist)) +
   labs(y="Percent change from interior point",x="Distance from edge")+
   coord_cartesian(xlim=c(-10,250))
 
+
+
 ###does removing studies with 1ha plots change anything?
 ###without 1 ha plots
 #ids with 1ha plots: 7,66,45,44
 oneha <- c(7,66,45,44)
 withoutone <- vardata[!vardata$article.id %in% oneha,]
 
+withoutforglmm <- forglmm[!forglmm$article.id %in% oneha,]
+
+#AT
+atglm3 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = withoutforglmm) #atglm2 better fit
+
+#RH
+rhglm3 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = withoutforglmm) #no change
+
+#ST
+stglm3 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = withoutforglmm) #stglm2 better fit, shows matrix and orientation more significant
+
+#SM
+smglm3 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
+              family = gaussian, data = withoutforglmm) #no change
+
+#PAR
+parglm3 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
+               family = gaussian, data = withoutforglmm) #no change
+
+#VPD
+vpdglm3 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
+               family = gaussian, data = withoutforglmm) #no change
+
+#WS
+wsglm3 <- glm(percentws_diff ~ just.dist + matrix_type.f,
+             family = gaussian, data = withoutforglmm) #no change
 
 
+####how do columns other than dist interact with variables? viz
+ggplot(forglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_point() + geom_smooth()
 
+ggplot(forglmm,aes(x = edge_orient.f,y=percentst_diff)) + geom_point() + geom_smooth()
+ggplot(forglmm,aes(x = matrix_type.f,y=percentst_diff))+ geom_point() + geom_smooth()
 
+ggplot(forglmm,aes(x = matrix_type.f,y=percentsm_diff))+ geom_point() + geom_smooth()
+
+ggplot(forglmm,aes(x = matrix_type.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
+ggplot(forglmm,aes(x = edge_orient.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
+
+ggplot(forglmm,aes(x = matrix_type.f,y=percentws_diff)) + geom_point()+ geom_smooth()
 
 
 

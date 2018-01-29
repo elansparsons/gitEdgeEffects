@@ -120,7 +120,16 @@ ggplot(per.study,aes(x=No_Studies,y=cite.per.study)) +
   geom_text(aes(label=Country)) +
   coord_cartesian(xlim=c(-5,30)) +
   xlab("Number of Studies")+
-  ylab("Citations/Number of Studies")
+  ylab("Citations/Number of Studies")+
+  geom_text(data=per.study, aes(x=21,y=41,label="Brazil",color="red"))
+
+portuspan <- c(7,11,12,53,58)
+english <- mergedrefined8[!mergedrefined8$article.id %in% portuspan,]
+
+english.cite <- english %>% group_by(Country) %>% summarize(sum(citations))
+english.country <-  as.data.frame(sort(table(english$Country), decreasing=T))
+#Without Portuguese, 864 citations for Brazil, 21 studies ** x=21,y=41
+
 
 ##years/time
 hist(mergedrefined8$Year,breaks=10)
@@ -139,3 +148,17 @@ dates <- mergedrefined8[,c(1,17,18,19,71,72,73)]
 dates$days <- ifelse(!is.na(dates$start.date), dates$end.date - dates$start.date, 
                      ifelse(!is.na(dates$start.date.1), (dates$end.date.1 - dates$start.date.1)+(dates$end.date.2 - dates$start.date.2),NA))
 dates$days[13] <- 12 #fix entry issue where end.date and start.date were swapped
+
+hist(dates$days)
+hist(dates$days,breaks=60,xlim=c(0,100))
+
+dates$year <- ifelse(!is.na(dates$end.date), substring(dates$end.date,1,4), 
+                     substring(dates$end.date.2,1,4))
+dates$year <- as.integer(dates$year)
+hist(dates$year)
+
+#archives?
+count(mergedrefined8[mergedrefined8$arch.y.n == "Y",1]) #2 of 71
+
+#journal
+journals <- as.data.frame(sort(table(mergedrefined8$Journal),decreasing=T)) #most common = FEM 6, BC 5
