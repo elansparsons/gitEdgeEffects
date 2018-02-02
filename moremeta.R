@@ -2,6 +2,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(stringr)
+library(gridExtra)
 
 AT <- AT_seg
 
@@ -475,15 +476,46 @@ ggplot(combined5,aes(x = just.dist)) +
   geom_smooth(aes(y=percentst_diff), color = "orange",alpha=0) +
   coord_cartesian(xlim=c(-10,250))
 
-ggplot(combined5,aes(x = just.dist)) +
+
+aa <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
-  ggtitle("Changes in environment from edge to interior of forests")+
-  geom_smooth(aes(y=percent_diff), color = "blue",alpha=0) +
-  geom_smooth(aes(y=percentrh_diff), color = "green",alpha=0) +
+  ggtitle("Temperature and humidity")+
+  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0) +
+  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250))
+
+ab <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil")+
+  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0) +
+  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+ac <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Light")+
+  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+ad <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Wind")+
+  geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+grid.arrange(aa,ab,ac,ad,ncol=2,nrow=2)
 
 ggplot(combined5,aes(y=percent_diff,x=just.dist)) + geom_point(color="green") +
   geom_smooth(color="blue")
