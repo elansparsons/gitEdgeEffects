@@ -3,6 +3,7 @@ library(tidyr)
 library(ggplot2)
 library(stringr)
 library(gridExtra)
+library(lme4)
 
 AT <- AT_seg
 
@@ -759,7 +760,7 @@ wsglm3 <- glm(percentws_diff ~ just.dist + matrix_type.f,
              family = gaussian, data = withoutforglmm) #no change
 
 
-###grouping matrices into similar?
+###grouping matrices into similar? without 1 ha
 #grass, meadow, clearing, pasture, field, grassland = "grass"
 broadmat <- vardata
 broadmat$matrix_type[broadmat$matrix_type == "meadow"] <- "grass"
@@ -791,30 +792,45 @@ matglmm <- matglmm[!matglmm$article.id %in% oneha,]
 #AT
 atglm4 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #atglm2 better fit
+#mixed
+atglm5 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F) #atglm5 slightly better
 
 #RH
 rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = matglmm) #no change
+              family = gaussian, data = matglmm) #no change from rhglm2
+rhglm5 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F) #rhglm5 better
 
 #ST
 stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #stglm2 better fit, stglm2 shows matrix and orientation more significant
+stglm5 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F) #stglm4 better
 
 #SM
 smglm4 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = matglmm) #no change
+              family = gaussian, data = matglmm) #no change from smglm2
+smglm5 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F) #smglm5 much better
 
 #PAR
 parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
-               family = gaussian, data = matglmm) #no change
+               family = gaussian, data = matglmm) #no change from parglm2
+parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+                data = matglmm, REML=F) #parglm4 a bit better
 
 #VPD
 vpdglm4 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
-               family = gaussian, data = matglmm) #no change
+               family = gaussian, data = matglmm) #no change from vpdglm2
+vpdglm5 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+                data = matglmm, REML=F) #vpdglm5 better
 
 #WS
 wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
               family = gaussian, data = matglmm)
+wsglm5 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F) #does not converge
 
 #no changes in significances, but AIC the same or slightly lower from before broad matrix categories
 
@@ -823,17 +839,17 @@ wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
 
 
 ####how do columns other than dist interact with variables? viz
-ggplot(forglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_point() + geom_smooth()
 
-ggplot(forglmm,aes(x = edge_orient.f,y=percentst_diff)) + geom_point() + geom_smooth()
-ggplot(forglmm,aes(x = matrix_type.f,y=percentst_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = edge_orient.f,y=percentst_diff)) + geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentst_diff))+ geom_point() + geom_smooth()
 
-ggplot(forglmm,aes(x = matrix_type.f,y=percentsm_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentsm_diff))+ geom_point() + geom_smooth()
 
-ggplot(forglmm,aes(x = matrix_type.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
-ggplot(forglmm,aes(x = edge_orient.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = edge_orient.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
 
-ggplot(forglmm,aes(x = matrix_type.f,y=percentws_diff)) + geom_point()+ geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentws_diff)) + geom_point()+ geom_smooth()
 
 
 
@@ -1094,4 +1110,10 @@ w <- variances2 %>% group_by(article.id)
 w2 <- summarize(w,types=first(type))
 w3 <- data.frame(table(unlist(w2$types)))
 
+
+
+
+###how many studies with data?
+withat <- matglmm %>% group_by(article.id) %>% count(percent_diff) %>% count(article.id)
+length(withat$article.id)
 
