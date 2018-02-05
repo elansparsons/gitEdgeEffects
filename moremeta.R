@@ -839,17 +839,17 @@ wsglm5 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|a
 
 
 ####how do columns other than dist interact with variables? viz
-ggplot(matglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient.f))
 
-ggplot(matglmm,aes(x = edge_orient.f,y=percentst_diff)) + geom_point() + geom_smooth()
-ggplot(matglmm,aes(x = matrix_type.f,y=percentst_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = edge_orient.f,y=percentst_diff)) + geom_boxplot(aes(group=edge_orient.f))
+ggplot(matglmm,aes(x = matrix_type.f,y=percentst_diff))+ geom_boxplot(aes(group=matrix_type.f))
 
-ggplot(matglmm,aes(x = matrix_type.f,y=percentsm_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentsm_diff))+ ggeom_boxplot(aes(group=matrix_type.f))
 
-ggplot(matglmm,aes(x = matrix_type.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
-ggplot(matglmm,aes(x = edge_orient.f,y=percentVPD_diff))+ geom_point() + geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentVPD_diff))+ geom_boxplot(aes(group=matrix_type.f))
+ggplot(matglmm,aes(x = edge_orient.f,y=percentVPD_diff))+ geom_boxplot(aes(group=edge_orient.f))
 
-ggplot(matglmm,aes(x = matrix_type.f,y=percentws_diff)) + geom_point()+ geom_smooth()
+ggplot(matglmm,aes(x = matrix_type.f,y=percentws_diff)) + geom_boxplot(aes(group=matrix_type.f))
 
 
 
