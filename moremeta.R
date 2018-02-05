@@ -767,6 +767,8 @@ broadmat$matrix_type[broadmat$matrix_type == "meadow"] <- "grass"
 broadmat$matrix_type[broadmat$matrix_type == "clearing"] <- "grass"
 broadmat$matrix_type[broadmat$matrix_type == "field"] <- "grass"
 broadmat$matrix_type[broadmat$matrix_type == "grassland"] <- "grass"
+broadmat$matrix_type[broadmat$matrix_type == "pasture"] <- "grass"
+
 #sugarcane field = "ag.field"
 broadmat$matrix_type[broadmat$matrix_type == "sugarcane.field"] <- "ag.field"
 #prairie = "savanna"
@@ -774,6 +776,7 @@ broadmat$matrix_type[broadmat$matrix_type == "prairie"] <- "savanna"
 #pine plantation, eucalyptus farm= "plantation"
 broadmat$matrix_type[broadmat$matrix_type == "pine.plantation"] <- "plantation"
 broadmat$matrix_type[broadmat$matrix_type == "eucalyptus.farm"] <- "plantation"
+broadmat$matrix_type[broadmat$matrix_type == "stand"] <- "plantation"
 
 
 forcart <- broadmat[,-c(1,2,4,5,11,12,13,14,15,17,18,20,21,23,24,26,27,29,30)]
@@ -839,17 +842,17 @@ wsglm5 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|a
 
 
 ####how do columns other than dist interact with variables? viz
-ggplot(matglmm,aes(x = edge_orient.f,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient.f))
+ggplot(broadmat,aes(x = edge_orient,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
 
-ggplot(matglmm,aes(x = edge_orient.f,y=percentst_diff)) + geom_boxplot(aes(group=edge_orient.f))
-ggplot(matglmm,aes(x = matrix_type.f,y=percentst_diff))+ geom_boxplot(aes(group=matrix_type.f))
+ggplot(broadmat,aes(x = edge_orient,y=percentst_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
+ggplot(broadmat,aes(x = matrix_type,y=percentst_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
 
-ggplot(matglmm,aes(x = matrix_type.f,y=percentsm_diff))+ ggeom_boxplot(aes(group=matrix_type.f))
+ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
 
-ggplot(matglmm,aes(x = matrix_type.f,y=percentVPD_diff))+ geom_boxplot(aes(group=matrix_type.f))
-ggplot(matglmm,aes(x = edge_orient.f,y=percentVPD_diff))+ geom_boxplot(aes(group=edge_orient.f))
+ggplot(broadmat,aes(x = matrix_type,y=percentVPD_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
+ggplot(broadmat,aes(x = edge_orient,y=percentVPD_diff))+ geom_boxplot(aes(group=edge_orient))+ theme(axis.text.x = element_text(angle=90))
 
-ggplot(matglmm,aes(x = matrix_type.f,y=percentws_diff)) + geom_boxplot(aes(group=matrix_type.f))
+ggplot(broadmat,aes(x = matrix_type,y=percentws_diff)) + geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
 
 
 
