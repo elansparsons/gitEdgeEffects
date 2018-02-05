@@ -87,6 +87,8 @@ transect.types
 sorted.hab <- as.data.frame(sort(table(unlist(begin$biome)),decreasing=T))
 biomes <- as.data.frame(sort(table(unlist(begin$broad)),decreasing=T))
 biomes$percent <- round(((biomes$Freq/71)*100), digits = 0)
+biomes$withdata <- c(24,14,1)
+biomes$percentwith <- round(((biomes$withdata/39)*100),digits=0)
 
 biopal <- c("#5DADE2","#F9E79F","#1E8449","#EC7063")
 
