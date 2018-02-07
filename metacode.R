@@ -90,7 +90,14 @@ biomes$percent <- round(((biomes$Freq/71)*100), digits = 0)
 biomes$withdata <- c(24,14,1)
 biomes$percentwith <- round(((biomes$withdata/39)*100),digits=0)
 
-biopal <- c("#5DADE2","#F9E79F","#1E8449","#EC7063")
+forbarplot <- biomes[,c(1,2,4)] %>% gather(key="type",value="number",Freq:withdata)
+ 
+ggplot(forbarplot) + geom_col(aes(x=Var1,y=number,fill=type)) + scale_fill_manual(values=biopal,name="Abiotic Edge\nEffects",labels=c("Total","With data")) +
+  labs(x="Biome type",y="Number of studies")
+
+biopal <- c("#33ccff","#000099")
+
+
 
 cited.biomes <- ggplot(begin, aes(x=broad, y=citations, fill=broad)) + geom_col() + theme_classic()
 cited.biomes + scale_fill_manual(values=biopal) + theme(legend.position = "none")
@@ -153,6 +160,7 @@ dates$days[13] <- 12 #fix entry issue where end.date and start.date were swapped
 
 hist(dates$days)
 hist(dates$days,breaks=60,xlim=c(0,100))
+hist(dates$days, breaks=120,xlim=c(0,30))
 
 dates$year <- ifelse(!is.na(dates$end.date), substring(dates$end.date,1,4), 
                      substring(dates$end.date.2,1,4))
