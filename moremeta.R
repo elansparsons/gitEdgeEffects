@@ -1120,3 +1120,16 @@ w3 <- data.frame(table(unlist(w2$types)))
 withat <- matglmm %>% group_by(article.id) %>% count(percent_diff) %>% count(article.id)
 length(withat$article.id)
 
+
+###making heatmaps with loess
+
+curveat <- with(combined5,loess.smooth(just.dist,percent_diff))
+
+plot(percent_diff ~ just.dist,data=combined5)
+with(combined5, lines(loess.smooth(just.dist,percent_diff),col="red"))
+
+curveatmat <-data.matrix(as.data.frame(curveat))
+curveatdat <- as.data.frame(curveat)
+
+atheat <-heatmap(curveatmat,Rowv=NA,Colv=NA,col=heat.colors(256),scale="column",margins=c(5,5))
+ggplot(data=curveatdat,aes(x=x,y=y)) +geom_tile(aes(fill=y))
