@@ -798,36 +798,54 @@ atglm4 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
 #mixed
 atglm5 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                data = matglmm, REML=F) #atglm5 slightly better
+atglm6 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+               data = matglmm, REML=F) #edge age increases AIC value 300+
 
 #RH
 rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #no change from rhglm2
 rhglm5 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                data = matglmm, REML=F) #rhglm5 better
+rhglm6 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+               data = matglmm, REML=F) #edge age increases AIC value 200+
 
 #ST
 stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #stglm2 better fit, stglm2 shows matrix and orientation more significant
 stglm5 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                data = matglmm, REML=F) #stglm4 better
+stglm6 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+               data = matglmm, REML=F) #edge age increases AIC value 30+
 
 #SM
 smglm4 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #no change from smglm2
 smglm5 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                data = matglmm, REML=F) #smglm5 much better
+smglm6 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+               data = matglmm, REML=F) #edge age decreases AIC value 50+
+smglm7 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years,
+              family = gaussian, data = matglmm) #better than smglm4, less missingness
 
 #PAR
 parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
                family = gaussian, data = matglmm) #no change from parglm2
 parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                 data = matglmm, REML=F) #parglm4 a bit better
+parglm6 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+                data = matglmm, REML=F) #does not run, =1 level
+
 
 #VPD
 vpdglm4 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
                family = gaussian, data = matglmm) #no change from vpdglm2
 vpdglm5 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                 data = matglmm, REML=F) #vpdglm5 better
+vpdglm6 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+                data = matglmm, REML=F) #edge age decreases AIC value 2
+vpdglm7 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years,
+               family = gaussian, data = matglmm) #better than vpdglm4, more missingness
+
 
 #WS
 wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
