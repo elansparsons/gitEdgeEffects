@@ -800,6 +800,8 @@ atglm5 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|art
                data = matglmm, REML=F) #atglm5 slightly better
 atglm6 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) #edge age increases AIC value 300+
+atglm7 <- lmer(percent_diff ~ just.dist + matrix_type.f + (1|article.id),
+                         data = matglmm, REML=F)
 
 #RH
 rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
@@ -808,6 +810,8 @@ rhglm5 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|a
                data = matglmm, REML=F) #rhglm5 better
 rhglm6 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) #edge age increases AIC value 200+
+rhglm7 <- lmer(percentrh_diff ~ just.dist + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
 
 #ST
 stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
@@ -834,6 +838,8 @@ parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1
                 data = matglmm, REML=F) #parglm4 a bit better
 parglm6 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                 data = matglmm, REML=F) #does not run, =1 level
+parglm7 <- glm(percentPAR_diff ~ just.dist + edge_orient.f,
+               family = gaussian, data = matglmm)
 
 
 #VPD
@@ -852,6 +858,8 @@ wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
               family = gaussian, data = matglmm)
 wsglm5 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
                data = matglmm, REML=F) #does not converge
+wsglm7 <- glm(percentws_diff ~ just.dist + matrix_type.f + edge_age_years,
+              family = gaussian, data = matglmm) #BEST
 
 #no changes in significances, but AIC the same or slightly lower from before broad matrix categories
 
@@ -1135,8 +1143,52 @@ w3 <- data.frame(table(unlist(w2$types)))
 
 
 ###how many studies with data?
-withat <- matglmm %>% group_by(article.id) %>% count(percent_diff) %>% count(article.id)
-length(withat$article.id)
+length(unique(matglmm$article.id))
+length(unique(matglmm$article.id[!is.na(matglmm$just.dist)]))
+length(unique(matglmm$article.id[!is.na(matglmm$matrix_type.f)]))
+length(unique(matglmm$article.id[!is.na(matglmm$edge_orient.f)]))
+length(unique(matglmm$article.id[!is.na(matglmm$edge_age_years)]))
+
+length(unique(matglmm$article.id[!is.na(matglmm$percent_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percent_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percent_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percent_diff)) & (!is.na(matglmm$edge_age_years))]))
+
+length(unique(matglmm$article.id[!is.na(matglmm$percentrh_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentrh_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentrh_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentrh_diff)) & (!is.na(matglmm$edge_age_years))]))
+
+
+length(unique(matglmm$article.id[!is.na(matglmm$percentst_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentst_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentst_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentst_diff)) & (!is.na(matglmm$edge_age_years))]))
+
+
+length(unique(matglmm$article.id[!is.na(matglmm$percentsm_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentsm_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentsm_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentsm_diff)) & (!is.na(matglmm$edge_age_years))]))
+
+
+length(unique(matglmm$article.id[!is.na(matglmm$percentPAR_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentPAR_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentPAR_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentPAR_diff)) & (!is.na(matglmm$edge_age_years))]))
+
+
+length(unique(matglmm$article.id[!is.na(matglmm$percentVPD_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentVPD_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentVPD_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentVPD_diff)) & (!is.na(matglmm$edge_age_years))]))
+
+
+length(unique(matglmm$article.id[!is.na(matglmm$percentws_diff)]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentws_diff)) & (!is.na(matglmm$matrix_type.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentws_diff)) & (!is.na(matglmm$edge_orient.f))]))
+length(unique(matglmm$article.id[(!is.na(matglmm$percentws_diff)) & (!is.na(matglmm$edge_age_years))]))
+
 
 
 ###making heatmaps with loess
