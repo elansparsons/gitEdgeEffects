@@ -110,7 +110,7 @@ smlat <- glm(prosm_diff ~ just.dist + simple.lat, family = gaussian, data = forl
 smlat2 <- glm(prosm_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 wslat <- glm(prows_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
-swslat2 <- glm(prows_diff ~ simple.lat, family = gaussian, data = forlatglm)
+wslat2 <- glm(prows_diff ~ simple.lat, family = gaussian, data = forlatglm)
 
 parlat <- glm(propar_diff ~ just.dist + simple.lat, family = gaussian, data = forlatglm)
 parlat2 <- glm(propar_diff ~ simple.lat, family = gaussian, data = forlatglm)
