@@ -486,6 +486,26 @@ aa <- ggplot(combined5,aes(x = just.dist)) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+aab <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Temperature and humidity")+
+  geom_point(aes(y=percent_diff), color = "lightslateblue") +
+  geom_point(aes(y=percentrh_diff), color = "indianred3") +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+aabb <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("VPD")+
+  geom_point(aes(y=percentVPD_diff), color = "lightslateblue") +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250))
 
 ab <- ggplot(combined5,aes(x = just.dist)) +
@@ -493,6 +513,17 @@ ab <- ggplot(combined5,aes(x = just.dist)) +
   ggtitle("Soil")+
   geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0) +
   geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+abb <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil")+
+  geom_point(aes(y=percentsm_diff), color = "turquoise3") +
+  geom_point(aes(y=percentst_diff), color = "goldenrod2") +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -505,6 +536,16 @@ ac <- ggplot(combined5,aes(x = just.dist)) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+acb <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Light")+
+  geom_point(aes(y=percentPAR_diff), color = "maroon2") +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250))
 
 ad <- ggplot(combined5,aes(x = just.dist)) +
@@ -514,12 +555,48 @@ ad <- ggplot(combined5,aes(x = just.dist)) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+adb <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Wind")+
+  geom_point(aes(y=percentws_diff), color = "thistle4") +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250))
 
 grid.arrange(aa,ab,ac,ad,ncol=2,nrow=2)
 
 ggplot(combined5,aes(y=percent_diff,x=just.dist)) + geom_point(color="green") +
   geom_smooth(color="blue")
+
+ae <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil")+
+  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0) +
+  geom_point(aes(y=percentsm_diff, fill = article.id)) +
+  geom_text(aes(y=percentsm_diff, label= article.id)) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+#remove article 29 from SM due to high influence on LOESS
+sminf <- c(29,43)
+
+smrem <- combined5[!(combined5$article.id %in% sminf),]
+
+aea <- ggplot(smrem,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil")+
+  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
 
 
 
@@ -797,7 +874,7 @@ atglm4 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #atglm2 better fit
 #mixed
 atglm5 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #atglm5 slightly better
+               data = matglmm, REML=F) #atglm5 slightly better #BEST
 atglm6 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) #edge age increases AIC value 300+
 atglm7 <- lmer(percent_diff ~ just.dist + matrix_type.f + (1|article.id),
@@ -807,7 +884,7 @@ atglm7 <- lmer(percent_diff ~ just.dist + matrix_type.f + (1|article.id),
 rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #no change from rhglm2
 rhglm5 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #rhglm5 better
+               data = matglmm, REML=F) #rhglm5 better #BEST
 rhglm6 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) #edge age increases AIC value 200+
 rhglm7 <- lmer(percentrh_diff ~ just.dist + edge_orient.f + (1|article.id),
@@ -817,7 +894,7 @@ rhglm7 <- lmer(percentrh_diff ~ just.dist + edge_orient.f + (1|article.id),
 stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #stglm2 better fit, stglm2 shows matrix and orientation more significant
 stglm5 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #stglm4 better
+               data = matglmm, REML=F) #stglm4 better #BEST
 stglm6 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) #edge age increases AIC value 30+
 
@@ -825,7 +902,7 @@ stglm6 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_age_years + (1|
 smglm4 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm) #no change from smglm2
 smglm5 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #smglm5 much better
+               data = matglmm, REML=F) #smglm5 much better #BEST
 smglm6 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) #edge age decreases AIC value 50+
 smglm7 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years,
@@ -835,7 +912,7 @@ smglm7 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years,
 parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
                family = gaussian, data = matglmm) #no change from parglm2
 parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-                data = matglmm, REML=F) #parglm4 a bit better
+                data = matglmm, REML=F) #parglm4 a bit better #BEST
 parglm6 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
                 data = matglmm, REML=F) #does not run, =1 level
 parglm7 <- glm(percentPAR_diff ~ just.dist + edge_orient.f,
@@ -846,9 +923,9 @@ parglm7 <- glm(percentPAR_diff ~ just.dist + edge_orient.f,
 vpdglm4 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
                family = gaussian, data = matglmm) #no change from vpdglm2
 vpdglm5 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-                data = matglmm, REML=F) #vpdglm5 better
+                data = matglmm, REML=F) #vpdglm5 better 
 vpdglm6 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-                data = matglmm, REML=F) #edge age decreases AIC value 2
+                data = matglmm, REML=F) #edge age decreases AIC value 2 #BEST
 vpdglm7 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years,
                family = gaussian, data = matglmm) #better than vpdglm4, more missingness
 
