@@ -35,11 +35,14 @@ colnames(sep)[c(3,4,5,16,17,18)] <- c("just.temp","just.dist","just.diff","max.a
 sep$full_diff <- ifelse(is.na(sep$just.diff), sep$full_diff <- sep$just.temp - sep$max.airtemp, NA)
 sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep$just.diff - sep$max.diff, NA)
 
+
 #combine columns of correct data into single
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$full_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$full_diff)
 #fix id 55
 sep$full_diff[sep$article.id == 55] <- sep$just.diff[sep$article.id == 55]
+#for later comparison to thermal tolerances
+sepAT <- sep
 #divide to make everything relative
 sep$percent_diff <- round((sep$full_diff/sep$max.airtemp)*100)
 #minimize to single transect per article
@@ -128,6 +131,9 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullrh_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullrh_diff)
 
+#for later comparison to thermal tolerances
+sepRH <- sep
+
 #divide to make everything relative
 sep$percentrh_diff <- ifelse(!is.na(sep$percent_diff),sep$percent_diff,round((sep$fullrh_diff/sep$max.humid)*100))
 #minimize to single transect per article
@@ -183,6 +189,9 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullst_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullst_diff)
 
+#for later comparison to thermal tolerances
+sepST <- sep
+
 #divide to make everything relative
 sep$percentst_diff <- ifelse(!is.na(sep$percent_diff),sep$percent_diff,round((sep$fullst_diff/sep$max.temp)*100))
 #minimize to single transect per article
@@ -236,6 +245,9 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 #combine columns of correct data into single
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullsm_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullsm_diff)
+
+#for later comparison to thermal tolerances
+sepSM <- sep
 
 #divide to make everything relative
 sep$percentsm_diff <- ifelse(!is.na(sep$percent_diff),sep$percent_diff,round((sep$fullsm_diff/sep$max.humid)*100))
@@ -299,6 +311,9 @@ sep$fullPAR_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullPAR_di
 sep$fullPAR_diff <- ifelse(!is.na(sep$fullPAR_diff), sep$fullPAR_diff,sep$log_value.x)
 sep$fullPAR_diff <- ifelse(!is.na(sep$fullPAR_diff), sep$fullPAR_diff,sep$percent_diff)
 
+#for later comparison to thermal tolerances
+sepPAR <- sep
+
 #divide to make everything relative
 sep$percentPAR_diff <- ifelse(!is.na(sep$percent_diff),sep$percent_diff,round((sep$fullPAR_diff/sep$max.PAR)*100))
 #minimize to single transect per article
@@ -348,6 +363,9 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 #combine columns of correct data into single
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullVPD_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullVPD_diff)
+
+#for later comparison to thermal tolerances
+sepVPD <- sep
 
 #divide to make everything relative
 sep$percentVPD_diff <- ifelse(!is.na(sep$percent_diff),sep$percent_diff,round((sep$fullVPD_diff/sep$max.vpd)*100))
@@ -403,6 +421,9 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 #combine columns of correct data into single
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullws_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullws_diff)
+
+#for later comparison to thermal tolerances
+sepWS <- sep
 
 #divide to make everything relative
 sep$percentws_diff <- ifelse(!is.na(sep$percent_diff),sep$percent_diff,round((sep$fullws_diff/sep$max.ws)*100))
@@ -837,7 +858,7 @@ wsglm3 <- glm(percentws_diff ~ just.dist + matrix_type.f,
              family = gaussian, data = withoutforglmm) #no change
 
 
-###grouping matrices into similar? without 1 ha
+###grouping matrices into similar?
 #grass, meadow, clearing, pasture, field, grassland = "grass"
 broadmat <- vardata
 broadmat$matrix_type[broadmat$matrix_type == "meadow"] <- "grass"
@@ -944,20 +965,14 @@ wsglm7 <- glm(percentws_diff ~ just.dist + matrix_type.f + edge_age_years,
 
 
 
-####how do columns other than dist interact with variables? viz
+####how do significant columns other than dist interact with variables? viz
+
 ggplot(broadmat,aes(x = edge_orient,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
 
-ggplot(broadmat,aes(x = edge_orient,y=percentst_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
-ggplot(broadmat,aes(x = matrix_type,y=percentst_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
-
 ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
+ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=edge_age))+ theme(axis.text.x = element_text(angle=90))
 
-ggplot(broadmat,aes(x = matrix_type,y=percentVPD_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
-ggplot(broadmat,aes(x = edge_orient,y=percentVPD_diff))+ geom_boxplot(aes(group=edge_orient))+ theme(axis.text.x = element_text(angle=90))
-
-ggplot(broadmat,aes(x = matrix_type,y=percentws_diff)) + geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
-
-
+ggplot(broadmat,aes(x = edge_orient,y=percentVPD_diff))+ geom_boxplot(aes(group=edge_age))+ theme(axis.text.x = element_text(angle=90))
 
 
 
@@ -1280,3 +1295,26 @@ curveatdat <- as.data.frame(curveat)
 
 atheat <-heatmap(curveatmat,Rowv=NA,Colv=NA,col=heat.colors(256),scale="column",margins=c(5,5))
 ggplot(data=curveatdat,aes(x=x,y=y)) +geom_tile(aes(fill=y))
+
+#find actual abiota measurements
+biomes <- mergedrefined8[,c(1,96)]
+
+#AT
+#merge with biomes
+sepAT <- merge(sepAT,biomes,by="article.id", all = FALSE)
+#avg int temp per biome
+avgbiome <- sepAT %>% group_by(broad) %>% summarize(avg=round(mean(max.airtemp,na.rm=T),2),five=round(avg*0.05,2),ten=round(avg*0.1,2)) #no data for actual boreal temps, just changes
+#at or less than 5% change
+#no interior points
+sepATdist <- sepAT[!(sepAT$just.dist == sepAT$max.dist),]
+fivechangesAT <- sepATdist[abs(sepATdist$full_diff/sepATdist$max.airtemp) <= 0.05,]
+fivechangesAT <- fivechangesAT[!is.na(fivechangesAT$article.id),]
+#where only other.diff exists
+fivechangesAT2 <- sepATdist[abs(sepATdist$other.diff/sepATdist$max.diff) <= 0.05,]
+fivechangesAT2 <- fivechangesAT2[!is.na(fivechangesAT2$article.id),]
+#per biome
+ATbor <- rbind(fivechangesAT[fivechangesAT$broad=="boreal",], fivechangesAT2[fivechangesAT2$broad=="boreal",])
+ATtemp <- rbind(fivechangesAT[fivechangesAT$broad=="temperate",],fivechangesAT2[fivechangesAT2$broad=="temperate",])
+ATtrop <- rbind(fivechangesAT[fivechangesAT$broad=="tropical",],fivechangesAT2[fivechangesAT2$broad=="tropical",])
+
+

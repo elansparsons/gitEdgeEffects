@@ -104,7 +104,7 @@ cited.biomes + scale_fill_manual(values=biopal) + theme(legend.position = "none"
 
 ###citations
 #by biome
-length(mergedrefined8[mergedrefined8$`was cited before`,]) #96
+nrow(mergedrefined8[mergedrefined8$citations > 0,]) #63
 cite.biome <- mergedrefined8 %>% group_by(broad) %>% summarize(sum(citations)) #all studies
 
 length(unique(mergedrefined8$article.id[mergedrefined8$broad=="temperate"]))
