@@ -131,7 +131,7 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullrh_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullrh_diff)
 
-#for later comparison to thermal tolerances
+#for later comparison to tolerances
 sepRH <- sep
 
 #divide to make everything relative
@@ -189,7 +189,7 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullst_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullst_diff)
 
-#for later comparison to thermal tolerances
+#for later comparison to tolerances
 sepST <- sep
 
 #divide to make everything relative
@@ -246,7 +246,7 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullsm_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullsm_diff)
 
-#for later comparison to thermal tolerances
+#for later comparison to tolerances
 sepSM <- sep
 
 #divide to make everything relative
@@ -311,7 +311,7 @@ sep$fullPAR_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullPAR_di
 sep$fullPAR_diff <- ifelse(!is.na(sep$fullPAR_diff), sep$fullPAR_diff,sep$log_value.x)
 sep$fullPAR_diff <- ifelse(!is.na(sep$fullPAR_diff), sep$fullPAR_diff,sep$percent_diff)
 
-#for later comparison to thermal tolerances
+#for later comparison to tolerances
 sepPAR <- sep
 
 #divide to make everything relative
@@ -364,7 +364,7 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullVPD_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullVPD_diff)
 
-#for later comparison to thermal tolerances
+#for later comparison to tolerances
 sepVPD <- sep
 
 #divide to make everything relative
@@ -422,7 +422,7 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge",sep$other.diff <- sep
 sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$other.diff <- sep$just.diff)
 sep$fullws_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$fullws_diff)
 
-#for later comparison to thermal tolerances
+#for later comparison to tolerances
 sepWS <- sep
 
 #divide to make everything relative
