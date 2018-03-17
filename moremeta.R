@@ -952,6 +952,8 @@ smglm8 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + (1|article.id),
                data = matglmm, REML=F)
 smglm9 <- lmer(percentsm_diff ~ just.dist * matrix_type.f + (1|article.id),
                data = matglmm, REML=F) #BEST
+smglm11 <- lmer(percentsm_diff ~ just.dist + edge_age_years + (1|article.id),
+                data = matglmm, REML=F) 
 
 #PAR
 parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
