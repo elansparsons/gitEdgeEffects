@@ -1,15 +1,16 @@
+#Quantitative data only
+
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(stringr)
 library(gridExtra)
 library(lme4)
+library(MASS)
 
 AT <- AT_seg
 
-#newmeta
-
-###########air temperature
+###########air temperature ####
 rem <- c(-30,-25,-20,-15)
 AT <- AT[!AT$dist %in% rem,] #all -30,-20,-15 distances unnecessary
 
@@ -102,7 +103,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percent_diff,n=10))
  
 
-#######################relative humidity
+#######################relative humidity ####
 
 RH <- RH_seg
 
@@ -164,7 +165,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 
 
-###########################soil temperature
+###########################soil temperature ####
 
 ST <- ST_seg
 
@@ -221,7 +222,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
   scale_x_continuous(breaks=pretty(short$just.dist,n=30)) + scale_y_continuous(breaks=pretty(short$percentst_diff,n=10))
 
 
-############################soil moisture
+############################soil moisture ####
 
 SM <- SM_seg
 
@@ -279,7 +280,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 
 
-###########################photosynthetically active radiation
+###########################photosynthetically active radiation ####
 
 PAR <- PAR_seg
 
@@ -339,7 +340,7 @@ relative + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cart
   scale_x_continuous(breaks=pretty(short$just.dist,n=30))
 
 
-##########################vapor pressure deficit
+##########################vapor pressure deficit ####
 
 VPD <- VPD_seg
 
@@ -397,7 +398,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 
 
-##########################wind speed
+##########################wind speed ####
 
 WS <- WS_seg
 
@@ -460,7 +461,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 
 
-#################COMBINE ALL
+#################COMBINE ALL ####
 combined <- merge(short, short.par[,c(1,2,3,10,11,12,13)], by = c("article.id","segment_n","just.dist","idseg"), all=TRUE)
 combined1 <- merge(combined, short.rh[,c(1,2,3,9,10,12,13)], by = c("article.id","segment_n","just.dist","idseg"), all=TRUE)
 combined2 <- merge(combined1, short.sm[,c(1,2,3,9,10,12,13)], by = c("article.id","segment_n","just.dist","idseg"), all=TRUE)
@@ -480,7 +481,7 @@ write.csv(combined5,"vardata.csv",row.names = F)
 length(unique(vardata$article.id))
 
 
-#basic graph of all variables
+#basic graphs of all variables ####
 ggplot(combined5,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentrh_diff), color = "red",alpha=0) +
@@ -622,10 +623,7 @@ aea <- ggplot(smrem,aes(x = just.dist)) +
 
 
 
-########modeling
-
-library(MASS)
-library(lme4)
+########initial modeling ####
 
 
 
@@ -858,7 +856,7 @@ wsglm3 <- glm(percentws_diff ~ just.dist + matrix_type.f,
              family = gaussian, data = withoutforglmm) #no change
 
 
-###grouping matrices into similar?
+###grouping matrices into similar? ####
 #grass, meadow, clearing, pasture, field, grassland = "grass"
 broadmat <- vardata
 broadmat$matrix_type[broadmat$matrix_type == "meadow"] <- "grass"
@@ -890,7 +888,7 @@ broadmat$edge_orient.f <- as.integer(as.factor(broadmat$edge_orient))
 matglmm <- cbind(broadmat[,c(1,2,3,10,32,33,34)],mixedvar)
 matglmm <- matglmm[!matglmm$article.id %in% oneha,]
 
-#AT
+#AT GLMMS ####
 atglm4 <- glm(percent_diff ~ just.dist * matrix_type.f,
               family = gaussian, data = matglmm)
 #mixed
@@ -905,7 +903,7 @@ atglm8 <- lmer(percent_diff ~ just.dist * matrix_type.f + (1|article.id),
 atglm9 <- lmer(percent_diff ~ just.dist * edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
 
-#RH
+#RH GLMMS ####
 rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm)
 rhglm9 <- glm(percentrh_diff ~ just.dist + edge_orient.f,
@@ -919,7 +917,7 @@ rhglm7 <- lmer(percentrh_diff ~ just.dist + edge_orient.f + (1|article.id),
 rhglm8 <- lmer(percentrh_diff ~ just.dist * edge_orient.f + (1|article.id),
                          data = matglmm, REML=F)
 
-#ST
+#ST GLMMS ####
 stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm)
 stglm9 <- glm(percentst_diff ~ just.dist * matrix_type.f,
@@ -937,7 +935,7 @@ stglm8 <- lmer(percentst_diff ~ just.dist * matrix_type.f + (1|article.id),
 stglm10 <- lmer(percentst_diff ~ just.dist + matrix_type.f + (1|article.id),
                data = matglmm, REML=F) #BEST
 
-#SM
+#SM GLMMS ####
 smglm4 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
               family = gaussian, data = matglmm)
 smglm10 <- glm(percentsm_diff ~ just.dist * matrix_type.f,
@@ -955,7 +953,7 @@ smglm9 <- lmer(percentsm_diff ~ just.dist * matrix_type.f + (1|article.id),
 smglm11 <- lmer(percentsm_diff ~ just.dist + edge_age_years + (1|article.id),
                 data = matglmm, REML=F) 
 
-#PAR
+#PAR GLMMS ####
 parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
                family = gaussian, data = matglmm) #no change from parglm2
 parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
@@ -976,7 +974,7 @@ parglm12 <- glm(percentPAR_diff ~ just.dist + edge_orient.f,
                 family = gaussian, data = matglmm) 
 
 
-#VPD
+#VPD GLMMS ####
 vpdglm4 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
                family = gaussian, data = matglmm) #no change from vpdglm2
 vpdglm5 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
@@ -993,7 +991,7 @@ vpdglm10 <- glm(percentVPD_diff ~ just.dist * edge_age_years,
                 family = gaussian, data = matglmm)
 
 
-#WS
+#WS GLMMS ####
 wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
               family = gaussian, data = matglmm)
 wsglm5 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
@@ -1012,7 +1010,7 @@ wsglm10 <- glm(percentws_diff ~ just.dist * matrix_type.f,
 
 
 
-####how do significant columns other than dist interact with variables? viz
+####how do significant columns other than dist interact with variables? viz ####
 
 ggplot(broadmat,aes(x = edge_orient,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
 
@@ -1023,7 +1021,7 @@ ggplot(broadmat,aes(x = edge_age_years,y=percentVPD_diff))+ geom_smooth(method="
 
 
 
-#############variances
+#############variances ####
 
 library(dplyr)
 
@@ -1230,7 +1228,6 @@ allvar6 <- merge(allvar5, short.ws[,c(1,2,3,8,9,10)], by = c("article.id","segme
 write.csv(allvar6,"allvariances.csv")
 
 
-library(ggplot2)
 
 ggplot(allvar6,aes(x = just.dist)) +
   geom_smooth(aes(y=varpercent.at), color = "green",alpha=0) +
@@ -1263,7 +1260,6 @@ ggplot(no25,aes(x = just.dist)) +
 
 
 
-library(tidyr)
 
 #shorten for simplicity
 allvar7 <- allvar6[,-c(9,12,15,18,21,24,27)]
@@ -1280,7 +1276,7 @@ w3 <- data.frame(table(unlist(w2$types)))
 
 
 
-###how many studies with data?
+###how many studies with data? ####
 length(unique(matglmm$article.id))
 length(unique(matglmm$article.id[!is.na(matglmm$just.dist)]))
 length(unique(matglmm$article.id[!is.na(matglmm$matrix_type.f)]))
@@ -1329,7 +1325,7 @@ length(unique(matglmm$article.id[(!is.na(matglmm$percentws_diff)) & (!is.na(matg
 
 
 
-###making heatmaps with loess
+###making heatmaps with loess ####
 
 curveat <- with(combined5,loess.smooth(just.dist,percent_diff))
 
@@ -1342,7 +1338,7 @@ curveatdat <- as.data.frame(curveat)
 atheat <-heatmap(curveatmat,Rowv=NA,Colv=NA,col=heat.colors(256),scale="column",margins=c(5,5))
 ggplot(data=curveatdat,aes(x=x,y=y)) +geom_tile(aes(fill=y))
 
-#find actual abiota measurements
+#find actual abiota measurements ####
 biomes <- mergedrefined8[,c(1,96)]
 
 #AT

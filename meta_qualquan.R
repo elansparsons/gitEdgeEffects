@@ -1,3 +1,5 @@
+#Combined qualitative and quantitative data
+
 library(reshape2)
 library(ggplot2)
 library(gridExtra)
@@ -8,7 +10,7 @@ qualquan <- merge(vardata,mergedrefined8,by="article.id", all = TRUE)
 
 
 
-#graph by broad region
+#graph by broad region ####
 quanonly <- qualquan[!is.na(qualquan$just.dist),]
 
 tropics <- qualquan[quanonly$broad == "tropical",]
@@ -17,7 +19,7 @@ boreal <- qualquan[quanonly$broad == "boreal",]
 
 temperate <- qualquan[quanonly$broad == "temperate",]
 
-#citations, with data
+#citations, with data ####
 quanbroad <- unique(quanonly[,c(1,36,129)])
 length(unique(quanbroad$article.id[quanbroad$broad=="tropical"]))
 length(unique(quanbroad$article.id[quanbroad$broad=="temperate"]))
@@ -28,7 +30,7 @@ quan.cite <- quanbroad %>% group_by(broad) %>% summarize(sum(citations))
 
 
 
-#tropics trends
+#tropics trends ####
 ggplot(tropics,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentws_diff), color = "red",alpha=0) +
@@ -97,7 +99,7 @@ be <- ggplot(tropics,aes(x = just.dist)) +
 
 grid.arrange(ba,bc,bd,be,ncol=2,nrow=2)
 
-#temperate trends
+#temperate trends ####
 ggplot(temperate,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentVPD_diff), color = "blue",alpha=0) +
@@ -166,7 +168,7 @@ ce <- ggplot(temperate,aes(x = just.dist)) +
 
 grid.arrange(ca,cc,cd,ce,ncol=2,nrow=2)
 
-#boreal trends
+#boreal trends ####
 
 ggplot(boreal,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
@@ -231,7 +233,7 @@ de <- ggplot(boreal,aes(x = just.dist)) +
 
 grid.arrange(da,dc,dd,de,ncol=2,nrow=2)
 
-#temperate to compare to boreal
+#temperate to compare to boreal ####
 ggplot(temperate,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentsm_diff), color = "orange",alpha=0) +
@@ -240,7 +242,7 @@ ggplot(temperate,aes(x = just.dist)) +
   geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250),ylim=c(-30,30))
 
-#tropics to compare to boreal
+#tropics to compare to boreal ####
 ggplot(tropics,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentsm_diff), color = "orange",alpha=0) +
@@ -250,7 +252,7 @@ ggplot(tropics,aes(x = just.dist)) +
   coord_cartesian(xlim=c(-10,250),ylim=c(-30,30))
 
 
-#GLM on distance, lat
+#GLM on distance, lat ####
 #remove percentages on quanonly, log to remove neg
 intermed <- log1p((quanonly[,c(6,16,19,22,25,28,31)]/100))
 names(intermed) <- c("proat_diff","propar_diff","prorh_diff","prosm_diff","prost_diff","provpd_diff","prows_diff")
@@ -286,7 +288,7 @@ parlat3 <- glm(propar_diff ~ just.dist * simple.lat, family = gaussian, data = f
 
 summary(lm(proat_diff ~ simple.lat,data=forlatglm))
 
-#graph GLM
+#graph GLM ####
 ggplot(forlatglm,aes(x = simple.lat)) +
   geom_smooth(aes(y=proat_diff),method="glm", color = "green",alpha=0) +
   geom_smooth(aes(y=prorh_diff),method="glm", color = "red",alpha=0) +

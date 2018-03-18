@@ -1,8 +1,11 @@
+#Qualitative data only
+
 library(reshape2)
 library(ggplot2)
 library(forcats)
 library(dplyr)
 library(stringr)
+
 begin <- dcast(mergedrefined7, Article.ID ~ variable, fun=toString, value.var="data")
 names(begin)[names(begin) == "focal area of research (ecophysiology, population ecology, community ecology ecosystem ecology, animal behavior)"] <- "focal.area.of.research"
 cats <- withbroad
@@ -12,7 +15,7 @@ names(begin)[names(begin) == "accession number"] <- "accession.n"
 names(begin)[names(begin) == "Article.ID"] <- "article.id"
 names(begin)[c(9,10)] <- c("archive","arch.y.n")
 
-#data cleaning
+#data cleaning ####
 begin$Municipality[63] <- "Manaus"
 begin[begin=="NA"] <- NA
 begin[begin==""] <- NA
@@ -32,7 +35,7 @@ begin$biome <- tolower(begin$biome)
 
 
 
-#location data
+#location data ####
 length(unique(begin$Country))
 sort(begin$Country)
 a <- ggplot(data = begin, aes(begin$Country))
@@ -61,7 +64,7 @@ simplat <- mergedrefined8[,c(1,41)]
 
 
 
-#variables data
+#variables data ####
 g <- begin[,c("var.1","var.2","var.3","var.4","var.5","var.6","var.7")]
 
 
@@ -78,12 +81,12 @@ l <- as.data.frame(sort(table(j), decreasing =T))
 g$varcombine <- paste(g$var.1,g$var.2,g$var.3,g$var.4,g$var.5,g$var.6,g$var.7)
 i <- g[str_detect(g$varcombine,"(?=.*AT)(?=.*RH)(?=.*VPD)"),] #search by specific string type
 
-#transect info
+#transect info ####
 h <- begin$layout
 transect.types = as.data.frame(sort(table(unlist(h)),decreasing = T))
 transect.types
 
-#habitat info
+#habitat info ####
 sorted.hab <- as.data.frame(sort(table(unlist(begin$biome)),decreasing=T))
 biomes <- as.data.frame(sort(table(unlist(begin$broad)),decreasing=T))
 biomes$percent <- round(((biomes$Freq/71)*100), digits = 0)
@@ -102,7 +105,7 @@ biopal <- c("#33ccff","#000099")
 cited.biomes <- ggplot(begin, aes(x=broad, y=citations, fill=broad)) + geom_col() + theme_classic()
 cited.biomes + scale_fill_manual(values=biopal) + theme(legend.position = "none")
 
-###citations
+###citations ####
 #by biome
 nrow(mergedrefined8[mergedrefined8$citations > 0,]) #63
 cite.biome <- mergedrefined8 %>% group_by(broad) %>% summarize(sum(citations)) #all studies
@@ -140,7 +143,7 @@ english.country <-  as.data.frame(sort(table(english$Country), decreasing=T))
 #Without Portuguese, 864 citations for Brazil, 21 studies ** x=21,y=41
 
 
-##years/time
+##years/time ####
 hist(mergedrefined8$Year,breaks=10)
 mergedrefined8$Year <- as.factor(mergedrefined8$Year)
 years <- mergedrefined8 %>% count(Year)
@@ -168,18 +171,18 @@ dates$year <- as.integer(dates$year)
 hist(dates$year)
 
 
-##archives?
+##archives? ####
 count(mergedrefined8[mergedrefined8$arch.y.n == "Y",1]) #2 of 71
 
-##journal
+##journal ####
 journals <- as.data.frame(sort(table(mergedrefined8$Journal),decreasing=T)) #most common = FEM 6, BC 5
 
-##area, subject of research
+##area, subject of research ####
 barplot(sort(table(mergedrefined8$focal.area.of.research),decreasing=T))
 barplot(sort(table(mergedrefined8$focal.subject.of.research),decreasing=T))
 
 
-##replicates
+##replicates ####
 hist(mergedrefined8$replicates.habitat.1,breaks=10)
 hist(mergedrefined8$replicates.habitat.2)
 sort(table(mergedrefined8$replicates.habitat.1),decreasing=T) # 22 of 71 had only one replicate of first habitat
@@ -196,7 +199,7 @@ replicates$replicates.habitat.4 <- as.factor(replicates$replicates.habitat.4)
 replicates$replicates.habitat.5 <- as.factor(replicates$replicates.habitat.5)
 reps <- replicates %>% count(replicates.habitat.1)
 
-#instruments
+#instruments ####
 sort(table(mergedrefined8$equip.var.1),decreasing=T)
 sort(table(mergedrefined8$equip.var.2),decreasing=T)
 sort(table(mergedrefined8$equip.var.3),decreasing=T)
