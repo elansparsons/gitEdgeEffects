@@ -195,3 +195,12 @@ replicates$replicates.habitat.3 <- as.factor(replicates$replicates.habitat.3)
 replicates$replicates.habitat.4 <- as.factor(replicates$replicates.habitat.4)
 replicates$replicates.habitat.5 <- as.factor(replicates$replicates.habitat.5)
 reps <- replicates %>% count(replicates.habitat.1)
+
+#instruments
+sort(table(mergedrefined8$equip.var.1),decreasing=T)
+sort(table(mergedrefined8$equip.var.2),decreasing=T)
+sort(table(mergedrefined8$equip.var.3),decreasing=T)
+sort(table(mergedrefined8$equip.var.4),decreasing=T)
+sort(table(mergedrefined8$equip.var.5),decreasing=T)
+sort(table(mergedrefined8$equip.var.6),decreasing=T)
+sort(table(mergedrefined8$equip.var.7),decreasing=T)
