@@ -1017,9 +1017,8 @@ wsglm10 <- glm(percentws_diff ~ just.dist * matrix_type.f,
 ggplot(broadmat,aes(x = edge_orient,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
 
 ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
-ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=edge_age))+ theme(axis.text.x = element_text(angle=90))
 
-ggplot(broadmat,aes(x = edge_orient,y=percentVPD_diff))+ geom_boxplot(aes(group=edge_age))+ theme(axis.text.x = element_text(angle=90))
+ggplot(broadmat,aes(x = edge_age_years,y=percentVPD_diff))+ geom_smooth(method="glm")+ theme(axis.text.x = element_text(angle=90))
 
 
 
