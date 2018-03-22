@@ -207,3 +207,14 @@ sort(table(mergedrefined8$equip.var.4),decreasing=T)
 sort(table(mergedrefined8$equip.var.5),decreasing=T)
 sort(table(mergedrefined8$equip.var.6),decreasing=T)
 sort(table(mergedrefined8$equip.var.7),decreasing=T)
+
+#how were edges and interiors determined? ####
+sort(table(cited_info$cited.dist), decreasing=T)
+length(unique(cited_info$article.id)) #21
+
+cited_interiors <- cited_info[cited_info$dist.type=="interior",]
+
+cited_intdist <- cited_interiors[unique(cited_interiors$article.id),]
+cited_intdist <- sort(table(cited_intdist$cited.dist),decreasing=T)
+
+cited_papers <- cited_interiors %>% group_by(article.id,cited.author) %>% unique(cited_interiors$cited.author)

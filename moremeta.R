@@ -1327,16 +1327,60 @@ length(unique(matglmm$article.id[(!is.na(matglmm$percentws_diff)) & (!is.na(matg
 
 ###making heatmaps with loess ####
 
-curveat <- with(combined5,loess.smooth(just.dist,percent_diff))
+distancecats <- c(-10,0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200)
 
-plot(percent_diff ~ just.dist,data=combined5)
-with(combined5, lines(loess.smooth(just.dist,percent_diff),col="red"))
+### AT
+loes <- loess(percent_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
 
-curveatmat <-data.matrix(as.data.frame(curveat))
-curveatdat <- as.data.frame(curveat)
+heatpointsAT <- do.call(rbind,Map(data.frame, distance = distancecats, AT = newpoints))
 
-atheat <-heatmap(curveatmat,Rowv=NA,Colv=NA,col=heat.colors(256),scale="column",margins=c(5,5))
-ggplot(data=curveatdat,aes(x=x,y=y)) +geom_tile(aes(fill=y))
+#export for python
+write.csv(heatpointsAT,"heatpointsAT.csv",row.names = FALSE)
+
+
+
+### RH
+loes <- loess(percentrh_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
+
+heatpointsRH <- do.call(rbind,Map(data.frame, distance = distancecats, RH = newpoints))
+
+#export for python
+write.csv(heatpointsRH,"heatpointsRH.csv",row.names = FALSE)
+
+
+### ST
+loes <- loess(percentst_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
+
+heatpointsST <- do.call(rbind,Map(data.frame, distance = distancecats, ST = newpoints))
+
+### SM
+loes <- loess(percentsm_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
+
+heatpointsSM <- do.call(rbind,Map(data.frame, distance = distancecats, SM = newpoints))
+
+### VPD
+loes <- loess(percentVPD_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
+
+heatpointsVPD <- do.call(rbind,Map(data.frame, distance = distancecats, VPD = newpoints))
+
+### PAR
+loes <- loess(percentPAR_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
+
+heatpointsPAR <- do.call(rbind,Map(data.frame, distance = distancecats, PAR = newpoints))
+
+### WS
+loes <- loess(percentws_diff ~ just.dist,data = vardata)
+newpoints <- predict(loes, newdata = distancecats)
+
+heatpointsWS <- do.call(rbind,Map(data.frame, distance = distancecats, WS = newpoints))
+
+
 
 #find actual abiota measurements ####
 biomes <- mergedrefined8[,c(1,96)]
