@@ -1,10 +1,10 @@
 #Qualitative data only
 
-library(reshape2)
-library(ggplot2)
-library(forcats)
-library(dplyr)
-library(stringr)
+library(reshape2) #Version 0.8.7
+library(ggplot2) #Version 2.2.1
+library(forcats) #Version 0.2.0
+library(dplyr) #Version 0.7.4
+library(stringr) #Version 1.2.0
 
 begin <- dcast(mergedrefined7, Article.ID ~ variable, fun=toString, value.var="data")
 names(begin)[names(begin) == "focal area of research (ecophysiology, population ecology, community ecology ecosystem ecology, animal behavior)"] <- "focal.area.of.research"

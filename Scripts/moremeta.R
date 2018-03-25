@@ -1,12 +1,12 @@
 #Quantitative data only
 
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(stringr)
-library(gridExtra)
-library(lme4)
-library(MASS)
+library(dplyr) #Version 0.7.4
+library(tidyr) #Version 0.7.2
+library(ggplot2) #Version 2.2.1
+library(stringr) #Version 1.2.0
+library(gridExtra) #Version 2.3
+library(lme4) #Version 1.1-14
+library(MASS) #Version 7.3-47
 
 AT <- AT_seg
 

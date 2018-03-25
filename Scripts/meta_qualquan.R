@@ -1,8 +1,8 @@
 #Combined qualitative and quantitative data
 
-library(reshape2)
-library(ggplot2)
-library(gridExtra)
+library(reshape2) #Version 0.8.7
+library(ggplot2) #Version 2.2.1
+library(gridExtra) #Version 2.3
 
 #knit together qualitative & quantitative data
 
@@ -13,11 +13,11 @@ qualquan <- merge(vardata,mergedrefined8,by="article.id", all = TRUE)
 #graph by broad region ####
 quanonly <- qualquan[!is.na(qualquan$just.dist),]
 
-tropics <- qualquan[quanonly$broad == "tropical",]
+tropics <- quanonly[quanonly$broad == "tropical",]
 
-boreal <- qualquan[quanonly$broad == "boreal",]
+boreal <- quanonly[quanonly$broad == "boreal",]
 
-temperate <- qualquan[quanonly$broad == "temperate",]
+temperate <- quanonly[quanonly$broad == "temperate",]
 
 #citations, with data ####
 quanbroad <- unique(quanonly[,c(1,36,129)])
