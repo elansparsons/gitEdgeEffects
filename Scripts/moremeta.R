@@ -7,8 +7,9 @@ library(stringr) #Version 1.2.0
 library(gridExtra) #Version 2.3
 library(lme4) #Version 1.1-14
 library(MASS) #Version 7.3-47
+library(readr) #Version 1.1.1
 
-AT <- AT_seg
+AT <- read_csv("./Data/AT_seg.csv")
 
 ###########air temperature ####
 rem <- c(-30,-25,-20,-15)
@@ -105,7 +106,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 #######################relative humidity ####
 
-RH <- RH_seg
+RH <- read_csv("./Data/RH_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 RH <- RH[!RH$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -167,7 +168,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 ###########################soil temperature ####
 
-ST <- ST_seg
+ST <- read_csv("./Data/ST_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 ST <- ST[!ST$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -224,7 +225,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 ############################soil moisture ####
 
-SM <- SM_seg
+SM <- read_csv("./Data/SM_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 SM <- SM[!SM$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -282,7 +283,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 ###########################photosynthetically active radiation ####
 
-PAR <- PAR_seg
+PAR <- read_csv("./Data/PAR_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 PAR <- PAR[!PAR$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -342,7 +343,7 @@ relative + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cart
 
 ##########################vapor pressure deficit ####
 
-VPD <- VPD_seg
+VPD <- read_csv("./Data/VPD_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 VPD <- VPD[!VPD$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -400,7 +401,7 @@ avg.id + geom_point() + geom_smooth(method="loess",formula = y~x) + coord_cartes
 
 ##########################wind speed ####
 
-WS <- WS_seg
+WS <- read_csv("./Data/WS_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 WS <- WS[!WS$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -475,7 +476,7 @@ full <- data.frame(combined5[!is.na(combined5[,6]) & !is.na(combined5[,16]) & !i
   !is.na(combined5[,31]),])
   
 #export combined dataset
-write.csv(combined5,"vardata.csv",row.names = F)
+write.csv(combined5,"./Outputs/vardata.csv",row.names = F)
 
 #number articles with data = 39
 length(unique(vardata$article.id))
@@ -1023,10 +1024,9 @@ ggplot(broadmat,aes(x = edge_age_years,y=percentVPD_diff))+ geom_smooth(method="
 
 #############variances ####
 
-library(dplyr)
 
 #AT
-AT <- AT_seg
+AT <- read_csv("./Data/AT_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 AT <- AT[!AT$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1054,7 +1054,7 @@ short.at$article.id <- as.factor(short.at$article.id)
 
 
 #PAR
-PAR <- PAR_seg
+PAR <- read_csv("./Data/PAR_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 PAR <- PAR[!PAR$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1082,7 +1082,7 @@ short.par$article.id <- as.factor(short.par$article.id)
 
 #RH
 
-RH <- RH_seg
+RH <- read_csv("./Data/RH_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 RH <- RH[!RH$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1111,7 +1111,7 @@ short.rh$article.id <- as.factor(short.rh$article.id)
 
 #SM
 
-SM <- SM_seg
+SM <- read_csv("./Data/SM_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 SM <- SM[!SM$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1138,7 +1138,7 @@ short.sm <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
 short.sm$article.id <- as.factor(short.sm$article.id)
 
 #ST
-ST <- ST_seg
+ST <- read_csv("./Data/ST_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 ST <- ST[!ST$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1165,7 +1165,7 @@ short.st$article.id <- as.factor(short.st$article.id)
 
 
 #VPD
-VPD <- VPD_seg
+VPD <- read_csv("./Data/VPD_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 VPD <- VPD[!VPD$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1192,7 +1192,7 @@ short.vpd$article.id <- as.factor(short.vpd$article.id)
 
 
 #WS
-WS <- WS_seg
+WS <- read_csv("./Data/WS_seg.csv")
 
 rem <- c(-30,-25,-20,-15)
 WS <- WS[!WS$dist %in% rem,] #all -30,-20,-15 distances unnecessary
@@ -1225,7 +1225,7 @@ allvar4 <- merge(allvar3, short.st[,c(1,2,3,8,9,10)], by = c("article.id","segme
 allvar5 <- merge(allvar4, short.vpd[,c(1,2,3,8,9,10)], by = c("article.id","segment_n","just.dist"), all=TRUE)
 allvar6 <- merge(allvar5, short.ws[,c(1,2,3,8,9,10)], by = c("article.id","segment_n","just.dist"), all=TRUE)
 
-write.csv(allvar6,"allvariances.csv")
+write.csv(allvar6,"./Outputs/allvariances.csv")
 
 
 
@@ -1325,7 +1325,7 @@ length(unique(matglmm$article.id[(!is.na(matglmm$percentws_diff)) & (!is.na(matg
 
 
 
-###making heatmaps with loess ####
+###making heatmaps with loess curves, Python####
 
 distancecats <- c(-10,0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200)
 
@@ -1336,7 +1336,7 @@ newpoints <- predict(loes, newdata = distancecats)
 heatpointsAT <- do.call(rbind,Map(data.frame, distance = distancecats, AT = newpoints))
 
 #export for python
-write.csv(heatpointsAT,"heatpointsAT.csv",row.names = FALSE)
+write.csv(heatpointsAT,"./Outputs/heatpointsAT.csv",row.names = FALSE)
 
 
 
@@ -1347,7 +1347,7 @@ newpoints <- predict(loes, newdata = distancecats)
 heatpointsRH <- do.call(rbind,Map(data.frame, distance = distancecats, RH = newpoints))
 
 #export for python
-write.csv(heatpointsRH,"heatpointsRH.csv",row.names = FALSE)
+write.csv(heatpointsRH,"./Outputs/heatpointsRH.csv",row.names = FALSE)
 
 
 ### ST
@@ -1356,29 +1356,41 @@ newpoints <- predict(loes, newdata = distancecats)
 
 heatpointsST <- do.call(rbind,Map(data.frame, distance = distancecats, ST = newpoints))
 
+#export for python
+write.csv(heatpointsST,"./Outputs/heatpointsST.csv",row.names = FALSE)
+
 ### SM
 loes <- loess(percentsm_diff ~ just.dist,data = vardata)
 newpoints <- predict(loes, newdata = distancecats)
 
 heatpointsSM <- do.call(rbind,Map(data.frame, distance = distancecats, SM = newpoints))
 
+#export for python
+write.csv(heatpointsSM,"./Outputs/heatpointsSM.csv",row.names = FALSE)
+
 ### VPD
 loes <- loess(percentVPD_diff ~ just.dist,data = vardata)
 newpoints <- predict(loes, newdata = distancecats)
 
 heatpointsVPD <- do.call(rbind,Map(data.frame, distance = distancecats, VPD = newpoints))
+#export for python
+write.csv(heatpointsVPD,"./Outputs/heatpointsVPD.csv",row.names = FALSE)
 
 ### PAR
 loes <- loess(percentPAR_diff ~ just.dist,data = vardata)
 newpoints <- predict(loes, newdata = distancecats)
 
 heatpointsPAR <- do.call(rbind,Map(data.frame, distance = distancecats, PAR = newpoints))
+#export for python
+write.csv(heatpointsPAR,"./Outputs/heatpointsPAR.csv",row.names = FALSE)
 
 ### WS
 loes <- loess(percentws_diff ~ just.dist,data = vardata)
 newpoints <- predict(loes, newdata = distancecats)
 
 heatpointsWS <- do.call(rbind,Map(data.frame, distance = distancecats, WS = newpoints))
+#export for python
+write.csv(heatpointsWS,"./Outputs/heatpointsWS.csv",row.names = FALSE)
 
 
 

@@ -5,6 +5,9 @@ library(ggplot2) #Version 2.2.1
 library(forcats) #Version 0.2.0
 library(dplyr) #Version 0.7.4
 library(stringr) #Version 1.2.0
+library(readr) #Version 1.1.1
+
+mergedrefined7 <- read_csv("./Data/mergedrefined7.csv")
 
 begin <- dcast(mergedrefined7, Article.ID ~ variable, fun=toString, value.var="data")
 names(begin)[names(begin) == "focal area of research (ecophysiology, population ecology, community ecology ecosystem ecology, animal behavior)"] <- "focal.area.of.research"
@@ -46,7 +49,7 @@ names(popular_countries)[1] <- "Countries"
 
 popular_countries$noper <- gsub("\\."," ",popular_countries$Countries)
 #export for python
-write.csv(popular_countries,"popular_countries.csv",row.names = FALSE)
+write.csv(popular_countries,"./Outputs/popular_countries.csv",row.names = FALSE)
 
 
 
@@ -59,7 +62,7 @@ b
 popular.cities <- as.data.frame(head(sort(table(begin$Municipality), decreasing=T)))
 popular.cities
 #export mergedrefined7 to add simple latitude, first listed only
-write.csv(begin,"mergedrefined8.csv",row.names=FALSE)
+write.csv(begin,"./Data/mergedrefined8.csv",row.names=FALSE)
 simplat <- mergedrefined8[,c(1,41)]
 
 

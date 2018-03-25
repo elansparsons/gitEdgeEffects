@@ -3,8 +3,11 @@
 library(reshape2) #Version 0.8.7
 library(ggplot2) #Version 2.2.1
 library(gridExtra) #Version 2.3
+library(readr) #Version 1.1.1
 
 #knit together qualitative & quantitative data
+vardata <- read_csv("./Outputs/vardata.csv")
+mergedrefined8 <- read_csv("./Data/mergedrefined8.csv")
 
 qualquan <- merge(vardata,mergedrefined8,by="article.id", all = TRUE)
 
