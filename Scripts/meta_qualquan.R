@@ -4,6 +4,7 @@ library(reshape2) #Version 0.8.7
 library(ggplot2) #Version 2.2.1
 library(gridExtra) #Version 2.3
 library(readr) #Version 1.1.1
+library(dplyr) #Version 0.7.4
 
 #knit together qualitative & quantitative data
 vardata <- read_csv("./Outputs/vardata.csv")
@@ -23,7 +24,7 @@ boreal <- quanonly[quanonly$broad == "boreal",]
 temperate <- quanonly[quanonly$broad == "temperate",]
 
 #citations, with data ####
-quanbroad <- unique(quanonly[,c(1,36,129)])
+quanbroad <- unique(quanonly[,c(1,36,126)])
 length(unique(quanbroad$article.id[quanbroad$broad=="tropical"]))
 length(unique(quanbroad$article.id[quanbroad$broad=="temperate"]))
 length(unique(quanbroad$article.id[quanbroad$broad=="boreal"]))
@@ -52,13 +53,16 @@ ggplot(tropics,aes(x = just.dist)) +
 ba <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Temperature and humidity")+
-  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0) +
-  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0) +
+  geom_point(aes(y=percent_diff),color="lightslateblue",alpha=0.1) +
+  geom_point(aes(y=percentrh_diff),color="indianred3",alpha=0.1) +
+  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0,size=1.5) +
+  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
   geom_vline(xintercept=0) +
-  coord_cartesian(xlim=c(-10,250))
+  coord_cartesian(xlim=c(-10,250))+
+  ylim(-20,20)
 
 bb <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
@@ -72,18 +76,22 @@ bb <- ggplot(tropics,aes(x = just.dist)) +
 bc <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Soil")+
-  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0) +
-  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0) +
+  geom_point(aes(y=percentsm_diff),color="turquoise3",alpha=0.2) +
+  geom_point(aes(y=percentst_diff),color="goldenrod2",alpha=0.2) +
+  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0,size=1.5) +
+  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
   geom_vline(xintercept=0) +
-  coord_cartesian(xlim=c(-10,250))
+  coord_cartesian(xlim=c(-10,250))+
+  ylim(-50,50)
 
 bd <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Light")+
-  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0) +
+  geom_point(aes(y=percentPAR_diff),color="maroon2",alpha=0.2)+
+  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -93,7 +101,8 @@ bd <- ggplot(tropics,aes(x = just.dist)) +
 be <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Wind")+
-  geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0) +
+  geom_point(aes(y=percentws_diff),color="thistle4",alpha=0.2)+
+  geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -121,13 +130,16 @@ ggplot(temperate,aes(x = just.dist)) +
 ca <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Temperature and humidity")+
-  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0) +
-  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0) +
+  geom_point(aes(y=percent_diff),color="lightslateblue",alpha=0.2) +
+  geom_point(aes(y=percentrh_diff),color="indianred3",alpha=0.2) +
+  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0,size=1.5) +
+  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
   geom_vline(xintercept=0) +
-  coord_cartesian(xlim=c(-10,250))
+  coord_cartesian(xlim=c(-10,250))+
+  ylim(-15,15)
 
 cb <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
@@ -141,18 +153,22 @@ cb <- ggplot(temperate,aes(x = just.dist)) +
 cc <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Soil")+
-  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0) +
-  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0) +
+  geom_point(aes(y=percentsm_diff),color="turquoise3",alpha=0.2) +
+  geom_point(aes(y=percentst_diff),color="goldenrod2",alpha=0.2) +
+  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0,size=1.5) +
+  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
   geom_vline(xintercept=0) +
-  coord_cartesian(xlim=c(-10,250))
+  coord_cartesian(xlim=c(-10,250))+
+  ylim(-25,25)
 
 cd <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Light")+
-  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0) +
+  geom_point(aes(y=percentPAR_diff),color="maroon2",alpha=0.2)+
+  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -162,7 +178,8 @@ cd <- ggplot(temperate,aes(x = just.dist)) +
 ce <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Wind")+
-  geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0) +
+  geom_point(aes(y=percentws_diff),color="thistle4",alpha=0.2)+
+  geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+

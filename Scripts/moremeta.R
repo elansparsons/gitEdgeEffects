@@ -641,7 +641,6 @@ vardata$edge_orient.f <- as.integer(as.factor(vardata$edge_orient))
 
 forglmm <- cbind(vardata[,c(1,2,3,10,32,33,34)],mixedvar)
 forglm <- cbind(vardata[,c(3,10,32,33,34)],mixedvar)
-forglm2 <-cbind(vardata[,c(1,2,3,10,32,33,34)],fractions)
 
 ##GLMM, test for significance of article.id and segment
 #reduce dataset
