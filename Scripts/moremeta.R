@@ -606,6 +606,89 @@ ae <- ggplot(combined5,aes(x = just.dist)) +
   geom_line(aes(y=0),color="black")+
   coord_cartesian(xlim=c(-10,250))
 
+#individually graphed
+ea <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Air temperature")+
+  geom_line(aes(y=percent_diff,alpha=0.5,group=idseg))+
+  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+eb <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Relative humidity")+
+  geom_line(aes(y=percentrh_diff,alpha=0.5,group=idseg))+
+  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+ec <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("VPD")+
+  geom_line(aes(y=percentVPD_diff,alpha=0.5,group=idseg))+
+  geom_smooth(aes(y=percentVPD_diff), color = "darkviolet",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+ed <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil temperature")+
+  geom_line(aes(y=percentst_diff,group=idseg,alpha=0.5))+
+  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+ee <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil moisture")+
+  geom_line(aes(y=percentsm_diff,alpha=0.5,group=idseg))+
+  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+ef <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Light (PAR)")+
+  geom_line(aes(y=percentPAR_diff,alpha=0.5,group=idseg))+
+  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+eg <- ggplot(combined5,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Wind")+
+  geom_line(aes(y=percentws_diff,alpha=0.5,group=idseg))+
+  geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  coord_cartesian(xlim=c(-10,250))
+
+
+grid.arrange(ea,eb,ec,ed,ee,ef,eg,ncol=2,nrow=4)
+
+
+
+
 #remove article 29 from SM due to high influence on LOESS
 sminf <- c(29,43)
 
@@ -641,33 +724,6 @@ vardata$edge_orient.f <- as.integer(as.factor(vardata$edge_orient))
 
 forglmm <- cbind(vardata[,c(1,2,3,10,32,33,34)],mixedvar)
 forglm <- cbind(vardata[,c(3,10,32,33,34)],mixedvar)
-
-##GLMM, test for significance of article.id and segment
-#reduce dataset
-
-withmixedAT <- lmer(percent_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|article.id) + (1|segment_n),
-                   data = forglmm, REML=F) #AIC change of -2 to GLM
-withmixedRH <- lmer(percentrh_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|segment_n),
-                    data = forglmm, REML=F)
-withmixedST<- lmer(percentst_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|article.id) + (1|segment_n),
-                   data = forglmm, REML=F)
-withmixedSM<- lmer(percentsm_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|article.id),
-                   data = forglmm, REML=F)
-withmixedPAR<- lmer(percentPAR_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|segment_n),
-                    data = forglmm, REML=F)
-withmixedVPD<- lmer(percentVPD_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|segment_n),
-                    data = forglmm, REML=F)
-withmixedWS<- lmer(percentws_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f + (1|article.id) + (1|segment_n),
-                   data = forglmm, REML=F)
-
-#RH, SM, PAR, VPD, WS not properly tested with GLMM due to insufficient data. AT and ST, both sufficient, showed no effect of article.id or segment
-
-allws <- vardata[!is.na(vardata$percentws_diff),]
-unique(allws$article.id)
-
-anova(withmixedAT,atglm)
-anova(withmixedST,stglm)
-anova(withmixedVPD,vpdglm)
 
 
 
