@@ -53,8 +53,10 @@ ggplot(tropics,aes(x = just.dist)) +
 ba <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Temperature and humidity")+
-  geom_point(aes(y=percent_diff),color="lightslateblue",alpha=0.1) +
-  geom_point(aes(y=percentrh_diff),color="indianred3",alpha=0.1) +
+  geom_point(aes(y=percent_diff),color="lightslateblue",alpha=0.2) +
+  geom_point(aes(y=percentrh_diff),color="indianred3",alpha=0.2) +
+  geom_line(aes(y=percent_diff,group=idseg),color="lightslateblue",alpha=0.2) +
+  geom_line(aes(y=percentrh_diff,group=idseg),color="indianred3",alpha=0.2) +
   geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0,size=1.5) +
   geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0,size=1.5) +
   xlab("Distance from edge")+
@@ -78,6 +80,8 @@ bc <- ggplot(tropics,aes(x = just.dist)) +
   ggtitle("Soil")+
   geom_point(aes(y=percentsm_diff),color="turquoise3",alpha=0.2) +
   geom_point(aes(y=percentst_diff),color="goldenrod2",alpha=0.2) +
+  geom_line(aes(y=percentsm_diff,group=idseg),color="turquoise3",alpha=0.2) +
+  geom_line(aes(y=percentst_diff,group=idseg),color="goldenrod2",alpha=0.2) +
   geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0,size=1.5) +
   geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
@@ -91,6 +95,7 @@ bd <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Light")+
   geom_point(aes(y=percentPAR_diff),color="maroon2",alpha=0.2)+
+  geom_line(aes(y=percentPAR_diff,group=idseg),color="maroon2",alpha=0.2)+
   geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
@@ -102,6 +107,7 @@ be <- ggplot(tropics,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Wind")+
   geom_point(aes(y=percentws_diff),color="thistle4",alpha=0.2)+
+  geom_line(aes(y=percentws_diff,group=idseg),color="thistle4",alpha=0.2)+
   geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
@@ -132,6 +138,8 @@ ca <- ggplot(temperate,aes(x = just.dist)) +
   ggtitle("Temperature and humidity")+
   geom_point(aes(y=percent_diff),color="lightslateblue",alpha=0.2) +
   geom_point(aes(y=percentrh_diff),color="indianred3",alpha=0.2) +
+  geom_line(aes(y=percent_diff,group=idseg),color="lightslateblue",alpha=0.2) +
+  geom_line(aes(y=percentrh_diff,group=idseg),color="indianred3",alpha=0.2) +
   geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0,size=1.5) +
   geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0,size=1.5) +
   xlab("Distance from edge")+
@@ -155,6 +163,8 @@ cc <- ggplot(temperate,aes(x = just.dist)) +
   ggtitle("Soil")+
   geom_point(aes(y=percentsm_diff),color="turquoise3",alpha=0.2) +
   geom_point(aes(y=percentst_diff),color="goldenrod2",alpha=0.2) +
+  geom_line(aes(y=percentsm_diff,group=idseg),color="turquoise3",alpha=0.2) +
+  geom_line(aes(y=percentst_diff,group=idseg),color="goldenrod2",alpha=0.2) +
   geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0,size=1.5) +
   geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
@@ -168,6 +178,7 @@ cd <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Light")+
   geom_point(aes(y=percentPAR_diff),color="maroon2",alpha=0.2)+
+  geom_line(aes(y=percentPAR_diff,group=idseg),color="maroon2",alpha=0.2)+
   geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
@@ -179,6 +190,7 @@ ce <- ggplot(temperate,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Wind")+
   geom_point(aes(y=percentws_diff),color="thistle4",alpha=0.2)+
+  geom_line(aes(y=percentws_diff,group=idseg),color="thistle4",alpha=0.2)+
   geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+

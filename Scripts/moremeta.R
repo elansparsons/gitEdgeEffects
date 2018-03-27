@@ -709,18 +709,22 @@ aea <- ggplot(smrem,aes(x = just.dist)) +
 
 ########initial modeling ####
 
-
-
 #distributions not normal, log after + 1 to remove all negative
+#normalize everything
 forcart <- vardata[,-c(1,2,4,5,11,12,13,14,15,17,18,20,21,23,24,26,27,29,30)]
-fractions <- (forcart[,-c(1,3,4,5,6)]/100) ##remove negative percentages
-logvar <- log1p(fractions)
-mixedvar <- cbind(fractions[,c(3,4)],logvar[,c(1,2,5,6,7)])
+fractions <- (forcart[,-c(1,3,4,5,6)]/100)
+logvar <- log1p(fractions) #remove negatives, take log
+
+normalize <- function(x) {
+  return((x-min(x,na.rm=TRUE))/(max(x,na.rm=TRUE)-min(x,na.rm=TRUE)))
+} #min-max normalization between 0 and 1
+
+norms <- as.data.frame(lapply(logvar,normalize))
 
 
-vardata$season.f <- as.integer(as.factor(vardata$season))
-vardata$matrix_type.f <- as.integer(as.factor(vardata$matrix_type))
-vardata$edge_orient.f <- as.integer(as.factor(vardata$edge_orient))
+forglmm <- cbind(vardata[,c(1,2,3,10,32,33,34)],logvar) #new, now any analysis can be done
+forglmm$edge_age_years <- log(forglmm$edge_age_years) #log years to linearize response
+
 
 forglmm <- cbind(vardata[,c(1,2,3,10,32,33,34)],mixedvar)
 forglm <- cbind(vardata[,c(3,10,32,33,34)],mixedvar)
@@ -728,48 +732,6 @@ forglm <- cbind(vardata[,c(3,10,32,33,34)],mixedvar)
 
 
 ##GLM
-
-#AT
-atglm <- glm(percent_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
-               family = gaussian, data = forglmm)
-atglm2 <- glm(percent_diff ~ just.dist + matrix_type.f + edge_orient.f,
-             family = gaussian, data = forglm)
-
-#RH
-rhglm <- glm(percentrh_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
-            family = gaussian, data = forglmm)
-rhglm2 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
-             family = gaussian, data = forglmm)
-
-#ST
-stglm <- glm(percentst_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
-            family = gaussian, data = forglmm)
-stglm2 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
-             family = gaussian, data = forglmm)
-
-#SM
-smglm <- glm(percentsm_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
-            family = gaussian, data = forglmm)
-smglm2 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
-             family = gaussian, data = forglmm)
-
-#PAR
-parglm <- glm(percentPAR_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
-            family = gaussian, data = forglmm)
-parglm2 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = forglmm)
-
-#VPD
-vpdglm <- glm(percentVPD_diff ~ just.dist + edge_age_years + season.f + matrix_type.f + edge_orient.f,
-            family = gaussian, data = forglmm)
-vpdglm2 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = forglmm)
-
-#WS
-wsglm <- glm(percentws_diff ~ just.dist + matrix_type.f,
-            family = gaussian, data = forglmm) #tested with lm, only these variables informative, no reporting of wind + orient
-
-summary(lm(percentws_diff ~ just.dist + matrix_type.f, data = forglm))
 sum(forglm[(!is.na(forglm$percentws_diff) & !is.na(forglm$edge_orient.f)),]) #check, no rows contain both wind and orientation
 
 #is effect due to missing data?
@@ -934,7 +896,7 @@ broadmat$matrix_type[broadmat$matrix_type == "stand"] <- "plantation"
 forcart <- broadmat[,-c(1,2,4,5,11,12,13,14,15,17,18,20,21,23,24,26,27,29,30)]
 fractions <- (forcart[,-c(1,3,4,5,6)]/100) ##remove negative percentages
 logvar <- log1p(fractions)
-mixedvar <- cbind(fractions[,c(3,4)],logvar[,c(1,2,5,6,7)])
+mixedvar <- cbind(fractions[,c(3,4)],logvar[,c(1,2,3,4,5,6,7)])
 
 
 broadmat$season.f <- as.integer(as.factor(broadmat$season))
@@ -944,122 +906,142 @@ broadmat$edge_orient.f <- as.integer(as.factor(broadmat$edge_orient))
 matglmm <- cbind(broadmat[,c(1,2,3,10,32,33,34)],mixedvar)
 matglmm <- matglmm[!matglmm$article.id %in% oneha,]
 
+#prep for GLMMs, remove matrix points and log dist(?)
+
+matglmm <- matglmm[matglmm$just.dist>=0,]
+
+matglmm$just.dist <- log1p(matglmm$just.dist)
+
+
 #AT GLMMS ####
-atglm4 <- glm(percent_diff ~ just.dist * matrix_type.f,
-              family = gaussian, data = matglmm)
-#mixed
-atglm5 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #atglm5 slightly better
-atglm6 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-               data = matglmm, REML=F) #edge age increases AIC value 300+
-atglm7 <- lmer(percent_diff ~ just.dist + matrix_type.f + (1|article.id),
-                         data = matglmm, REML=F) #BEST
-atglm8 <- lmer(percent_diff ~ just.dist * matrix_type.f + (1|article.id),
-               data = matglmm, REML=F) #not really different from atglm7 
-atglm9 <- lmer(percent_diff ~ just.dist * edge_orient.f + (1|article.id),
+
+atglm <- lmer(percent_diff ~ (1|article.id), #2nd best
+              data = matglmm, REML=F)
+atglm2 <- lmer(percent_diff ~ just.dist + (1|article.id), #bestbest
+              data = matglmm, REML=F)
+atglm3 <- lmer(percent_diff ~ just.dist + matrix_type.f + (1|article.id), #3rd
+              data = matglmm, REML=F)
+atglm4 <- lmer(percent_diff ~ just.dist * matrix_type.f + (1|article.id),
                data = matglmm, REML=F)
+atglm5 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
+atglm6 <- lmer(percent_diff ~ just.dist + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
+atglm7 <- lmer(percent_diff ~ just.dist * edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
+atglm8 <- lmer(percent_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+               data = matglmm, REML=F)
+
+
 
 #RH GLMMS ####
-rhglm4 <- glm(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = matglmm)
-rhglm9 <- glm(percentrh_diff ~ just.dist + edge_orient.f,
-              family = gaussian, data = matglmm)
+
+rhglm <- lmer(percentrh_diff ~ (1|article.id), #2nd best
+              data = matglmm, REML=F)
+rhglm2 <- lmer(percentrh_diff ~ just.dist + (1|article.id), #bestbest
+               data = matglmm, REML=F)
+rhglm3 <- lmer(percentrh_diff ~ just.dist + edge_orient.f + (1|article.id), #3rd
+               data = matglmm, REML=F) 
+rhglm4 <- lmer(percentrh_diff ~ just.dist * edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
 rhglm5 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #rhglm5 better
+               data = matglmm, REML=F)
 rhglm6 <- lmer(percentrh_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-               data = matglmm, REML=F) #edge age increases AIC value 200+
-rhglm7 <- lmer(percentrh_diff ~ just.dist + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #7 and 8 same, basically same as 5 #BEST
-rhglm8 <- lmer(percentrh_diff ~ just.dist * edge_orient.f + (1|article.id),
-                         data = matglmm, REML=F)
+               data = matglmm, REML=F)
+
 
 #ST GLMMS ####
-stglm4 <- glm(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = matglmm)
-stglm9 <- glm(percentst_diff ~ just.dist * matrix_type.f,
-              family = gaussian, data = matglmm)
-stglm11 <- glm(percentst_diff ~ just.dist + matrix_type.f,
-              family = gaussian, data = matglmm)
+
+stglm <- lmer(percentst_diff ~ (1|article.id), #2nd best
+              data = matglmm, REML=F)
+stglm2 <- lmer(percentst_diff ~ just.dist + (1|article.id), #best
+               data = matglmm, REML=F)
+stglm3 <- lmer(percentst_diff ~ just.dist + matrix_type.f + (1|article.id), #3rd
+               data = matglmm, REML=F)
+stglm4 <- lmer(percentst_diff ~ just.dist * matrix_type.f + (1|article.id),
+               data = matglmm, REML=F)
 stglm5 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #stglm4 better
+               data = matglmm, REML=F)
 stglm6 <- lmer(percentst_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-               data = matglmm, REML=F) #edge age increases AIC value 30+
-stglm7 <- lmer(percentst_diff ~ just.dist * edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
-stglm8 <- lmer(percentst_diff ~ just.dist * matrix_type.f + (1|article.id),
+stglm7 <- lmer(percentst_diff ~ just.dist + edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
-stglm10 <- lmer(percentst_diff ~ just.dist + matrix_type.f + (1|article.id),
-               data = matglmm, REML=F) #BEST
+stglm8 <- lmer(percentst_diff ~ just.dist * edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
 
 #SM GLMMS ####
-smglm4 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f,
-              family = gaussian, data = matglmm)
-smglm10 <- glm(percentsm_diff ~ just.dist * matrix_type.f,
-               family = gaussian, data = matglmm)
-smglm5 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #smglm5 much better
-smglm6 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-               data = matglmm, REML=F) #edge age decreases AIC value 50+
-smglm7 <- glm(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years,
-              family = gaussian, data = matglmm) #better than smglm4, less missingness
-smglm8 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + (1|article.id),
+
+smglm <- lmer(percentsm_diff ~ (1|article.id),
+              data = matglmm, REML=F)
+smglm2 <- lmer(percentsm_diff ~ just.dist + (1|article.id),
                data = matglmm, REML=F)
-smglm9 <- lmer(percentsm_diff ~ just.dist * matrix_type.f + (1|article.id),
-               data = matglmm, REML=F) #BEST
-smglm11 <- lmer(percentsm_diff ~ just.dist + edge_age_years + (1|article.id),
-                data = matglmm, REML=F) 
+smglm3 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + (1|article.id), #2nd
+               data = matglmm, REML=F)
+smglm4 <- lmer(percentsm_diff ~ just.dist * matrix_type.f + (1|article.id), #best
+               data = matglmm, REML=F)
+smglm5 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+               data = matglmm, REML=F) 
+smglm6 <- lmer(percentsm_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F)
+smglm7 <- lmer(percentsm_diff ~ just.dist + edge_age_years + (1|article.id),
+               data = matglmm, REML=F) 
 
 #PAR GLMMS ####
-parglm4 <- glm(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f,
-               family = gaussian, data = matglmm) #no change from parglm2
-parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-                data = matglmm, REML=F) #parglm4 a bit better
-parglm6 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-                data = matglmm, REML=F) #does not run, =1 level
-parglm7 <- glm(percentPAR_diff ~ just.dist + edge_orient.f,
-               family = gaussian, data = matglmm)
-parglm8 <- glm(percentPAR_diff ~ just.dist,
-               family = gaussian, data = matglmm)
-parglm9 <- lmer(percentPAR_diff ~ just.dist + (1|article.id),
-                data = matglmm, REML=F) #BEST
-parglm10 <- lmer(percentPAR_diff ~ just.dist + edge_orient.f + (1|article.id),
+
+parglm <- lmer(percentPAR_diff ~ (1|article.id), 
+               data = matglmm, REML=F)
+parglm2 <- lmer(percentPAR_diff ~ just.dist + (1|article.id), 
                 data = matglmm, REML=F)
-parglm11 <- lmer(percentPAR_diff ~ just.dist*edge_orient.f + (1|article.id),
-                            data = matglmm, REML=F)
-parglm12 <- glm(percentPAR_diff ~ just.dist + edge_orient.f,
-                family = gaussian, data = matglmm) 
+parglm3 <- lmer(percentPAR_diff ~ just.dist + edge_orient.f + (1|article.id), #best
+                data = matglmm, REML=F)
+parglm4 <- lmer(percentPAR_diff ~ just.dist * edge_orient.f + (1|article.id), #2nd
+                data = matglmm, REML=F)
+parglm5 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id), #best
+                data = matglmm, REML=F) 
+parglm6 <- lmer(percentPAR_diff ~ just.dist + matrix_type.f + (1|article.id),
+                data = matglmm, REML=F) 
 
 
 #VPD GLMMS ####
-vpdglm4 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f,
-               family = gaussian, data = matglmm) #no change from vpdglm2
-vpdglm5 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-                data = matglmm, REML=F) #vpdglm5 better 
-vpdglm6 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
-                data = matglmm, REML=F) #edge age decreases AIC value 2 #BEST
-vpdglm7 <- glm(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years,
-               family = gaussian, data = matglmm) #better than vpdglm4, more missingness
-vpdglm8 <- lmer(percentVPD_diff ~ just.dist + edge_age_years + (1|article.id),
-                           data = matglmm, REML=F) 
-vpdglm9 <- lmer(percentVPD_diff ~ just.dist * edge_age_years + (1|article.id),
-                data = matglmm, REML=F) #BEST
-vpdglm10 <- glm(percentVPD_diff ~ just.dist * edge_age_years,
-                family = gaussian, data = matglmm)
+
+vpdglm <- lmer(percentVPD_diff ~ (1|article.id),
+               data = matglmm, REML=F) 
+vpdglm2 <- lmer(percentVPD_diff ~ just.dist + (1|article.id), 
+                data = matglmm, REML=F) 
+vpdglm3 <- lmer(percentVPD_diff ~ just.dist + edge_age_years + (1|article.id),
+                data = matglmm, REML=F) 
+vpdglm4 <- lmer(percentVPD_diff ~ just.dist * edge_age_years + (1|article.id),
+                data = matglmm, REML=F) 
+vpdglm5 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_age_years + (1|article.id),
+                data = matglmm, REML=F)
+vpdglm6 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id), #3rd
+                data = matglmm, REML=F)
+vpdglm7 <- lmer(percentVPD_diff ~ just.dist + matrix_type.f + (1|article.id), 
+                data = matglmm, REML=F)
+vpdglm8 <- lmer(percentVPD_diff ~ just.dist + edge_orient.f + (1|article.id), #best??
+                data = matglmm, REML=F)
+vpdglm9 <- lmer(percentVPD_diff ~ just.dist * edge_orient.f + (1|article.id), #2nd
+                data = matglmm, REML=F)
 
 
 #WS GLMMS ####
-wsglm4 <- glm(percentws_diff ~ just.dist + matrix_type.f,
-              family = gaussian, data = matglmm)
-wsglm5 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F) #does not converge
-wsglm7 <- glm(percentws_diff ~ just.dist + matrix_type.f + edge_age_years,
-              family = gaussian, data = matglmm) #BEST
-wsglm8 <- lmer(percentws_diff ~ just.dist + (1|article.id),
+
+wsglm <- lmer(percentws_diff ~ (1|article.id),
+              data = matglmm, REML=F)
+wsglm2 <- lmer(percentws_diff ~ just.dist + (1|article.id), #2nd
                data = matglmm, REML=F)
-wsglm9 <- lmer(percentws_diff ~ just.dist + matrix_type.f + (1|article.id),
-                         data = matglmm, REML=F)
-wsglm10 <- glm(percentws_diff ~ just.dist * matrix_type.f,
-               family = gaussian, data = matglmm)
+wsglm3 <- lmer(percentws_diff ~ just.dist + matrix_type.f + (1|article.id), #2nd
+               data = matglmm, REML=F)
+wsglm4 <- lmer(percentws_diff ~ just.dist + matrix_type.f + edge_orient.f + (1|article.id),
+               data = matglmm, REML=F) #does not converge
+wsglm5 <- glm(percentws_diff ~ just.dist + matrix_type.f + edge_age_years, #best
+              family = gaussian, data = matglmm)
+wsglm6 <- lmer(percentws_diff ~ just.dist * matrix_type.f + (1|article.id), #2nd
+             data = matglmm, REML=F) 
+wsglm7 <- glm(percentws_diff ~ just.dist * matrix_type.f, #2nd
+              family = gaussian, data = matglmm)
+wsglm8 <- lmer(percentws_diff ~ just.dist + edge_age_years + (1|article.id), #2nd
+               data = matglmm, REML=F) 
 
 
 
