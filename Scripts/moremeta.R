@@ -482,7 +482,7 @@ write.csv(combined5,"./Outputs/vardata.csv",row.names = F)
 length(unique(vardata$article.id))
 
 
-#basic graphs of all variables ####
+#graphs of all variables ####
 ggplot(combined5,aes(x = just.dist)) +
   geom_smooth(aes(y=percent_diff), color = "green",alpha=0) +
   geom_smooth(aes(y=percentrh_diff), color = "red",alpha=0) +
@@ -610,8 +610,9 @@ ae <- ggplot(combined5,aes(x = just.dist)) +
 ea <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Air temperature")+
-  geom_line(aes(y=percent_diff,alpha=0.5,group=idseg))+
-  geom_smooth(aes(y=percent_diff), color = "lightslateblue",alpha=0,size=1.5) +
+  geom_point(aes(y=percent_diff),color="lightslateblue",alpha=0.2) +
+  geom_line(aes(y=percent_diff,group=idseg),color="lightslateblue",alpha=0.2)+
+  geom_smooth(aes(y=percent_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -621,8 +622,9 @@ ea <- ggplot(combined5,aes(x = just.dist)) +
 eb <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Relative humidity")+
-  geom_line(aes(y=percentrh_diff,alpha=0.5,group=idseg))+
-  geom_smooth(aes(y=percentrh_diff), color = "indianred3",alpha=0,size=1.5) +
+  geom_point(aes(y=percentrh_diff),color="indianred3",alpha=0.2) +
+  geom_line(aes(y=percentrh_diff,group=idseg),color="indianred3",alpha=0.2)+
+  geom_smooth(aes(y=percentrh_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -632,8 +634,9 @@ eb <- ggplot(combined5,aes(x = just.dist)) +
 ec <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("VPD")+
-  geom_line(aes(y=percentVPD_diff,alpha=0.5,group=idseg))+
-  geom_smooth(aes(y=percentVPD_diff), color = "darkviolet",alpha=0,size=1.5) +
+  geom_point(aes(y=percentVPD_diff),color="darkviolet",alpha=0.2) +
+  geom_line(aes(y=percentVPD_diff,group=idseg),color="darkviolet",alpha=0.2)+
+  geom_smooth(aes(y=percentVPD_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -642,8 +645,9 @@ ec <- ggplot(combined5,aes(x = just.dist)) +
 ed <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Soil temperature")+
-  geom_line(aes(y=percentst_diff,group=idseg,alpha=0.5))+
-  geom_smooth(aes(y=percentst_diff), color = "goldenrod2",alpha=0,size=1.5) +
+  geom_point(aes(y=percentst_diff),color="goldenrod2",alpha=0.2) +
+  geom_line(aes(y=percentst_diff,group=idseg),color="goldenrod2",alpha=0.2)+
+  geom_smooth(aes(y=percentst_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -653,8 +657,9 @@ ed <- ggplot(combined5,aes(x = just.dist)) +
 ee <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Soil moisture")+
-  geom_line(aes(y=percentsm_diff,alpha=0.5,group=idseg))+
-  geom_smooth(aes(y=percentsm_diff), color = "turquoise3",alpha=0,size=1.5) +
+  geom_point(aes(y=percentsm_diff),color="turquoise3",alpha=0.2) +
+  geom_line(aes(y=percentsm_diff,group=idseg),color="turquoise3",alpha=0.2)+
+  geom_smooth(aes(y=percentsm_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -664,8 +669,9 @@ ee <- ggplot(combined5,aes(x = just.dist)) +
 ef <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Light (PAR)")+
-  geom_line(aes(y=percentPAR_diff,alpha=0.5,group=idseg))+
-  geom_smooth(aes(y=percentPAR_diff), color = "maroon2",alpha=0,size=1.5) +
+  geom_point(aes(y=percentPAR_diff),color="maroon2",alpha=0.2) +
+  geom_line(aes(y=percentPAR_diff,group=idseg),color="maroon2",alpha=0.2)+
+  geom_smooth(aes(y=percentPAR_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
   geom_line(aes(y=0),color="black")+
@@ -675,7 +681,8 @@ ef <- ggplot(combined5,aes(x = just.dist)) +
 eg <- ggplot(combined5,aes(x = just.dist)) +
   theme_classic()+
   ggtitle("Wind")+
-  geom_line(aes(y=percentws_diff,alpha=0.5,group=idseg))+
+  geom_point(aes(y=percentws_diff),color="thistle4",alpha=0.2) +
+  geom_line(aes(y=percentws_diff,group=idseg),color="thistle4",alpha=0.2)+
   geom_smooth(aes(y=percentws_diff), color = "thistle4",alpha=0,size=1.5) +
   xlab("Distance from edge")+
   ylab("% difference from interior point")+
@@ -685,6 +692,34 @@ eg <- ggplot(combined5,aes(x = just.dist)) +
 
 
 grid.arrange(ea,eb,ec,ed,ee,ef,eg,ncol=2,nrow=4)
+
+#with other smooth types
+
+fa <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Air temperature")+
+  geom_point(aes(y=log1p(percent_diff/100)),color="lightslateblue",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percent_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percent_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percent_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percent_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0)
+
+fb <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Relative humidity")+
+  geom_point(aes(y=log1p(percentrh_diff/100)),color="lightslateblue",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentrh_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percentrh_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentrh_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentrh_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0)
 
 
 
@@ -888,6 +923,7 @@ matglmm$just.dist.l <- log1p(matglmm$just.dist)
 
 
 #AT GLMMS ####
+ggqqplot(vardata$percent_diff)
 
 atglm <- lmer(percent_diff ~ (1|article.id), #2nd best
               data = matglmm, REML=F)
@@ -912,18 +948,23 @@ AIC(atglm,atglm2,atglm3,atglm4,atglm5,atglm6,atglm7,atglm8)
 
 generalized.at <- glmer(percent_diff ~ just.dist + (1|article.id), data = matglmm) #true generalized linear mixed model, defaults to lmer due to Gaussian dist
 
-#polynomial models
+qqnorm(resid(bestat))
+qqline(resid(bestat))   #model fairly normal, but somewhat heavy at tails
+
+ggqqplot(matglmm$percent_diff)
+
+ #polynomial models
 polyat <- lm(vardata$percent_diff ~ poly(vardata$just.dist,2,raw=TRUE))
 polyat2 <- lm(vardata$percent_diff ~ poly(vardata$just.dist,3,raw=TRUE))
 polyat3 <- lm(vardata$percent_diff ~ poly(vardata$just.dist,4,raw=TRUE))
 linear <- lm(vardata$percent_diff ~ vardata$just.dist)
-loglin <- lm(log1p(matglmm$percent_diff) ~ matglmm$just.dist)
 
-#4th order polynomial best, log curve worse fit than linear -- highly complex curve
+#4th order polynomial best, log curve worse fit than linear
 
 
 
 #RH GLMMS ####
+ggqqplot(vardata$percentrh_diff)
 
 rhglm <- lmer(percentrh_diff ~ (1|article.id), #2nd best
               data = matglmm, REML=F)
@@ -942,8 +983,12 @@ AIC(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6)
 
 bestrh <- glm(percentrh_diff ~ just.dist.l, data = matglmm)
 
+qqnorm(resid(bestrh))
+qqline(resid(bestrh))
+
 
 #ST GLMMS ####
+ggqqplot(vardata$percentst_diff)
 
 stglm <- lmer(percentst_diff ~ (1|article.id), #2nd best
               data = matglmm, REML=F)
@@ -966,7 +1011,12 @@ AIC(stglm,stglm2,stglm3,stglm4,stglm5,stglm6,stglm7,stglm8)
 
 bestst <- glm(percentst_diff ~ just.dist.l, data = matglmm)
 
+qqnorm(resid(bestst))
+qqline(resid(bestst))
+
 #SM GLMMS ####
+
+ggqqplot(vardata$percentsm_diff)
 
 smglm <- lmer(percentsm_diff ~ (1|article.id),
               data = matglmm, REML=F)
@@ -987,7 +1037,13 @@ AIC(smglm,smglm2,smglm3,smglm4,smglm5,smglm6,smglm7)
 
 bestsm <- glm(percentsm_diff ~ just.dist.l * matrix_type.f, data = matglmm)
 
+distlm <- glm(percentsm_diff ~ just.dist.l,data=matglmm)
+
+qqnorm(resid(distlm))
+qqline(resid(distlm))
+
 #PAR GLMMS ####
+ggqqplot(vardata$percentPAR_diff)
 
 parglm <- lmer(percentPAR_diff ~ (1|article.id), 
                data = matglmm, REML=F)
@@ -1006,8 +1062,15 @@ AIC(parglm,parglm2,parglm3,parglm4,parglm5,parglm6)
 
 bestpar <- glm(percentPAR_diff ~ just.dist.l + edge_orient.f, data = matglmm)
 
+distlm2 <- glm(percentPAR_diff ~ just.dist.l,data=matglmm)
+
+qqnorm(resid(distlm2))
+qqline(resid(distlm2))
+
 
 #VPD GLMMS ####
+
+ggqqplot(vardata$percentVPD_diff)
 
 vpdglm <- lmer(percentVPD_diff ~ (1|article.id),
                data = matglmm, REML=F) 
@@ -1032,8 +1095,15 @@ AIC(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9)
 
 bestvpd <- glm(percentVPD_diff ~ just.dist.l + edge_orient.f, data = matglmm)
 
+distlm3 <- glm(percentVPD_diff ~ just.dist.l,data=matglmm)
+
+qqnorm(resid(distlm3))
+qqline(resid(distlm3))
+
 
 #WS GLMMS ####
+
+ggqqplot(vardata$percentws_diff)
 
 wsglm <- lmer(percentws_diff ~ (1|article.id),
               data = matglmm, REML=F)
@@ -1056,18 +1126,17 @@ AIC(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8)
 
 bestws <- glm(percentws_diff ~ just.dist.l + edge_age_years, data = matglmm)
 
+distlm4 <- glm(percentws_diff ~ just.dist.l,data=matglmm)
 
-
+qqnorm(resid(distlm4))
+qqline(resid(distlm4))
 
 
 
 ####how do significant columns other than dist interact with variables? viz ####
 
-ggplot(broadmat,aes(x = edge_orient,y=percentrh_diff)) + geom_boxplot(aes(group=edge_orient)) + theme(axis.text.x = element_text(angle=90))
-
 ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
 
-ggplot(broadmat,aes(x = edge_age_years,y=percentVPD_diff))+ geom_smooth(method="glm")+ theme(axis.text.x = element_text(angle=90))
 
 
 
@@ -1275,6 +1344,8 @@ allvar4 <- merge(allvar3, short.st[,c(1,2,3,8,9,10)], by = c("article.id","segme
 allvar5 <- merge(allvar4, short.vpd[,c(1,2,3,8,9,10)], by = c("article.id","segment_n","just.dist"), all=TRUE)
 allvar6 <- merge(allvar5, short.ws[,c(1,2,3,8,9,10)], by = c("article.id","segment_n","just.dist"), all=TRUE)
 
+allvar6$idseg <- paste(allvar6[,1],allvar6[,2])
+
 write.csv(allvar6,"./Outputs/allvariances.csv")
 
 
@@ -1292,6 +1363,102 @@ ggplot(allvar6,aes(x = just.dist)) +
 
 ggplot(allvar6,aes(x=just.dist,y=varpercent.st, color = article.id, label = factor(article.id))) + geom_point() + geom_text()
 ggplot(allvar6,aes(x=just.dist,y=varpercent.ws, color = article.id, label = factor(article.id))) + geom_point() + geom_text()
+
+
+#individually
+
+ga <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Air temperature") +
+  geom_point(aes(y=varpercent.at),color="lightslateblue",alpha=0.2) +
+  geom_line(aes(y=varpercent.at,group=idseg),color="lightslateblue",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.at), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  ylim(-100,500)+
+  coord_cartesian(xlim=c(-10,250))
+  
+
+gb <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Relative humidity")+
+  geom_point(aes(y=varpercent.rh),color="indianred3",alpha=0.2) +
+  geom_line(aes(y=varpercent.rh,group=idseg),color="indianred3",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.rh), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  ylim(-100,200)+
+  coord_cartesian(xlim=c(-10,250))
+
+gc <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("VPD")+
+  geom_point(aes(y=varpercent.vpd),color="darkviolet",alpha=0.2) +
+  geom_line(aes(y=varpercent.vpd,group=idseg),color="darkviolet",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.vpd), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  coord_cartesian(xlim=c(-10,250))
+
+gd <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil temperature")+
+  geom_point(aes(y=varpercent.st),color="goldenrod2",alpha=0.2) +
+  geom_line(aes(y=varpercent.st,group=idseg),color="goldenrod2",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.st), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  ylim(-50,300)+
+  coord_cartesian(xlim=c(-10,250))
+
+ge <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Soil moisture")+
+  geom_point(aes(y=varpercent.sm),color="turquoise3",alpha=0.2) +
+  geom_line(aes(y=varpercent.sm,group=idseg),color="turquoise3",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.sm), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  ylim(-10,50)+
+  coord_cartesian(xlim=c(-10,250))
+
+gf <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Light (PAR)")+
+  geom_point(aes(y=varpercent.par),color="maroon2",alpha=0.2) +
+  geom_line(aes(y=varpercent.par,group=idseg),color="maroon2",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.par), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  ylim(-50,700)+
+  coord_cartesian(xlim=c(-10,250))
+
+gg <- ggplot(allvar6,aes(x = just.dist)) +
+  theme_classic()+
+  ggtitle("Wind")+
+  geom_point(aes(y=varpercent.ws),color="thistle4",alpha=0.2) +
+  geom_line(aes(y=varpercent.ws,group=idseg),color="thistle4",alpha=0.2)+
+  geom_smooth(aes(y=varpercent.ws), color = "thistle4",alpha=0,size=1.5) +
+  xlab("Distance from edge")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) +
+  ylim(-100,600)+
+  coord_cartesian(xlim=c(-10,250))
+
+grid.arrange(ga,gb,gc,gd,ge,gf,gg,ncol=2,nrow=4)
+
 
 #25 dominates trend of ST, to remove
 

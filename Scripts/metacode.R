@@ -212,12 +212,18 @@ sort(table(mergedrefined8$equip.var.6),decreasing=T)
 sort(table(mergedrefined8$equip.var.7),decreasing=T)
 
 #how were edges and interiors determined? ####
+cited_info <- read_csv("./Data/cited_info2.csv")
+
 sort(table(cited_info$cited.dist), decreasing=T)
 length(unique(cited_info$article.id)) #21
+studies <- unique(cited_info$article.id)
 
 cited_interiors <- cited_info[cited_info$dist.type=="interior",]
 
-cited_intdist <- cited_interiors[unique(cited_interiors$article.id),]
-cited_intdist <- sort(table(cited_intdist$cited.dist),decreasing=T)
+cited_intdist <- subset(cited_interiors, subset=!duplicated(cited_interiors[c("article.id")]),
+                        select=c("article.id","cited.dist","dist.type"))
+as.data.frame(table(sort(unlist(cited_intdist$cited.dist))))
 
-cited_papers <- cited_interiors %>% group_by(article.id,cited.author) %>% unique(cited_interiors$cited.author)
+
+cited_papers <- as.data.frame(table(sort(unlist(cited_interiors$cited.author),decreasing=TRUE)))
+
