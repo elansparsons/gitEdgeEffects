@@ -711,7 +711,7 @@ fa <- ggplot(combined5,aes(x = log1p(just.dist))) +
 fb <- ggplot(combined5,aes(x = log1p(just.dist))) +
   theme_classic()+
   ggtitle("Relative humidity")+
-  geom_point(aes(y=log1p(percentrh_diff/100)),color="lightslateblue",alpha=0.2) +
+  geom_point(aes(y=log1p(percentrh_diff/100)),color="indianred3",alpha=0.2) +
   geom_smooth(aes(y=log1p(percentrh_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentrh_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentrh_diff/100)), method = "glm", color = "orange4",alpha=0) +
@@ -720,6 +720,72 @@ fb <- ggplot(combined5,aes(x = log1p(just.dist))) +
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
   geom_vline(xintercept=0)
+
+fc <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("VPD")+
+  geom_point(aes(y=log1p(percentVPD_diff/100)),color="darkviolet",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentVPD_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percentVPD_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentVPD_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentVPD_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")
+
+fd <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Soil temperature")+
+  geom_point(aes(y=log1p(percentst_diff/100)),color="goldenrod2",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentst_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percentst_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentst_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentst_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+fe <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Soil moisture")+
+  geom_point(aes(y=log1p(percentsm_diff/100)),color="turquoise3",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentsm_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percentsm_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentsm_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentsm_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+ff <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Light (PAR)")+
+  geom_point(aes(y=log1p(percentPAR_diff/100)),color="maroon2",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentPAR_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percentPAR_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentPAR_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentPAR_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+fg <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Wind")+
+  geom_point(aes(y=log1p(percentws_diff/100)),color="thistle4",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentws_diff/100)), color = "darksalmon",alpha=0) +
+  geom_smooth(aes(y=log1p(percentws_diff/100)),method = "lm", color = "green4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentws_diff/100)), method = "glm", color = "orange4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentws_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+grid.arrange(fa,fb,fc,fd,fe,ff,fg,ncol=2,nrow=4)
 
 
 
@@ -757,12 +823,9 @@ normalize <- function(x) {
 norms <- as.data.frame(lapply(logvar,normalize))
 
 
-forglmm <- cbind(vardata[,c(1,2,3,10,32,33,34)],logvar) #new, now any analysis can be done
+forglmm <- cbind(vardata[,c(1,2,3,10)],logvar) #new, now any analysis can be done
 forglmm$edge_age_years <- log(forglmm$edge_age_years) #log years to linearize response
 
-
-forglmm <- cbind(vardata[,c(1,2,3,10,32,33,34)],mixedvar)
-forglm <- cbind(vardata[,c(3,10,32,33,34)],mixedvar)
 
 
 
