@@ -702,7 +702,7 @@ fa <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percent_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percent_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percent_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percent_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percent_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
@@ -715,7 +715,7 @@ fb <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percentrh_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentrh_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentrh_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percentrh_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentrh_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
@@ -728,7 +728,7 @@ fc <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percentVPD_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentVPD_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentVPD_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percentVPD_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentVPD_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")
@@ -740,7 +740,7 @@ fd <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percentst_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentst_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentst_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percentst_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentst_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
@@ -753,7 +753,7 @@ fe <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percentsm_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentsm_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentsm_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percentsm_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentsm_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
@@ -766,7 +766,7 @@ ff <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percentPAR_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentPAR_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentPAR_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percentPAR_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentPAR_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
@@ -779,7 +779,7 @@ fg <- ggplot(combined5,aes(x = log1p(just.dist))) +
   geom_smooth(aes(y=log1p(percentws_diff/100)), color = "darksalmon",alpha=0) +
   geom_smooth(aes(y=log1p(percentws_diff/100)),method = "lm", color = "green4",alpha=0) +
   geom_smooth(aes(y=log1p(percentws_diff/100)), method = "glm", color = "orange4",alpha=0) +
-  geom_smooth(aes(y=log1p(percentws_diff/100)), method = "gam", color = "maroon4",alpha=0) +
+  geom_smooth(aes(y=log1p(percentws_diff/100)), method = "gam", color = "maroon4") +
   xlab("log(Distance from edge)")+
   ylab("log(% difference from interior point)")+
   geom_line(aes(y=0),color="black")+
@@ -1004,10 +1004,12 @@ atglm7 <- lmer(percent_diff ~ just.dist.l * edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
 atglm8 <- lmer(percent_diff ~ just.dist.l + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F)
+atglm9 <- glm(percent_diff ~ just.dist.l,
+               data = matglmm)
 
 bestat <- glm(percent_diff ~ just.dist.l, data = matglmm)
 
-AIC(atglm,atglm2,atglm3,atglm4,atglm5,atglm6,atglm7,atglm8)
+AIC(atglm,atglm2,atglm3,atglm4,atglm5,atglm6,atglm7,atglm8,atglm9)
 
 generalized.at <- glmer(percent_diff ~ just.dist + (1|article.id), data = matglmm) #true generalized linear mixed model, defaults to lmer due to Gaussian dist
 
@@ -1041,8 +1043,10 @@ rhglm5 <- lmer(percentrh_diff ~ just.dist.l + matrix_type.f + edge_orient.f + (1
                data = matglmm, REML=F)
 rhglm6 <- lmer(percentrh_diff ~ just.dist.l + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F)
+rhglm7 <- glm(percentrh_diff ~ just.dist.l, 
+                         data = matglmm)
 
-AIC(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6)
+AIC(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6,rhglm7)
 
 bestrh <- glm(percentrh_diff ~ just.dist.l, data = matglmm)
 
@@ -1069,8 +1073,10 @@ stglm7 <- lmer(percentst_diff ~ just.dist.l + edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
 stglm8 <- lmer(percentst_diff ~ just.dist.l * edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
+stglm9 <- glm(percentst_diff ~ just.dist.l, 
+              data = matglmm)
 
-AIC(stglm,stglm2,stglm3,stglm4,stglm5,stglm6,stglm7,stglm8)
+AIC(stglm,stglm2,stglm3,stglm4,stglm5,stglm6,stglm7,stglm8,stglm9)
 
 bestst <- glm(percentst_diff ~ just.dist.l, data = matglmm)
 
@@ -1095,8 +1101,10 @@ smglm6 <- lmer(percentsm_diff ~ just.dist.l + matrix_type.f + edge_orient.f + (1
                data = matglmm, REML=F)
 smglm7 <- lmer(percentsm_diff ~ just.dist.l + edge_age_years + (1|article.id),
                data = matglmm, REML=F) 
+smglm8 <- glm(percentsm_diff ~ just.dist.l, 
+              data = matglmm)
 
-AIC(smglm,smglm2,smglm3,smglm4,smglm5,smglm6,smglm7)
+AIC(smglm,smglm2,smglm3,smglm4,smglm5,smglm6,smglm7,smglm8)
 
 bestsm <- glm(percentsm_diff ~ just.dist.l * matrix_type.f, data = matglmm)
 
@@ -1120,8 +1128,10 @@ parglm5 <- lmer(percentPAR_diff ~ just.dist.l + matrix_type.f + edge_orient.f + 
                 data = matglmm, REML=F) 
 parglm6 <- lmer(percentPAR_diff ~ just.dist.l + matrix_type.f + (1|article.id),
                 data = matglmm, REML=F) 
+parglm7 <- glm(percentPAR_diff ~ just.dist.l, 
+               data = matglmm)
 
-AIC(parglm,parglm2,parglm3,parglm4,parglm5,parglm6)
+AIC(parglm,parglm2,parglm3,parglm4,parglm5,parglm6,parglm7)
 
 bestpar <- glm(percentPAR_diff ~ just.dist.l + edge_orient.f, data = matglmm)
 
@@ -1153,8 +1163,10 @@ vpdglm8 <- lmer(percentVPD_diff ~ just.dist.l + edge_orient.f + (1|article.id), 
                 data = matglmm, REML=F)
 vpdglm9 <- lmer(percentVPD_diff ~ just.dist.l * edge_orient.f + (1|article.id), #2nd
                 data = matglmm, REML=F)
+vpdglm10 <- glm(percentVPD_diff ~ just.dist.l, 
+                data = matglmm)
 
-AIC(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9)
+AIC(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9,vpdglm10)
 
 bestvpd <- glm(percentVPD_diff ~ just.dist.l + edge_orient.f, data = matglmm)
 
@@ -1184,8 +1196,10 @@ wsglm7 <- glm(percentws_diff ~ just.dist.l * matrix_type.f,
               family = gaussian, data = matglmm)
 wsglm8 <- lmer(percentws_diff ~ just.dist.l + edge_age_years + (1|article.id), #2nd
                data = matglmm, REML=F) 
+wsglm9 <- glm(percentws_diff ~ just.dist.l, 
+              data = matglmm)
 
-AIC(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8)
+AIC(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8,wsglm9)
 
 bestws <- glm(percentws_diff ~ just.dist.l + edge_age_years, data = matglmm)
 
@@ -1196,9 +1210,57 @@ qqline(resid(distlm4))
 
 
 
+#lm of all variables ####
+atlm <- lm(percent_diff~just.dist.l,data=matglmm)
+atx <- -coef(atlm)[1]/coef(atlm)[2]
+actualat <- expm1(atx)
+
+
+rhlm <- lm(percentrh_diff~just.dist.l,data=matglmm)
+rhx <- -coef(rhlm)[1]/coef(rhlm)[2]
+actualrh <- expm1(rhx)
+
+vpdlm <- lm(percentVPD_diff~just.dist.l,data=matglmm)
+vpdx <- -coef(vpdlm)[1]/coef(vpdlm)[2]
+actualvpd <- expm1(vpdx)
+
+stlm <- lm(percentst_diff~just.dist.l,data=matglmm)
+stx <- -coef(stlm)[1]/coef(stlm)[2]
+actualst <- expm1(stx)
+
+smlm <- lm(percentsm_diff~just.dist.l,data=matglmm)
+smx <- -coef(smlm)[1]/coef(smlm)[2]
+actualsm <- expm1(smx)
+
+parlm <- lm(percentPAR_diff~just.dist.l,data=matglmm)
+parx <- -coef(parlm)[1]/coef(parlm)[2]
+actualpar <- expm1(parx)
+
+wslm <- lm(percentws_diff~just.dist.l,data=matglmm)
+wsx <- -coef(wslm)[1]/coef(wslm)[2]
+actualws <- expm1(wsx)
+#based on visual inspection, ws anywhere from 3 to 4.5
+expm1(3)
+expm1(4.5)
+
+#mean,except sm
+all <- data.frame(c("actualat","actualrh","actualvpd","actualst","actualsm","actualpar","actualws"),
+                  c(actualat,actualrh,actualvpd,actualst,actualsm,actualpar,actualws))
+names(all) <- c("variable","xint")
+all$xint <- round(all$xint)
+
+mean(all$xint[-5])
+
+
 ####how do significant columns other than dist interact with variables? viz ####
 
-ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+ geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))
+smmatrix <- ggplot(broadmat,aes(x = matrix_type,y=percentsm_diff))+
+  geom_boxplot(aes(group=matrix_type))+ theme(axis.text.x = element_text(angle=90))+
+  ggtitle("Soil moisture by matrix type")+
+  xlab("Matrix type")+
+  ylab("% difference from interior point")+
+  geom_line(aes(y=0),color="black")
+  
 
 
 

@@ -6,12 +6,13 @@ library(forcats) #Version 0.2.0
 library(dplyr) #Version 0.7.4
 library(stringr) #Version 1.2.0
 library(readr) #Version 1.1.1
+library(gridExtra) #Version 2.3
 
 mergedrefined7 <- read_csv("./Data/mergedrefined7.csv")
 
 begin <- dcast(mergedrefined7, Article.ID ~ variable, fun=toString, value.var="data")
 names(begin)[names(begin) == "focal area of research (ecophysiology, population ecology, community ecology ecosystem ecology, animal behavior)"] <- "focal.area.of.research"
-cats <- withbroad
+cats <- read_csv("./Data/withbroad.csv")
 begin <- cbind(begin,cats$broad)
 names(begin)[names(begin) == "cats$broad"] <- "broad"
 names(begin)[names(begin) == "accession number"] <- "accession.n"
@@ -78,7 +79,7 @@ k <- apply(g,1,sort, na.last=TRUE) #sorts groups of strings
 k <- t(k)
 j <- apply(format(k),1,paste, collapse=" ")
 m <- as.data.frame(sort(table(unlist(k)),decreasing=T)) #new, correct version of f
-l <- as.data.frame(sort(table(j), decreasing =T))
+l <- as.data.frame(sort(table(j), decreasing =T)) #unique combinations of variables
 
 
 g$varcombine <- paste(g$var.1,g$var.2,g$var.3,g$var.4,g$var.5,g$var.6,g$var.7)
@@ -181,8 +182,8 @@ count(mergedrefined8[mergedrefined8$arch.y.n == "Y",1]) #2 of 71
 journals <- as.data.frame(sort(table(mergedrefined8$Journal),decreasing=T)) #most common = FEM 6, BC 5
 
 ##area, subject of research ####
-barplot(sort(table(mergedrefined8$focal.area.of.research),decreasing=T))
-barplot(sort(table(mergedrefined8$focal.subject.of.research),decreasing=T))
+areas <- as.data.frame(sort(table(mergedrefined8$focal.area.of.research),decreasing=T))
+subjects <- as.data.frame(sort(table(mergedrefined8$focal.subject.of.research),decreasing=T))
 
 
 ##replicates ####
