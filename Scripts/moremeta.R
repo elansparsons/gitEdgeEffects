@@ -43,7 +43,7 @@ sep$other.diff <- ifelse(sep$notes == "comparison to edge", sep$other.diff, sep$
 sep$full_diff <- ifelse(!is.na(sep$other.diff), sep$other.diff,sep$full_diff)
 #fix id 55
 sep$full_diff[sep$article.id == 55] <- sep$just.diff[sep$article.id == 55]
-#for later comparison to thermal tolerances
+#for later comparison to variances
 sepAT <- sep
 #divide to make everything relative
 sep$percent_diff <- round((sep$full_diff/sep$max.airtemp)*100)
@@ -1212,44 +1212,46 @@ qqline(resid(distlm4))
 
 #lm of all variables ####
 atlm <- lm(percent_diff~just.dist.l,data=matglmm)
-atx <- -coef(atlm)[1]/coef(atlm)[2]
-actualat <- expm1(atx)
+atx <- -coef(atlm)[1]/coef(atlm)[2] #where crosses 0
+actualat <- expm1(atx) #real number meters
 
 
 rhlm <- lm(percentrh_diff~just.dist.l,data=matglmm)
-rhx <- -coef(rhlm)[1]/coef(rhlm)[2]
-actualrh <- expm1(rhx)
+rhx <- -coef(rhlm)[1]/coef(rhlm)[2] #where crosses 0
+actualrh <- expm1(rhx) #real number meters
 
 vpdlm <- lm(percentVPD_diff~just.dist.l,data=matglmm)
-vpdx <- -coef(vpdlm)[1]/coef(vpdlm)[2]
-actualvpd <- expm1(vpdx)
+vpdx <- -coef(vpdlm)[1]/coef(vpdlm)[2] #where crosses 0
+actualvpd <- expm1(vpdx) #real number meters
 
 stlm <- lm(percentst_diff~just.dist.l,data=matglmm)
-stx <- -coef(stlm)[1]/coef(stlm)[2]
-actualst <- expm1(stx)
+stx <- -coef(stlm)[1]/coef(stlm)[2] #where crosses 0
+actualst <- expm1(stx) #real number meters
 
 smlm <- lm(percentsm_diff~just.dist.l,data=matglmm)
-smx <- -coef(smlm)[1]/coef(smlm)[2]
-actualsm <- expm1(smx)
+smx <- -coef(smlm)[1]/coef(smlm)[2] #where crosses 0
+actualsm <- expm1(smx) #real number meters
 
 parlm <- lm(percentPAR_diff~just.dist.l,data=matglmm)
-parx <- -coef(parlm)[1]/coef(parlm)[2]
-actualpar <- expm1(parx)
+parx <- -coef(parlm)[1]/coef(parlm)[2] #where crosses 0
+actualpar <- expm1(parx) #real number meters
 
 wslm <- lm(percentws_diff~just.dist.l,data=matglmm)
-wsx <- -coef(wslm)[1]/coef(wslm)[2]
-actualws <- expm1(wsx)
+wsx <- -coef(wslm)[1]/coef(wslm)[2] #where crosses 0
+actualws <- expm1(wsx) #real number meters
 #based on visual inspection, ws anywhere from 3 to 4.5
 expm1(3)
 expm1(4.5)
 
-#mean,except sm
+#mean of distance of x-intercept,except sm
 all <- data.frame(c("actualat","actualrh","actualvpd","actualst","actualsm","actualpar","actualws"),
                   c(actualat,actualrh,actualvpd,actualst,actualsm,actualpar,actualws))
 names(all) <- c("variable","xint")
 all$xint <- round(all$xint)
 
 mean(all$xint[-5])
+
+#####skip to variances section
 
 
 ####how do significant columns other than dist interact with variables? viz ####
@@ -1281,8 +1283,8 @@ interiors <- AT %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- AT %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- AT %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(AT[,c(1,2,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,12,13)] <- c("just.dist","AT_var_n","max.dist","maxvar.n")
+sep <- merge(AT[,c(1,2,3,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
+colnames(sep)[c(4,11,13,14)] <- c("just.dist","AT_var_n","max.dist","maxvar.n")
 
 sep$atvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxvar.n,1) == 0.00, 
                         sep$atvardiff <- sep$maxvar.n - sep$AT_var_n, 
@@ -1292,8 +1294,11 @@ sep$atvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxvar.n,1) ==
 sep$varpercent.at <- round((sep$atvardiff/sep$maxvar.n)*100)
 sep$varpercent.at <- ifelse(is.na(sep$varpercent.at), NA, ifelse(is.infinite(sep$varpercent.at),0,ifelse(is.nan(sep$varpercent.at),0,sep$varpercent.at)))
 
-short.at <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
+short.at <- sep[,c(1,2,4,6,7,8,9,10,11,13,14,16)]
 short.at$article.id <- as.factor(short.at$article.id)
+
+#standard errors for later calculation of CI of interior space
+atse <- sep[(sep$AT_var=="SE"&sep$just.dist==sep$max.dist),]
 
 
 
@@ -1309,8 +1314,8 @@ interiors <- PAR %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- PAR %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- PAR %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(PAR[,c(1,2,5,7,9,10,11,12,14,15)], top[,c(1,2,5,15)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,11,12)] <- c("just.dist","PAR_var_n","max.dist","maxparvar.n")
+sep <- merge(PAR[,c(1,2,3,4,5,9,10,11,12,14,15)], top[,c(1,2,5,15)], by = c("article.id","segment_n"))
+colnames(sep)[c(5,11,12,13)] <- c("just.dist","PAR_var_n","max.dist","maxparvar.n")
 
 sep$parvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxparvar.n,1) == 0.00, 
                         sep$parvardiff <- sep$maxparvar.n - sep$PAR_var_n, 
@@ -1320,8 +1325,11 @@ sep$parvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxparvar.n,1
 sep$varpercent.par <- round((sep$parvardiff/sep$maxparvar.n)*100)
 sep$varpercent.par <- ifelse(is.na(sep$varpercent.par), NA, ifelse(is.infinite(sep$varpercent.par),0,ifelse(is.nan(sep$varpercent.par),0,sep$varpercent.par)))
 
-short.par <- sep[,c(1,2,3,5,6,7,8,9,10,14)]
+short.par <- sep[,c(1,2,5,6,7,8,9,10,11,15)]
 short.par$article.id <- as.factor(short.par$article.id)
+
+#standard errors for later calculation of CI of interior space
+parse <- sep[(sep$PAR_var=="SE"&sep$just.dist==sep$max.dist),]
 
 
 #RH
@@ -1337,8 +1345,8 @@ interiors <- RH %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- RH %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- RH %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(RH[,c(1,2,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,12,13)] <- c("just.dist","RH_var_n","max.dist","maxrhvar.n")
+sep <- merge(RH[,c(1,2,3,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
+colnames(sep)[c(4,11,13,14)] <- c("just.dist","RH_var_n","max.dist","maxrhvar.n")
 
 sep$rhvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxrhvar.n,1) == 0.00, 
                          sep$rhvardiff <- sep$maxrhvar.n - sep$RH_var_n, 
@@ -1349,8 +1357,11 @@ sep$varpercent.rh <- round((sep$rhvardiff/sep$maxrhvar.n)*100)
 sep$varpercent.rh <- ifelse(is.na(sep$varpercent.rh), NA, ifelse(is.infinite(sep$varpercent.rh),0,ifelse(is.nan(sep$varpercent.rh),0,sep$varpercent.rh)))
 
 
-short.rh <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
+short.rh <- sep[,c(1,2,4,6,7,8,9,10,11,16)]
 short.rh$article.id <- as.factor(short.rh$article.id)
+
+#standard errors for later calculation of CI of interior space
+rhse <- sep[(sep$RH_var=="SE"&sep$just.dist==sep$max.dist),]
 
 
 #SM
@@ -1366,8 +1377,8 @@ interiors <- SM %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- SM %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- SM %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(SM[,c(1,2,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,12,13)] <- c("just.dist","SM_var_n","max.dist","maxsmvar.n")
+sep <- merge(SM[,c(1,2,3,4,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
+colnames(sep)[c(4,10,12,13)] <- c("just.dist","SM_var_n","max.dist","maxsmvar.n")
 
 sep$smvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxsmvar.n,1) == 0.00, 
                          sep$smvardiff <- sep$maxsmvar.n - sep$SM_var_n, 
@@ -1378,8 +1389,11 @@ sep$varpercent.sm <- round((sep$smvardiff/sep$maxsmvar.n)*100)
 sep$varpercent.sm <- ifelse(is.na(sep$varpercent.sm), NA, ifelse(is.infinite(sep$varpercent.sm),0,ifelse(is.nan(sep$varpercent.sm),0,sep$varpercent.sm)))
 
 
-short.sm <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
+short.sm <- sep[,c(1,2,4,5,6,7,8,9,10,15)]
 short.sm$article.id <- as.factor(short.sm$article.id)
+
+#standard errors for later calculation of CI of interior space
+smse <- sep[(sep$SM_var=="SE"&sep$just.dist==sep$max.dist),]
 
 #ST
 ST <- read_csv("./Data/ST_seg.csv")
@@ -1393,8 +1407,8 @@ interiors <- ST %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- ST %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- ST %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(ST[,c(1,2,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,12,13)] <- c("just.dist","ST_var_n","max.dist","maxstvar.n")
+sep <- merge(ST[,c(1,2,3,4,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
+colnames(sep)[c(4,10,12,13)] <- c("just.dist","ST_var_n","max.dist","maxstvar.n")
 
 sep$stvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxstvar.n,1) == 0.00, 
                         sep$stvardiff <- sep$maxstvar.n - sep$ST_var_n, 
@@ -1404,8 +1418,11 @@ sep$stvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxstvar.n,1) 
 sep$varpercent.st <- round((sep$stvardiff/sep$maxstvar.n)*100)
 sep$varpercent.st <- ifelse(is.na(sep$varpercent.st), NA, ifelse(is.infinite(sep$varpercent.st),0,ifelse(is.nan(sep$varpercent.st),0,sep$varpercent.st)))
 
-short.st <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
+short.st <- sep[,c(1,2,4,5,6,7,8,9,10,15)]
 short.st$article.id <- as.factor(short.st$article.id)
+
+#standard errors for later calculation of CI of interior space
+stse <- sep[(sep$ST_var=="SE"&sep$just.dist==sep$max.dist),]
 
 
 #VPD
@@ -1420,8 +1437,8 @@ interiors <- VPD %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- VPD %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- VPD %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(VPD[,c(1,2,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,12,13)] <- c("just.dist","VPD_var_n","max.dist","maxvpdvar.n")
+sep <- merge(VPD[,c(1,2,3,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
+colnames(sep)[c(4,11,13,14)] <- c("just.dist","VPD_var_n","max.dist","maxvpdvar.n")
 
 sep$vpdvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxvpdvar.n,1) == 0.00, 
                         sep$vpdvardiff <- sep$maxvpdvar.n - sep$VPD_var_n, 
@@ -1431,8 +1448,11 @@ sep$vpdvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxvpdvar.n,1
 sep$varpercent.vpd <- round((sep$vpdvardiff/sep$maxvpdvar.n)*100)
 sep$varpercent.vpd <- ifelse(is.na(sep$varpercent.vpd), NA, ifelse(is.infinite(sep$varpercent.vpd),0,ifelse(is.nan(sep$varpercent.vpd),0,sep$varpercent.vpd)))
 
-short.vpd <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
+short.vpd <- sep[,c(1,2,4,6,7,8,9,10,11,16)]
 short.vpd$article.id <- as.factor(short.vpd$article.id)
+
+#standard errors for later calculation of CI of interior space
+vpdse <- sep[(sep$VPD_var=="SE"&sep$just.dist==sep$max.dist),]
 
 
 #WS
@@ -1447,8 +1467,8 @@ interiors <- WS %>% group_by(article.id) %>% summarize(dist = max(dist))
 top <- WS %>% group_by(article.id,segment_n) %>% slice(which.max(dist))
 zero <- WS %>% group_by(article.id, segment_n) %>% slice(which(dist==0))
 
-sep <- merge(WS[,c(1,2,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
-colnames(sep)[c(3,10,12,13)] <- c("just.dist","WS_var_n","max.dist","maxwsvar.n")
+sep <- merge(WS[,c(1,2,3,4,6,8,9,10,11,13,14,15)], top[,c(1,2,4,14)], by = c("article.id","segment_n"))
+colnames(sep)[c(4,11,13,14)] <- c("just.dist","WS_var_n","max.dist","maxwsvar.n")
 
 sep$wsvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxwsvar.n,1) == 0.00, 
                         sep$wsvardiff <- sep$maxwsvar.n - sep$WS_var_n, 
@@ -1458,8 +1478,13 @@ sep$wsvardiff <- ifelse(ifelse(sep$just.dist == sep$max.dist, sep$maxwsvar.n,1) 
 sep$varpercent.ws <- round((sep$wsvardiff/sep$maxwsvar.n)*100)
 sep$varpercent.ws <- ifelse(is.na(sep$varpercent.ws), NA, ifelse(is.infinite(sep$varpercent.ws),0,ifelse(is.nan(sep$varpercent.ws),0,sep$varpercent.ws)))
 
-short.ws <- sep[,c(1,2,3,5,6,7,8,9,10,15)]
+short.ws <- sep[,c(1,2,4,6,7,8,9,10,11,16)]
 short.ws$article.id <- as.factor(short.ws$article.id)
+
+#standard errors for later calculation of CI of interior space
+wsse <- sep[(sep$WS_var=="SE"&sep$just.dist==sep$max.dist),]
+
+
 
 ###combine variances
 allvar1 <- merge(short.at, short.par[,c(1,2,3,8,9,10)], by = c("article.id","segment_n","just.dist"), all=TRUE)
@@ -1614,6 +1639,61 @@ variances2 <- gather(variances, key = "from", value = "type", c(8:14))
 w <- variances2 %>% group_by(article.id)
 w2 <- summarize(w,types=first(type))
 w3 <- data.frame(table(unlist(w2$types)))
+
+#calculate CI for interior point
+
+#find percentage of SE
+atse$perat <- atse$maxvar.n/atse$air_temp
+rhse$perrh <- rhse$maxrhvar.n/rhse$rel_humid
+vpdse$pervpd <- vpdse$maxvpdvar.n/vpdse$VPD
+stse$perst <- stse$maxstvar.n/stse$soil_temp
+smse$persm <- smse$maxsmvar.n/smse$soil_moist
+parse$perpar <- ifelse(!is.na(parse$PAR), parse$maxparvar.n/parse$PAR ,parse$maxparvar.n/parse$log_value)
+wsse$perws <- wsse$maxwsvar.n/wsse$wind_speed
+wsse <- wsse[is.finite(wsse$perws),]
+
+#all, 95% CI measure
+atCI <- round(mean(atse$perat,na.rm=TRUE)*1.96,2)
+rhCI <- round(mean(rhse$perrh,na.rm=TRUE)*1.96,2)
+stCI <- round(mean(stse$perst,na.rm=TRUE)*1.96,2)
+smCI <- round(mean(smse$persm,na.rm=TRUE)*1.96,2)
+parCI <- round(mean(parse$perpar,na.rm=TRUE)*1.96,2)
+vpdCI <- round(mean(vpdse$pervpd,na.rm=TRUE)*1.96,2)
+wsCI <- round(mean(wsse$perws,na.rm=TRUE)*1.96,2)
+
+
+#where regression of abiotic effects passes CI -- edge effects no longer distinguishable
+#find by predicting for 0,5,10,20,40,60,80,100,120,150,200
+cidists <- data.frame(just.dist.l = log1p(c(0,5,10,20,40,60,80,100,120,150,200)))
+
+atpred <- round(expm1(predict(atlm, newdata = cidists)),2)
+rhpred <- round(expm1(predict(rhlm, newdata = cidists)),2)
+vpdpred <- round(expm1(predict(vpdlm, newdata = cidists)),2)
+stpred <- round(expm1(predict(stlm, newdata = cidists)),2)
+smpred <- round(expm1(predict(smlm, newdata = cidists)),2)
+parpred <- round(expm1(predict(parlm, newdata = cidists)),2)
+wspred <- round(expm1(predict(wslm, newdata = cidists)),2)
+
+#compare where 0 +/- CI measure crosses pred
+#AT - CI 0.05, pred 0.05 at 0 m
+#RH - CI -0.08, pred -0.07 at 0 m
+#VPD - CI 0.27, pred 0.30 at 20 m and 0.20 at 40m
+#ST - CI 0.06, pred 0.05 at 0 m
+#SM - CI 0.17, pred does not approach
+#PAR - CI 1.01, pred 1.07 at 0m and 0.44 at 5m
+#WS - CI 0.68, pred 0.71 at 5m and 0.45 at 10m
+
+newcidists <- data.frame(just.dist.l = log1p(c(3,7,25,30,35)))
+
+vpdpred2 <- round(expm1(predict(vpdlm, newdata = newcidists)),2)
+parpred2 <- round(expm1(predict(parlm, newdata = newcidists)),2)
+wspred2 <- round(expm1(predict(wslm, newdata = newcidists)),2)
+
+#VPD - CI 0.27, pred 0.30 at 20m and 0.27 at 25m
+#PAR - CI 1.01, pred 1.07 at 0m and 0.56 at 3m
+#WS - CI 0.68, pred 0.91 at 3m and 0.58 at 7m
+
+
 
 
 
