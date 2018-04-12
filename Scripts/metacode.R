@@ -83,7 +83,7 @@ l <- as.data.frame(sort(table(j), decreasing =T)) #unique combinations of variab
 
 
 g$varcombine <- paste(g$var.1,g$var.2,g$var.3,g$var.4,g$var.5,g$var.6,g$var.7)
-i <- g[str_detect(g$varcombine,"(?=.*AT)(?=.*RH)(?=.*VPD)"),] #search by specific string type
+i <- g[str_detect(g$varcombine,"(?=.*AT)(?=.*RH)"),] #search by specific string type
 
 #transect info ####
 h <- begin$layout
@@ -152,6 +152,11 @@ hist(mergedrefined8$Year,breaks=10)
 mergedrefined8$Year <- as.factor(mergedrefined8$Year)
 years <- mergedrefined8 %>% count(Year)
 
+ggplot(mergedrefined8, aes(x=Year)) + geom_histogram(color="black",fill="thistle4",stat="count")+ theme_bw()+
+  theme(axis.text.x  = element_text(angle=90, vjust=0.5))+
+  ylim(0,13)+
+  xlab("Year")+ylab("Frequency") + ggtitle("Studies per year")
+
 
 mergedrefined8$end.date <- as.Date(mergedrefined8$end.date, format = "%m/%d/%Y")
 mergedrefined8$end.date.1 <- as.Date(mergedrefined8$end.date.1, format = "%m/%d/%Y")
@@ -173,6 +178,10 @@ dates$year <- ifelse(!is.na(dates$end.date), substring(dates$end.date,1,4),
                      substring(dates$end.date.2,1,4))
 dates$year <- as.integer(dates$year)
 hist(dates$year)
+
+ggplot(dates, aes(x=days)) + geom_histogram(binwidth=20,color="black",fill="thistle4")+ theme_bw()+
+  geom_vline(aes(xintercept=mean(days,na.rm=TRUE)), color="blue",linetype="dashed",size=1)+
+  xlab("# days of measurements")+ylab("Frequency") + ggtitle("Histogram of sampling duration")
 
 
 ##archives? ####

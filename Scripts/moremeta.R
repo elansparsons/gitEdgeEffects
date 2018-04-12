@@ -8,6 +8,7 @@ library(gridExtra) #Version 2.3
 library(lme4) #Version 1.1-14
 library(MASS) #Version 7.3-47
 library(readr) #Version 1.1.1
+library(MuMIn)
 
 AT <- read_csv("./Data/AT_seg.csv")
 
@@ -946,7 +947,7 @@ withoutforglmm <- forglmm[!forglmm$article.id %in% oneha,]
 
 
 
-###grouping matrices into similar? ####
+###grouping matrices into similar ####
 #grass, meadow, clearing, pasture, field, grassland = "grass"
 broadmat <- vardata
 broadmat$matrix_type[broadmat$matrix_type == "meadow"] <- "grass"
@@ -1010,6 +1011,7 @@ atglm9 <- glm(percent_diff ~ just.dist.l,
 bestat <- glm(percent_diff ~ just.dist.l, data = matglmm)
 
 AIC(atglm,atglm2,atglm3,atglm4,atglm5,atglm6,atglm7,atglm8,atglm9)
+AICc(atglm,atglm2,atglm3,atglm4,atglm5,atglm6,atglm7,atglm8,atglm9)
 
 generalized.at <- glmer(percent_diff ~ just.dist + (1|article.id), data = matglmm) #true generalized linear mixed model, defaults to lmer due to Gaussian dist
 
@@ -1047,6 +1049,7 @@ rhglm7 <- glm(percentrh_diff ~ just.dist.l,
                          data = matglmm)
 
 AIC(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6,rhglm7)
+AICc(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6,rhglm7)
 
 bestrh <- glm(percentrh_diff ~ just.dist.l, data = matglmm)
 
@@ -1077,6 +1080,7 @@ stglm9 <- glm(percentst_diff ~ just.dist.l,
               data = matglmm)
 
 AIC(stglm,stglm2,stglm3,stglm4,stglm5,stglm6,stglm7,stglm8,stglm9)
+AICc(stglm,stglm2,stglm3,stglm4,stglm5,stglm6,stglm7,stglm8,stglm9)
 
 bestst <- glm(percentst_diff ~ just.dist.l, data = matglmm)
 
@@ -1105,6 +1109,7 @@ smglm8 <- glm(percentsm_diff ~ just.dist.l,
               data = matglmm)
 
 AIC(smglm,smglm2,smglm3,smglm4,smglm5,smglm6,smglm7,smglm8)
+AICc(smglm,smglm2,smglm3,smglm4,smglm5,smglm6,smglm7,smglm8)
 
 bestsm <- glm(percentsm_diff ~ just.dist.l * matrix_type.f, data = matglmm)
 
@@ -1132,6 +1137,7 @@ parglm7 <- glm(percentPAR_diff ~ just.dist.l,
                data = matglmm)
 
 AIC(parglm,parglm2,parglm3,parglm4,parglm5,parglm6,parglm7)
+AICc(parglm,parglm2,parglm3,parglm4,parglm5,parglm6,parglm7)
 
 bestpar <- glm(percentPAR_diff ~ just.dist.l + edge_orient.f, data = matglmm)
 
@@ -1167,6 +1173,7 @@ vpdglm10 <- glm(percentVPD_diff ~ just.dist.l,
                 data = matglmm)
 
 AIC(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9,vpdglm10)
+AICc(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9,vpdglm10)
 
 bestvpd <- glm(percentVPD_diff ~ just.dist.l + edge_orient.f, data = matglmm)
 
@@ -1200,6 +1207,7 @@ wsglm9 <- glm(percentws_diff ~ just.dist.l,
               data = matglmm)
 
 AIC(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8,wsglm9)
+AICc(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8,wsglm9)
 
 bestws <- glm(percentws_diff ~ just.dist.l + edge_age_years, data = matglmm)
 
@@ -1673,6 +1681,88 @@ stpred <- round(expm1(predict(stlm, newdata = cidists)),2)
 smpred <- round(expm1(predict(smlm, newdata = cidists)),2)
 parpred <- round(expm1(predict(parlm, newdata = cidists)),2)
 wspred <- round(expm1(predict(wslm, newdata = cidists)),2)
+
+
+#graph with CI
+ha <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Air temperature")+
+  geom_point(aes(y=log1p(percent_diff/100)),color="lightslateblue",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percent_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=log1p(atCI)),color="blue")+
+  geom_line(aes(y=0),color="black")+
+  ylim(0,0.5)+
+  geom_vline(xintercept=0)
+
+hb <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Relative humidity")+
+  geom_point(aes(y=log1p(percentrh_diff/100)),color="indianred3",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentrh_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=-log1p(rhCI)),color="blue")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0)
+
+hc <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("VPD")+
+  geom_point(aes(y=log1p(percentVPD_diff/100)),color="darkviolet",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentVPD_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=log1p(vpdCI)),color="blue")+
+  geom_line(aes(y=0),color="black")
+
+hd <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Soil temperature")+
+  geom_point(aes(y=log1p(percentst_diff/100)),color="goldenrod2",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentst_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=log1p(stCI)),color="blue")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+he <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Soil moisture")+
+  geom_point(aes(y=log1p(percentsm_diff/100)),color="turquoise3",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentsm_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=-log1p(smCI)),color="blue")+
+  geom_line(aes(y=0),color="black")+
+  ylim(-1,0.5)+
+  geom_vline(xintercept=0) 
+
+hf <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Light (PAR)")+
+  geom_point(aes(y=log1p(percentPAR_diff/100)),color="maroon2",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentPAR_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=log1p(parCI)),color="blue")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+hg <- ggplot(combined5,aes(x = log1p(just.dist))) +
+  theme_classic()+
+  ggtitle("Wind")+
+  geom_point(aes(y=log1p(percentws_diff/100)),color="thistle4",alpha=0.2) +
+  geom_smooth(aes(y=log1p(percentws_diff/100)),method = "lm", color = "green4",alpha=0) +
+  xlab("log(Distance from edge)")+
+  ylab("log(% difference from interior point)")+
+  geom_hline(aes(yintercept=log1p(wsCI)),color="blue")+
+  geom_line(aes(y=0),color="black")+
+  geom_vline(xintercept=0) 
+
+grid.arrange(ha,hb,hc,hd,he,hf,hg,ncol=2,nrow=4)
 
 #compare where 0 +/- CI measure crosses pred
 #AT - CI 0.05, pred 0.05 at 0 m
