@@ -99,7 +99,7 @@ biomes$percentwith <- round(((biomes$withdata/39)*100),digits=0)
 
 forbarplot <- biomes[,c(1,2,4)] %>% gather(key="type",value="number",Freq:withdata)
  
-ggplot(forbarplot) + geom_col(aes(x=Var1,y=number,fill=type)) + scale_fill_manual(values=biopal,name="Abiotic Edge\nEffects",labels=c("Total","With data")) +
+ggplot(forbarplot, x=Var1, y=number) + geom_col(aes(x=Var1,y=number,fill=type),position="identity") + scale_fill_manual(values=biopal,name="Abiotic Edge\nEffects",labels=c("Total","With data")) +
   labs(x="Biome type",y="Number of studies")
 
 biopal <- c("#33ccff","#000099")
@@ -181,6 +181,7 @@ hist(dates$year)
 
 ggplot(dates, aes(x=days)) + geom_histogram(binwidth=20,color="black",fill="thistle4")+ theme_bw()+
   geom_vline(aes(xintercept=mean(days,na.rm=TRUE)), color="blue",linetype="dashed",size=1)+
+  geom_vline(aes(xintercept=median(days,na.rm=TRUE)),color="orange",linetype="solid",size=1)+
   xlab("# days of measurements")+ylab("Frequency") + ggtitle("Histogram of sampling duration")
 
 
@@ -232,7 +233,7 @@ cited_interiors <- cited_info[cited_info$dist.type=="interior",]
 
 cited_intdist <- subset(cited_interiors, subset=!duplicated(cited_interiors[c("article.id")]),
                         select=c("article.id","cited.dist","dist.type"))
-as.data.frame(table(sort(unlist(cited_intdist$cited.dist))))
+cited_distances <- as.data.frame(table(sort(unlist(cited_intdist$cited.dist))))
 
 
 cited_papers <- as.data.frame(table(sort(unlist(cited_interiors$cited.author),decreasing=TRUE)))
