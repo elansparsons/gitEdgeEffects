@@ -25,4 +25,4 @@ mixture of qualitative and quantitative data (did the methods influence measurem
 Relevant visualizations are included with their data type/s.
  
 
-A writeup is available at [http://www.esparsons.com/abiotic-edge-effects/](esparsons.com).
+A writeup is available at [esparsons.com](http://www.esparsons.com/abiotic-edge-effects/).
