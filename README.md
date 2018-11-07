@@ -13,14 +13,16 @@ allvariances is quantitative data on all variance types, including standard erro
 
 These files are manipulated in:
 
-*metacode.r
-for qualtitative data only
+*metacode.r*
+for qualtitative data only (how/where/when/by whom were the data collected? which journals? etc.)
 
-*moremeta.r
-for quantitative data only
+*moremeta.r*
+for quantitative data only (which measurements were taken?)
 
-*meta_qualquan.r
-mixture of qualitative and quantitative data
+*meta_qualquan.r*
+mixture of qualitative and quantitative data (did the methods influence measurements?)
 
+Relevant visualizations are included with their data type/s.
+ 
 
-For a more in-depth writeup including code snippets, consult the Jupyter project.
+A writeup is available at [http://www.esparsons.com/abiotic-edge-effects/](esparsons.com).
