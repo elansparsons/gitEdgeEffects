@@ -13,13 +13,13 @@ allvariances is quantitative data on all variance types, including standard erro
 
 These files are manipulated in:
 
-*metacode.r*
+* metacode.r
 for qualtitative data only (how/where/when/by whom were the data collected? which journals? etc.)
 
-*moremeta.r*
+* moremeta.r
 for quantitative data only (which measurements were taken?)
 
-*meta_qualquan.r*
+* meta_qualquan.r
 mixture of qualitative and quantitative data (did the methods influence measurements?)
 
 Relevant visualizations are included with their data type/s.
