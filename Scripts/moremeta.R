@@ -811,6 +811,9 @@ aea <- ggplot(smrem,aes(x = just.dist)) +
 
 ########initial modeling ####
 
+## READ IN
+read.csv("./Outputs/vardata.csv")
+
 #distributions not normal, log after + 1 to remove all negative
 #normalize everything
 forcart <- vardata[,-c(1,2,4,5,11,12,13,14,15,17,18,20,21,23,24,26,27,29,30)]
@@ -843,29 +846,28 @@ nrow(forglmm[!is.na(forglmm$edge_orient.f),])/900
 #graphing
 
 #single variable,dist
-atglm.sing <- glm(percent_diff ~ just.dist,family = gaussian, data = forglm)
-rhglm.sing <- glm(percentrh_diff ~ just.dist,family = gaussian, data = forglm)
-vpdglm.sing <- glm(percentVPD_diff ~ just.dist,family = gaussian, data = forglm)
-smglm.sing <-  glm(percentsm_diff ~ just.dist,family = gaussian, data = forglm)
-stglm.sing <-  glm(percentst_diff ~ just.dist,family = gaussian, data = forglm)
-parglm.sing <- glm(percentPAR_diff ~ just.dist,family = gaussian, data = forglm)
-wsglm.sing <-  glm(percentws_diff ~ just.dist,family = gaussian, data = forglm)
+atglm.sing <- glm(percent_diff ~ just.dist,family = gaussian, data = forglmm)
+rhglm.sing <- glm(percentrh_diff ~ just.dist,family = gaussian, data = forglmm)
+vpdglm.sing <- glm(percentVPD_diff ~ just.dist,family = gaussian, data = forglmm)
+smglm.sing <-  glm(percentsm_diff ~ just.dist,family = gaussian, data = forglmm)
+stglm.sing <-  glm(percentst_diff ~ just.dist,family = gaussian, data = forglmm)
+parglm.sing <- glm(percentPAR_diff ~ just.dist,family = gaussian, data = forglmm)
+wsglm.sing <-  glm(percentws_diff ~ just.dist,family = gaussian, data = forglmm)
 
 #is a log curve a better predictor?
 propor <- vardata
 propor$atpro <- propor$percent_diff/100
-logfit <- lm(atpro~log1p(just.dist[just.dist >= 0]), data = propor)
+logfit <- lm(atpro[just.dist >=0]~log1p(just.dist[just.dist >= 0]), data = propor)
 newy <- predict(logfit,list(just.dist=distrange),interval="confidence")
 matlines(distrange,newy,lwd=2)
 regfit <- lm(atpro~just.dist,data=propor)
 
 newnewy <- predict(logfit,list(just.dist=distrange))
 regy <- predict(regfit,list(just.dist=distrange))
-plot(propor$just.dist,propor$atpro,pch=1,col="blue",xlab="Distance from edge",ylab="Change in AT compared to interior point")
+plot(propor$just.dist,propor$atpro,pch=1,ylim=c(-0.1,0.3),col="blue",xlab="Distance from edge",ylab="Change in AT compared to interior point")
 lines(distrange,newnewy,col="red")
 lines(distrange,regy,col="green")
-#not really.
-
+# yup.
 
 
 atrange <- seq(-1,1,0.1)
@@ -876,21 +878,22 @@ strange <- seq(-0.5,1,0.1)
 vpdrange <- seq(-1,2,0.2)
 wsrange <- seq(-1,2.2,0.2)
 distrange <- seq(-10,500,1)
+distrange <- seq(0,500,1)
 
 aty <- predict(atglm.sing,list(just.dist = distrange),type="response")
-plot(forglm$just.dist,forglm$percent_diff,pch=1,xlab="Distance from edge",ylab="Change in AT compared to interior point")
+plot(forglmm$just.dist,forglmm$percent_diff,pch=1,xlab="Distance from edge",ylab="Change in AT compared to interior point")
 lines(distrange,aty)
 
 rhy <- predict(rhglm.sing,list(just.dist = distrange),type="response")
-plot(forglm$just.dist,forglm$percentrh_diff,pch=1,xlab="Distance from edge",ylab="Change in RH compared to interior point")
+plot(forglmm$just.dist,forglmm$percentrh_diff,pch=1,xlab="Distance from edge",ylab="Change in RH compared to interior point")
 lines(distrange,rhy)
 
 vpdy <- predict(vpdglm.sing,list(just.dist = distrange),type="response")
-plot(forglm$just.dist,forglm$percentVPD_diff,pch=1,xlab="Distance from edge",ylab="Change in VPD compared to interior point")
+plot(forglmm$just.dist,forglmm$percentVPD_diff,pch=1,xlab="Distance from edge",ylab="Change in VPD compared to interior point")
 lines(distrange,vpdy)
 
 smy <- predict(smglm.sing,list(just.dist = distrange),type="response")
-plot(forglm$just.dist,forglm$percentsm_diff,pch=1,xlab="Distance from edge",ylab="Change in SM compared to interior point")
+plot(forglmm$just.dist,forglmm$percentsm_diff,pch=1,xlab="Distance from edge",ylab="Change in SM compared to interior point")
 lines(distrange,smy)
 
 
@@ -900,11 +903,11 @@ lines(distrange,sty)
 
 
 pary <- predict(parglm.sing,list(just.dist = distrange),type="response")
-plot(forglm$just.dist,forglm$percentPAR_diff,pch=1,xlab="Distance from edge",ylab="Change in PAR compared to interior point")
+plot(forglmm$just.dist,forglmm$percentPAR_diff,pch=1,xlab="Distance from edge",ylab="Change in PAR compared to interior point")
 lines(distrange,pary)
 
 wsy <- predict(wsglm.sing,list(just.dist = distrange),type="response")
-plot(forglm$just.dist,forglm$percentws_diff,pch=1,xlab="Distance from edge",ylab="Change in WS compared to interior point")
+plot(forglmm$just.dist,forglmm$percentws_diff,pch=1,xlab="Distance from edge",ylab="Change in WS compared to interior point")
 lines(distrange,wsy)
 
 #all together
@@ -965,6 +968,19 @@ broadmat$matrix_type[broadmat$matrix_type == "pine.plantation"] <- "plantation"
 broadmat$matrix_type[broadmat$matrix_type == "eucalyptus.farm"] <- "plantation"
 broadmat$matrix_type[broadmat$matrix_type == "stand"] <- "plantation"
 
+# ag vs non-ag
+broadmat <- vardata
+agri_list <- c("field","pasture","sugarcane.field","pine.plantation","eucalyptus.farm","stand","conifer.clearcut","plantation","grass")
+broadmat$matrix_type[broadmat$matrix_type %in% agri_list] <- "ag"
+
+not_agri_list <- c("shrubland","young.successional.forest","oak.forest","sandscrub","savanna","grassland","prairie")
+broadmat$matrix_type[broadmat$matrix_type %in% not_agri_list] <- "non_ag"
+
+# remove neither
+neither <- c("highway","powerline","meadow","clearing",NA)
+broadmat <- broadmat[!(broadmat %in% neither)]
+
+
 
 forcart <- broadmat[,-c(1,2,4,5,11,12,13,14,15,17,18,20,21,23,24,26,27,29,30)]
 fractions <- (forcart[,-c(1,3,4,5,6)]/100) ##remove negative percentages
@@ -972,12 +988,12 @@ logvar <- log1p(fractions)
 mixedvar <- cbind(fractions[,c(3,4)],logvar[,c(1,2,3,4,5,6,7)])
 
 
-broadmat$season.f <- as.integer(as.factor(broadmat$season))
-broadmat$matrix_type.f <- as.integer(as.factor(broadmat$matrix_type))
-broadmat$edge_orient.f <- as.integer(as.factor(broadmat$edge_orient))
+broadmat$season.f <- factor(broadmat$season)
+broadmat$matrix_type.f <- factor(broadmat$matrix_type)
+broadmat$edge_orient.f <- factor(broadmat$edge_orient)
 
 matglmm <- cbind(broadmat[,c(1,2,3,10,32,33,34)],mixedvar)
-matglmm <- matglmm[!matglmm$article.id %in% oneha,] #remove 1 ha plots
+#matglmm <- matglmm[!matglmm$article.id %in% oneha,] #remove 1 ha plots
 
 #prep for GLMMs, remove matrix points and log dist(?)
 
@@ -986,7 +1002,7 @@ matglmm <- matglmm[matglmm$just.dist>=0,]
 matglmm$just.dist.l <- log1p(matglmm$just.dist)
 
 
-#AT GLMMS ####
+#AT GLMS ####
 ggqqplot(vardata$percent_diff)
 
 atglm <- lmer(percent_diff ~ (1|article.id), #2nd best
@@ -1008,6 +1024,15 @@ atglm8 <- lmer(percent_diff ~ just.dist.l + matrix_type.f + edge_age_years + (1|
 atglm9 <- glm(percent_diff ~ just.dist.l,
                data = matglmm)
 
+anova(atglm,atglm2)
+
+qqp(vardata$percent_diff, "lnorm")
+qqp(vardata$percent_diff, "norm")
+nbinom <- fitdistr(na.exclude(vardata$percent_diff), "Negative Binomial")
+qqp(a.exclude(vardata$percent_diff), "nbinom", size = nbinom$estimate[[1]], mu = nbinom$estimate[[2]])
+poisson <- fitdistr(na.exclude(vardata$percent_diff), "Poisson")
+qqp(vardata$percent_diff, "pois", poisson$estimate)
+
 bestat <- glm(percent_diff ~ just.dist.l, data = matglmm)
 
 AIC(atglm,atglm2,atglm3,atglm4,atglm5,atglm6,atglm7,atglm8,atglm9)
@@ -1017,6 +1042,10 @@ generalized.at <- glmer(percent_diff ~ just.dist + (1|article.id), data = matglm
 
 qqnorm(resid(bestat))
 qqline(resid(bestat))   #model fairly normal, but somewhat heavy at tails
+#compare to loglinear model
+qqnorm(resid(logfit))
+qqline(resid(logfit))
+#basically the same
 
 ggqqplot(matglmm$percent_diff)
 
@@ -1042,7 +1071,7 @@ rhglm3 <- lmer(percentrh_diff ~ just.dist.l + edge_orient.f + (1|article.id), #3
 rhglm4 <- lmer(percentrh_diff ~ just.dist.l * edge_orient.f + (1|article.id),
                data = matglmm, REML=F)
 rhglm5 <- lmer(percentrh_diff ~ just.dist.l + matrix_type.f + edge_orient.f + (1|article.id),
-               data = matglmm, REML=F)
+               data = matglmm, REML=F) #3rd
 rhglm6 <- lmer(percentrh_diff ~ just.dist.l + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F)
 rhglm7 <- glm(percentrh_diff ~ just.dist.l, 
@@ -1051,7 +1080,8 @@ rhglm7 <- glm(percentrh_diff ~ just.dist.l,
 AIC(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6,rhglm7)
 AICc(rhglm,rhglm2,rhglm3,rhglm4,rhglm5,rhglm6,rhglm7)
 
-bestrh <- glm(percentrh_diff ~ just.dist.l, data = matglmm)
+bestrh <- lmer(percentrh_diff ~ just.dist.l + (1|article.id), #bestbest
+               data = matglmm, REML=F)
 
 qqnorm(resid(bestrh))
 qqline(resid(bestrh))
@@ -1095,9 +1125,9 @@ smglm <- lmer(percentsm_diff ~ (1|article.id),
               data = matglmm, REML=F)
 smglm2 <- lmer(percentsm_diff ~ just.dist.l + (1|article.id),
                data = matglmm, REML=F)
-smglm3 <- lmer(percentsm_diff ~ just.dist.l + matrix_type.f + (1|article.id), #2nd
+smglm3 <- lmer(percentsm_diff ~ just.dist.l + matrix_type.f + (1|article.id), #best, but not diff from smglm4
                data = matglmm, REML=F)
-smglm4 <- lmer(percentsm_diff ~ just.dist.l * matrix_type.f + (1|article.id), #best
+smglm4 <- lmer(percentsm_diff ~ just.dist.l * matrix_type.f + (1|article.id), #2nd
                data = matglmm, REML=F)
 smglm5 <- lmer(percentsm_diff ~ just.dist.l + matrix_type.f + edge_age_years + (1|article.id),
                data = matglmm, REML=F) 
@@ -1135,6 +1165,8 @@ parglm6 <- lmer(percentPAR_diff ~ just.dist.l + matrix_type.f + (1|article.id),
                 data = matglmm, REML=F) 
 parglm7 <- glm(percentPAR_diff ~ just.dist.l, 
                data = matglmm)
+parglm8 <- lmer(percentPAR_diff ~ just.dist.l + edge_age_years + (1|article.id),
+                data = matglmm, REML=F) #not enough data to run
 
 AIC(parglm,parglm2,parglm3,parglm4,parglm5,parglm6,parglm7)
 AICc(parglm,parglm2,parglm3,parglm4,parglm5,parglm6,parglm7)
@@ -1165,9 +1197,9 @@ vpdglm6 <- lmer(percentVPD_diff ~ just.dist.l + matrix_type.f + edge_orient.f + 
                 data = matglmm, REML=F)
 vpdglm7 <- lmer(percentVPD_diff ~ just.dist.l + matrix_type.f + (1|article.id), 
                 data = matglmm, REML=F)
-vpdglm8 <- lmer(percentVPD_diff ~ just.dist.l + edge_orient.f + (1|article.id), #best??
+vpdglm8 <- lmer(percentVPD_diff ~ just.dist.l + edge_orient.f + (1|article.id), #2nd
                 data = matglmm, REML=F)
-vpdglm9 <- lmer(percentVPD_diff ~ just.dist.l * edge_orient.f + (1|article.id), #2nd
+vpdglm9 <- lmer(percentVPD_diff ~ just.dist.l * edge_orient.f + (1|article.id), #best
                 data = matglmm, REML=F)
 vpdglm10 <- glm(percentVPD_diff ~ just.dist.l, 
                 data = matglmm)
@@ -1175,15 +1207,19 @@ vpdglm10 <- glm(percentVPD_diff ~ just.dist.l,
 AIC(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9,vpdglm10)
 AICc(vpdglm,vpdglm2,vpdglm3,vpdglm4,vpdglm5,vpdglm6,vpdglm7,vpdglm8,vpdglm9,vpdglm10)
 
-bestvpd <- glm(percentVPD_diff ~ just.dist.l + edge_orient.f, data = matglmm)
+bestvpd <- lmer(percentVPD_diff ~ just.dist.l * edge_orient.f + (1|article.id), #best
+                data = matglmm, REML=F)
+qqnorm(resid(bestvpd))
+qqline(resid(bestvpd))
 
-distlm3 <- glm(percentVPD_diff ~ just.dist.l,data=matglmm)
+distlm3 <- glm(percentVPD_diff ~ just.dist.l,data=matglmm) #better than both log
 
 qqnorm(resid(distlm3))
 qqline(resid(distlm3))
 
 
 #WS GLMMS ####
+wsdf <- matglmm[c("percentws_diff","just.dist.l","article.id","matrix_type.f")] %>% drop_na()
 
 ggqqplot(vardata$percentws_diff)
 
@@ -1192,22 +1228,22 @@ wsglm <- lmer(percentws_diff ~ (1|article.id),
 wsglm2 <- lmer(percentws_diff ~ just.dist.l + (1|article.id),
                data = matglmm, REML=F)
 wsglm3 <- lmer(percentws_diff ~ just.dist.l + matrix_type.f + (1|article.id),
-               data = matglmm, REML=F)
+               data = matglmm, REML=F) #2nd
 wsglm4 <- lmer(percentws_diff ~ just.dist.l + matrix_type.f + edge_orient.f + (1|article.id),
                data = matglmm, REML=F) #does not converge
-wsglm5 <- glm(percentws_diff ~ just.dist.l + matrix_type.f + edge_age_years, #best
-              family = gaussian, data = matglmm)
+#wsglm5 <- glm(percentws_diff ~ just.dist.l + edge_age_years + matrix_type.f, #best
+#              family = gaussian, data = matglmm) #needs 2 or more levels, not enough data
 wsglm6 <- lmer(percentws_diff ~ just.dist.l * matrix_type.f + (1|article.id),
              data = matglmm, REML=F) 
 wsglm7 <- glm(percentws_diff ~ just.dist.l * matrix_type.f,
-              family = gaussian, data = matglmm)
-wsglm8 <- lmer(percentws_diff ~ just.dist.l + edge_age_years + (1|article.id), #2nd
+              family = gaussian, data = matglmm) #best
+wsglm8 <- lmer(percentws_diff ~ just.dist.l + edge_age_years + (1|article.id),
                data = matglmm, REML=F) 
 wsglm9 <- glm(percentws_diff ~ just.dist.l, 
               data = matglmm)
 
-AIC(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8,wsglm9)
-AICc(wsglm,wsglm2,wsglm3,wsglm5,wsglm6,wsglm7,wsglm8,wsglm9)
+AIC(wsglm,wsglm2,wsglm3,wsglm6,wsglm7,wsglm8,wsglm9)
+AICc(wsglm,wsglm2,wsglm3,wsglm6,wsglm7,wsglm8,wsglm9)
 
 bestws <- glm(percentws_diff ~ just.dist.l + edge_age_years, data = matglmm)
 
@@ -1637,6 +1673,8 @@ ggplot(no25,aes(x = just.dist)) +
 
 
 #shorten for simplicity
+allvar6 <- read_csv("Outputs/allvariances.csv", 
+                         col_types = cols(X1 = col_skip()))
 allvar7 <- allvar6[,-c(9,12,15,18,21,24,27)]
 
 #papers with a variance type
@@ -1649,8 +1687,10 @@ w2 <- summarize(w,types=first(type))
 w3 <- data.frame(table(unlist(w2$types)))
 
 #calculate CI for interior point
+# use Hedge's g for varying sample sizes, SDs
+# compute Hedge's g for all studies
 
-#find percentage of SE
+#find percentage of SE - SE = sqrt(v^2)
 atse$perat <- atse$maxvar.n/atse$air_temp
 rhse$perrh <- rhse$maxrhvar.n/rhse$rel_humid
 vpdse$pervpd <- vpdse$maxvpdvar.n/vpdse$VPD
